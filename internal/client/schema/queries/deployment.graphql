@@ -1,0 +1,10 @@
+fragment Deployment on DagsterCloudDeployment {
+  deploymentName
+  deploymentId
+}
+
+query GetCurrentDeployment {
+  currentDeployment {
+    ...Deployment
+  }
+}
