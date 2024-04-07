@@ -31,5 +31,5 @@ func (c UsersClient) GetUserByEmail(ctx context.Context, email string) (schema.G
 		}
 	}
 
-	return schema.GetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrantsUsersDagsterCloudUserWithScopedPermissionGrantsUserDagsterCloudUser{}, errors.New("no user with email " + email + "found")
+	return schema.GetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrantsUsersDagsterCloudUserWithScopedPermissionGrantsUserDagsterCloudUser{}, errors.New("no user with email " + email + " found")
 }

@@ -52,5 +52,6 @@ output "user_email" {
 
 data "dagster_user" "fake_user" {
   email = "does_not_exist@x.com"
+  # Unable to get user information, got error: no user with email does_not_exist@x.com found
 }
 
