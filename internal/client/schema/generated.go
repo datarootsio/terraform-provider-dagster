@@ -96,13 +96,11 @@ func (v *GetCurrentDeploymentResponse) GetCurrentDeployment() GetCurrentDeployme
 
 // GetUsersResponse is returned by GetUsers on success.
 type GetUsersResponse struct {
-	UsersOrError GetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrantsOrError `json:"-"`
+	UsersOrError UsersOrError `json:"-"`
 }
 
 // GetUsersOrError returns GetUsersResponse.UsersOrError, and is useful for accessing the field via an interface.
-func (v *GetUsersResponse) GetUsersOrError() GetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrantsOrError {
-	return v.UsersOrError
-}
+func (v *GetUsersResponse) GetUsersOrError() UsersOrError { return v.UsersOrError }
 
 func (v *GetUsersResponse) UnmarshalJSON(b []byte) error {
 
@@ -126,7 +124,7 @@ func (v *GetUsersResponse) UnmarshalJSON(b []byte) error {
 		dst := &v.UsersOrError
 		src := firstPass.UsersOrError
 		if len(src) != 0 && string(src) != "null" {
-			err = __unmarshalGetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrantsOrError(
+			err = __unmarshalUsersOrError(
 				src, dst)
 			if err != nil {
 				return fmt.Errorf(
@@ -157,7 +155,7 @@ func (v *GetUsersResponse) __premarshalJSON() (*__premarshalGetUsersResponse, er
 		dst := &retval.UsersOrError
 		src := v.UsersOrError
 		var err error
-		*dst, err = __marshalGetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrantsOrError(
+		*dst, err = __marshalUsersOrError(
 			&src)
 		if err != nil {
 			return nil, fmt.Errorf(
@@ -167,42 +165,56 @@ func (v *GetUsersResponse) __premarshalJSON() (*__premarshalGetUsersResponse, er
 	return &retval, nil
 }
 
-// GetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrants includes the requested fields of the GraphQL type DagsterCloudUsersWithScopedPermissionGrants.
-type GetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrants struct {
-	Typename string                                                                                                           `json:"__typename"`
-	Users    []GetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrantsUsersDagsterCloudUserWithScopedPermissionGrants `json:"users"`
+// User includes the requested fields of the GraphQL type DagsterCloudUser.
+type User struct {
+	UserId            int    `json:"userId"`
+	Email             string `json:"email"`
+	Name              string `json:"name"`
+	Picture           string `json:"picture"`
+	IsScimProvisioned bool   `json:"isScimProvisioned"`
 }
 
-// GetTypename returns GetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrants.Typename, and is useful for accessing the field via an interface.
-func (v *GetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrants) GetTypename() string {
-	return v.Typename
+// GetUserId returns User.UserId, and is useful for accessing the field via an interface.
+func (v *User) GetUserId() int { return v.UserId }
+
+// GetEmail returns User.Email, and is useful for accessing the field via an interface.
+func (v *User) GetEmail() string { return v.Email }
+
+// GetName returns User.Name, and is useful for accessing the field via an interface.
+func (v *User) GetName() string { return v.Name }
+
+// GetPicture returns User.Picture, and is useful for accessing the field via an interface.
+func (v *User) GetPicture() string { return v.Picture }
+
+// GetIsScimProvisioned returns User.IsScimProvisioned, and is useful for accessing the field via an interface.
+func (v *User) GetIsScimProvisioned() bool { return v.IsScimProvisioned }
+
+// Users includes the requested fields of the GraphQL type DagsterCloudUserWithScopedPermissionGrants.
+type Users struct {
+	User User `json:"user"`
 }
 
-// GetUsers returns GetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrants.Users, and is useful for accessing the field via an interface.
-func (v *GetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrants) GetUsers() []GetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrantsUsersDagsterCloudUserWithScopedPermissionGrants {
-	return v.Users
-}
+// GetUser returns Users.User, and is useful for accessing the field via an interface.
+func (v *Users) GetUser() User { return v.User }
 
-// GetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrantsOrError includes the requested fields of the GraphQL interface DagsterCloudUsersWithScopedPermissionGrantsOrError.
+// UsersOrError includes the requested fields of the GraphQL interface DagsterCloudUsersWithScopedPermissionGrantsOrError.
 //
-// GetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrantsOrError is implemented by the following types:
-// GetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrants
-// GetUsersUsersOrErrorPythonError
-// GetUsersUsersOrErrorUnauthorizedError
-type GetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrantsOrError interface {
-	implementsGraphQLInterfaceGetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrantsOrError()
+// UsersOrError is implemented by the following types:
+// UsersOrErrorDagsterCloudUsersWithScopedPermissionGrants
+// UsersOrErrorPythonError
+// UsersOrErrorUnauthorizedError
+type UsersOrError interface {
+	implementsGraphQLInterfaceUsersOrError()
 	// GetTypename returns the receiver's concrete GraphQL type-name (see interface doc for possible values).
 	GetTypename() string
 }
 
-func (v *GetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrants) implementsGraphQLInterfaceGetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrantsOrError() {
+func (v *UsersOrErrorDagsterCloudUsersWithScopedPermissionGrants) implementsGraphQLInterfaceUsersOrError() {
 }
-func (v *GetUsersUsersOrErrorPythonError) implementsGraphQLInterfaceGetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrantsOrError() {
-}
-func (v *GetUsersUsersOrErrorUnauthorizedError) implementsGraphQLInterfaceGetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrantsOrError() {
-}
+func (v *UsersOrErrorPythonError) implementsGraphQLInterfaceUsersOrError()       {}
+func (v *UsersOrErrorUnauthorizedError) implementsGraphQLInterfaceUsersOrError() {}
 
-func __unmarshalGetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrantsOrError(b []byte, v *GetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrantsOrError) error {
+func __unmarshalUsersOrError(b []byte, v *UsersOrError) error {
 	if string(b) == "null" {
 		return nil
 	}
@@ -217,126 +229,96 @@ func __unmarshalGetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrantsO
 
 	switch tn.TypeName {
 	case "DagsterCloudUsersWithScopedPermissionGrants":
-		*v = new(GetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrants)
+		*v = new(UsersOrErrorDagsterCloudUsersWithScopedPermissionGrants)
 		return json.Unmarshal(b, *v)
 	case "PythonError":
-		*v = new(GetUsersUsersOrErrorPythonError)
+		*v = new(UsersOrErrorPythonError)
 		return json.Unmarshal(b, *v)
 	case "UnauthorizedError":
-		*v = new(GetUsersUsersOrErrorUnauthorizedError)
+		*v = new(UsersOrErrorUnauthorizedError)
 		return json.Unmarshal(b, *v)
 	case "":
 		return fmt.Errorf(
 			"response was missing DagsterCloudUsersWithScopedPermissionGrantsOrError.__typename")
 	default:
 		return fmt.Errorf(
-			`unexpected concrete type for GetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrantsOrError: "%v"`, tn.TypeName)
+			`unexpected concrete type for UsersOrError: "%v"`, tn.TypeName)
 	}
 }
 
-func __marshalGetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrantsOrError(v *GetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrantsOrError) ([]byte, error) {
+func __marshalUsersOrError(v *UsersOrError) ([]byte, error) {
 
 	var typename string
 	switch v := (*v).(type) {
-	case *GetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrants:
+	case *UsersOrErrorDagsterCloudUsersWithScopedPermissionGrants:
 		typename = "DagsterCloudUsersWithScopedPermissionGrants"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*GetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrants
+			*UsersOrErrorDagsterCloudUsersWithScopedPermissionGrants
 		}{typename, v}
 		return json.Marshal(result)
-	case *GetUsersUsersOrErrorPythonError:
+	case *UsersOrErrorPythonError:
 		typename = "PythonError"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*GetUsersUsersOrErrorPythonError
+			*UsersOrErrorPythonError
 		}{typename, v}
 		return json.Marshal(result)
-	case *GetUsersUsersOrErrorUnauthorizedError:
+	case *UsersOrErrorUnauthorizedError:
 		typename = "UnauthorizedError"
 
 		result := struct {
 			TypeName string `json:"__typename"`
-			*GetUsersUsersOrErrorUnauthorizedError
+			*UsersOrErrorUnauthorizedError
 		}{typename, v}
 		return json.Marshal(result)
 	case nil:
 		return []byte("null"), nil
 	default:
 		return nil, fmt.Errorf(
-			`unexpected concrete type for GetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrantsOrError: "%T"`, v)
+			`unexpected concrete type for UsersOrError: "%T"`, v)
 	}
 }
 
-// GetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrantsUsersDagsterCloudUserWithScopedPermissionGrants includes the requested fields of the GraphQL type DagsterCloudUserWithScopedPermissionGrants.
-type GetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrantsUsersDagsterCloudUserWithScopedPermissionGrants struct {
-	User GetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrantsUsersDagsterCloudUserWithScopedPermissionGrantsUserDagsterCloudUser `json:"user"`
+// UsersOrErrorDagsterCloudUsersWithScopedPermissionGrants includes the requested fields of the GraphQL type DagsterCloudUsersWithScopedPermissionGrants.
+type UsersOrErrorDagsterCloudUsersWithScopedPermissionGrants struct {
+	Typename string  `json:"__typename"`
+	Users    []Users `json:"users"`
 }
 
-// GetUser returns GetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrantsUsersDagsterCloudUserWithScopedPermissionGrants.User, and is useful for accessing the field via an interface.
-func (v *GetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrantsUsersDagsterCloudUserWithScopedPermissionGrants) GetUser() GetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrantsUsersDagsterCloudUserWithScopedPermissionGrantsUserDagsterCloudUser {
-	return v.User
+// GetTypename returns UsersOrErrorDagsterCloudUsersWithScopedPermissionGrants.Typename, and is useful for accessing the field via an interface.
+func (v *UsersOrErrorDagsterCloudUsersWithScopedPermissionGrants) GetTypename() string {
+	return v.Typename
 }
 
-// GetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrantsUsersDagsterCloudUserWithScopedPermissionGrantsUserDagsterCloudUser includes the requested fields of the GraphQL type DagsterCloudUser.
-type GetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrantsUsersDagsterCloudUserWithScopedPermissionGrantsUserDagsterCloudUser struct {
-	UserId            int    `json:"userId"`
-	Email             string `json:"email"`
-	Name              string `json:"name"`
-	Picture           string `json:"picture"`
-	IsScimProvisioned bool   `json:"isScimProvisioned"`
-}
+// GetUsers returns UsersOrErrorDagsterCloudUsersWithScopedPermissionGrants.Users, and is useful for accessing the field via an interface.
+func (v *UsersOrErrorDagsterCloudUsersWithScopedPermissionGrants) GetUsers() []Users { return v.Users }
 
-// GetUserId returns GetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrantsUsersDagsterCloudUserWithScopedPermissionGrantsUserDagsterCloudUser.UserId, and is useful for accessing the field via an interface.
-func (v *GetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrantsUsersDagsterCloudUserWithScopedPermissionGrantsUserDagsterCloudUser) GetUserId() int {
-	return v.UserId
-}
-
-// GetEmail returns GetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrantsUsersDagsterCloudUserWithScopedPermissionGrantsUserDagsterCloudUser.Email, and is useful for accessing the field via an interface.
-func (v *GetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrantsUsersDagsterCloudUserWithScopedPermissionGrantsUserDagsterCloudUser) GetEmail() string {
-	return v.Email
-}
-
-// GetName returns GetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrantsUsersDagsterCloudUserWithScopedPermissionGrantsUserDagsterCloudUser.Name, and is useful for accessing the field via an interface.
-func (v *GetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrantsUsersDagsterCloudUserWithScopedPermissionGrantsUserDagsterCloudUser) GetName() string {
-	return v.Name
-}
-
-// GetPicture returns GetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrantsUsersDagsterCloudUserWithScopedPermissionGrantsUserDagsterCloudUser.Picture, and is useful for accessing the field via an interface.
-func (v *GetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrantsUsersDagsterCloudUserWithScopedPermissionGrantsUserDagsterCloudUser) GetPicture() string {
-	return v.Picture
-}
-
-// GetIsScimProvisioned returns GetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrantsUsersDagsterCloudUserWithScopedPermissionGrantsUserDagsterCloudUser.IsScimProvisioned, and is useful for accessing the field via an interface.
-func (v *GetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrantsUsersDagsterCloudUserWithScopedPermissionGrantsUserDagsterCloudUser) GetIsScimProvisioned() bool {
-	return v.IsScimProvisioned
-}
-
-// GetUsersUsersOrErrorPythonError includes the requested fields of the GraphQL type PythonError.
-type GetUsersUsersOrErrorPythonError struct {
+// UsersOrErrorPythonError includes the requested fields of the GraphQL type PythonError.
+type UsersOrErrorPythonError struct {
 	Typename string `json:"__typename"`
 	Message  string `json:"message"`
 }
 
-// GetTypename returns GetUsersUsersOrErrorPythonError.Typename, and is useful for accessing the field via an interface.
-func (v *GetUsersUsersOrErrorPythonError) GetTypename() string { return v.Typename }
+// GetTypename returns UsersOrErrorPythonError.Typename, and is useful for accessing the field via an interface.
+func (v *UsersOrErrorPythonError) GetTypename() string { return v.Typename }
 
-// GetMessage returns GetUsersUsersOrErrorPythonError.Message, and is useful for accessing the field via an interface.
-func (v *GetUsersUsersOrErrorPythonError) GetMessage() string { return v.Message }
+// GetMessage returns UsersOrErrorPythonError.Message, and is useful for accessing the field via an interface.
+func (v *UsersOrErrorPythonError) GetMessage() string { return v.Message }
 
-// GetUsersUsersOrErrorUnauthorizedError includes the requested fields of the GraphQL type UnauthorizedError.
-type GetUsersUsersOrErrorUnauthorizedError struct {
+// UsersOrErrorUnauthorizedError includes the requested fields of the GraphQL type UnauthorizedError.
+type UsersOrErrorUnauthorizedError struct {
 	Typename string `json:"__typename"`
 	Message  string `json:"message"`
 }
 
-// GetTypename returns GetUsersUsersOrErrorUnauthorizedError.Typename, and is useful for accessing the field via an interface.
-func (v *GetUsersUsersOrErrorUnauthorizedError) GetTypename() string { return v.Typename }
+// GetTypename returns UsersOrErrorUnauthorizedError.Typename, and is useful for accessing the field via an interface.
+func (v *UsersOrErrorUnauthorizedError) GetTypename() string { return v.Typename }
 
-// GetMessage returns GetUsersUsersOrErrorUnauthorizedError.Message, and is useful for accessing the field via an interface.
-func (v *GetUsersUsersOrErrorUnauthorizedError) GetMessage() string { return v.Message }
+// GetMessage returns UsersOrErrorUnauthorizedError.Message, and is useful for accessing the field via an interface.
+func (v *UsersOrErrorUnauthorizedError) GetMessage() string { return v.Message }
 
 // The query or mutation executed by GetCurrentDeployment.
 const GetCurrentDeployment_Operation = `

@@ -18,18 +18,18 @@ func NewUsersClient(client graphql.Client) UsersClient {
 	}
 }
 
-func (c UsersClient) GetUserByEmail(ctx context.Context, email string) (schema.GetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrantsUsersDagsterCloudUserWithScopedPermissionGrantsUserDagsterCloudUser, error) {
+func (c UsersClient) GetUserByEmail(ctx context.Context, email string) (schema.User, error) {
 	result, err := schema.GetUsers(ctx, c.client)
 	if err != nil {
-		return schema.GetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrantsUsersDagsterCloudUserWithScopedPermissionGrantsUserDagsterCloudUser{}, err
+		return schema.User{}, err
 	}
 
-	users := result.UsersOrError.(*schema.GetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrants).Users
+	users := result.UsersOrError.(*schema.UsersOrErrorDagsterCloudUsersWithScopedPermissionGrants).Users
 	for _, user := range users {
 		if user.User.Email == email {
 			return user.User, nil
 		}
 	}
 
-	return schema.GetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrantsUsersDagsterCloudUserWithScopedPermissionGrantsUserDagsterCloudUser{}, errors.New("no user with email " + email + " found")
+	return schema.User{}, errors.New("no user with email " + email + " found")
 }

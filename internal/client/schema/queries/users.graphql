@@ -1,7 +1,10 @@
 query GetUsers {
+  # @genqlient(typename: "UsersOrError")
   usersOrError {
     ... on DagsterCloudUsersWithScopedPermissionGrants {
+      # @genqlient(typename: "Users")
       users {
+        # @genqlient(typename: "User")
         user {
           userId
           email
