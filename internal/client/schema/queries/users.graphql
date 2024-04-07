@@ -1,0 +1,21 @@
+query GetUsers {
+  usersOrError {
+    ... on DagsterCloudUsersWithScopedPermissionGrants {
+      users {
+        user {
+          userId
+          email
+          name
+          picture
+          isScimProvisioned
+        }
+      }
+    }
+    ... on UnauthorizedError {
+      message
+    }
+    ... on PythonError {
+      message
+    }
+  }
+}

@@ -108,7 +108,6 @@ func (p *DagsterProvider) Configure(ctx context.Context, req provider.ConfigureR
 		config.Deployment.ValueString(),
 		config.APIToken.ValueString(),
 	)
-
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to create Dagster API Client",
@@ -129,6 +128,7 @@ func (p *DagsterProvider) Configure(ctx context.Context, req provider.ConfigureR
 func (p *DagsterProvider) DataSources(_ context.Context) []func() datasource.DataSource {
 	return []func() datasource.DataSource{
 		datasources.NewCurrentDeploymentDataSource,
+		datasources.NewUserDataSource,
 	}
 }
 
