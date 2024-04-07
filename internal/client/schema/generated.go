@@ -10,6 +10,230 @@ import (
 	"github.com/Khan/genqlient/graphql"
 )
 
+// AddUserAddUserToOrganizationAddUserToOrganizationMutationResult includes the requested fields of the GraphQL interface AddUserToOrganizationMutationResult.
+//
+// AddUserAddUserToOrganizationAddUserToOrganizationMutationResult is implemented by the following types:
+// AddUserAddUserToOrganizationAddUserToOrganizationSuccess
+// AddUserAddUserToOrganizationPythonError
+// AddUserAddUserToOrganizationUnauthorizedError
+// AddUserAddUserToOrganizationUserLimitError
+type AddUserAddUserToOrganizationAddUserToOrganizationMutationResult interface {
+	implementsGraphQLInterfaceAddUserAddUserToOrganizationAddUserToOrganizationMutationResult()
+	// GetTypename returns the receiver's concrete GraphQL type-name (see interface doc for possible values).
+	GetTypename() string
+}
+
+func (v *AddUserAddUserToOrganizationAddUserToOrganizationSuccess) implementsGraphQLInterfaceAddUserAddUserToOrganizationAddUserToOrganizationMutationResult() {
+}
+func (v *AddUserAddUserToOrganizationPythonError) implementsGraphQLInterfaceAddUserAddUserToOrganizationAddUserToOrganizationMutationResult() {
+}
+func (v *AddUserAddUserToOrganizationUnauthorizedError) implementsGraphQLInterfaceAddUserAddUserToOrganizationAddUserToOrganizationMutationResult() {
+}
+func (v *AddUserAddUserToOrganizationUserLimitError) implementsGraphQLInterfaceAddUserAddUserToOrganizationAddUserToOrganizationMutationResult() {
+}
+
+func __unmarshalAddUserAddUserToOrganizationAddUserToOrganizationMutationResult(b []byte, v *AddUserAddUserToOrganizationAddUserToOrganizationMutationResult) error {
+	if string(b) == "null" {
+		return nil
+	}
+
+	var tn struct {
+		TypeName string `json:"__typename"`
+	}
+	err := json.Unmarshal(b, &tn)
+	if err != nil {
+		return err
+	}
+
+	switch tn.TypeName {
+	case "AddUserToOrganizationSuccess":
+		*v = new(AddUserAddUserToOrganizationAddUserToOrganizationSuccess)
+		return json.Unmarshal(b, *v)
+	case "PythonError":
+		*v = new(AddUserAddUserToOrganizationPythonError)
+		return json.Unmarshal(b, *v)
+	case "UnauthorizedError":
+		*v = new(AddUserAddUserToOrganizationUnauthorizedError)
+		return json.Unmarshal(b, *v)
+	case "UserLimitError":
+		*v = new(AddUserAddUserToOrganizationUserLimitError)
+		return json.Unmarshal(b, *v)
+	case "":
+		return fmt.Errorf(
+			"response was missing AddUserToOrganizationMutationResult.__typename")
+	default:
+		return fmt.Errorf(
+			`unexpected concrete type for AddUserAddUserToOrganizationAddUserToOrganizationMutationResult: "%v"`, tn.TypeName)
+	}
+}
+
+func __marshalAddUserAddUserToOrganizationAddUserToOrganizationMutationResult(v *AddUserAddUserToOrganizationAddUserToOrganizationMutationResult) ([]byte, error) {
+
+	var typename string
+	switch v := (*v).(type) {
+	case *AddUserAddUserToOrganizationAddUserToOrganizationSuccess:
+		typename = "AddUserToOrganizationSuccess"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*AddUserAddUserToOrganizationAddUserToOrganizationSuccess
+		}{typename, v}
+		return json.Marshal(result)
+	case *AddUserAddUserToOrganizationPythonError:
+		typename = "PythonError"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*AddUserAddUserToOrganizationPythonError
+		}{typename, v}
+		return json.Marshal(result)
+	case *AddUserAddUserToOrganizationUnauthorizedError:
+		typename = "UnauthorizedError"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*AddUserAddUserToOrganizationUnauthorizedError
+		}{typename, v}
+		return json.Marshal(result)
+	case *AddUserAddUserToOrganizationUserLimitError:
+		typename = "UserLimitError"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*AddUserAddUserToOrganizationUserLimitError
+		}{typename, v}
+		return json.Marshal(result)
+	case nil:
+		return []byte("null"), nil
+	default:
+		return nil, fmt.Errorf(
+			`unexpected concrete type for AddUserAddUserToOrganizationAddUserToOrganizationMutationResult: "%T"`, v)
+	}
+}
+
+// AddUserAddUserToOrganizationAddUserToOrganizationSuccess includes the requested fields of the GraphQL type AddUserToOrganizationSuccess.
+type AddUserAddUserToOrganizationAddUserToOrganizationSuccess struct {
+	Typename string `json:"__typename"`
+	Email    string `json:"email"`
+}
+
+// GetTypename returns AddUserAddUserToOrganizationAddUserToOrganizationSuccess.Typename, and is useful for accessing the field via an interface.
+func (v *AddUserAddUserToOrganizationAddUserToOrganizationSuccess) GetTypename() string {
+	return v.Typename
+}
+
+// GetEmail returns AddUserAddUserToOrganizationAddUserToOrganizationSuccess.Email, and is useful for accessing the field via an interface.
+func (v *AddUserAddUserToOrganizationAddUserToOrganizationSuccess) GetEmail() string { return v.Email }
+
+// AddUserAddUserToOrganizationPythonError includes the requested fields of the GraphQL type PythonError.
+type AddUserAddUserToOrganizationPythonError struct {
+	Typename string `json:"__typename"`
+	Message  string `json:"message"`
+}
+
+// GetTypename returns AddUserAddUserToOrganizationPythonError.Typename, and is useful for accessing the field via an interface.
+func (v *AddUserAddUserToOrganizationPythonError) GetTypename() string { return v.Typename }
+
+// GetMessage returns AddUserAddUserToOrganizationPythonError.Message, and is useful for accessing the field via an interface.
+func (v *AddUserAddUserToOrganizationPythonError) GetMessage() string { return v.Message }
+
+// AddUserAddUserToOrganizationUnauthorizedError includes the requested fields of the GraphQL type UnauthorizedError.
+type AddUserAddUserToOrganizationUnauthorizedError struct {
+	Typename string `json:"__typename"`
+	Message  string `json:"message"`
+}
+
+// GetTypename returns AddUserAddUserToOrganizationUnauthorizedError.Typename, and is useful for accessing the field via an interface.
+func (v *AddUserAddUserToOrganizationUnauthorizedError) GetTypename() string { return v.Typename }
+
+// GetMessage returns AddUserAddUserToOrganizationUnauthorizedError.Message, and is useful for accessing the field via an interface.
+func (v *AddUserAddUserToOrganizationUnauthorizedError) GetMessage() string { return v.Message }
+
+// AddUserAddUserToOrganizationUserLimitError includes the requested fields of the GraphQL type UserLimitError.
+type AddUserAddUserToOrganizationUserLimitError struct {
+	Typename string `json:"__typename"`
+	Message  string `json:"message"`
+}
+
+// GetTypename returns AddUserAddUserToOrganizationUserLimitError.Typename, and is useful for accessing the field via an interface.
+func (v *AddUserAddUserToOrganizationUserLimitError) GetTypename() string { return v.Typename }
+
+// GetMessage returns AddUserAddUserToOrganizationUserLimitError.Message, and is useful for accessing the field via an interface.
+func (v *AddUserAddUserToOrganizationUserLimitError) GetMessage() string { return v.Message }
+
+// AddUserResponse is returned by AddUser on success.
+type AddUserResponse struct {
+	AddUserToOrganization AddUserAddUserToOrganizationAddUserToOrganizationMutationResult `json:"-"`
+}
+
+// GetAddUserToOrganization returns AddUserResponse.AddUserToOrganization, and is useful for accessing the field via an interface.
+func (v *AddUserResponse) GetAddUserToOrganization() AddUserAddUserToOrganizationAddUserToOrganizationMutationResult {
+	return v.AddUserToOrganization
+}
+
+func (v *AddUserResponse) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*AddUserResponse
+		AddUserToOrganization json.RawMessage `json:"addUserToOrganization"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.AddUserResponse = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.AddUserToOrganization
+		src := firstPass.AddUserToOrganization
+		if len(src) != 0 && string(src) != "null" {
+			err = __unmarshalAddUserAddUserToOrganizationAddUserToOrganizationMutationResult(
+				src, dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal AddUserResponse.AddUserToOrganization: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalAddUserResponse struct {
+	AddUserToOrganization json.RawMessage `json:"addUserToOrganization"`
+}
+
+func (v *AddUserResponse) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *AddUserResponse) __premarshalJSON() (*__premarshalAddUserResponse, error) {
+	var retval __premarshalAddUserResponse
+
+	{
+
+		dst := &retval.AddUserToOrganization
+		src := v.AddUserToOrganization
+		var err error
+		*dst, err = __marshalAddUserAddUserToOrganizationAddUserToOrganizationMutationResult(
+			&src)
+		if err != nil {
+			return nil, fmt.Errorf(
+				"unable to marshal AddUserResponse.AddUserToOrganization: %w", err)
+		}
+	}
+	return &retval, nil
+}
+
 // Deployment includes the GraphQL fields of DagsterCloudDeployment requested by the fragment Deployment.
 type Deployment struct {
 	DeploymentName string `json:"deploymentName"`
@@ -160,6 +384,244 @@ func (v *GetUsersResponse) __premarshalJSON() (*__premarshalGetUsersResponse, er
 		if err != nil {
 			return nil, fmt.Errorf(
 				"unable to marshal GetUsersResponse.UsersOrError: %w", err)
+		}
+	}
+	return &retval, nil
+}
+
+// RemoveUserFromOrganizationRemoveUserFromOrganizationCantRemoveAllAdminsError includes the requested fields of the GraphQL type CantRemoveAllAdminsError.
+type RemoveUserFromOrganizationRemoveUserFromOrganizationCantRemoveAllAdminsError struct {
+	Typename string `json:"__typename"`
+	Message  string `json:"message"`
+}
+
+// GetTypename returns RemoveUserFromOrganizationRemoveUserFromOrganizationCantRemoveAllAdminsError.Typename, and is useful for accessing the field via an interface.
+func (v *RemoveUserFromOrganizationRemoveUserFromOrganizationCantRemoveAllAdminsError) GetTypename() string {
+	return v.Typename
+}
+
+// GetMessage returns RemoveUserFromOrganizationRemoveUserFromOrganizationCantRemoveAllAdminsError.Message, and is useful for accessing the field via an interface.
+func (v *RemoveUserFromOrganizationRemoveUserFromOrganizationCantRemoveAllAdminsError) GetMessage() string {
+	return v.Message
+}
+
+// RemoveUserFromOrganizationRemoveUserFromOrganizationPythonError includes the requested fields of the GraphQL type PythonError.
+type RemoveUserFromOrganizationRemoveUserFromOrganizationPythonError struct {
+	Typename string `json:"__typename"`
+	Message  string `json:"message"`
+}
+
+// GetTypename returns RemoveUserFromOrganizationRemoveUserFromOrganizationPythonError.Typename, and is useful for accessing the field via an interface.
+func (v *RemoveUserFromOrganizationRemoveUserFromOrganizationPythonError) GetTypename() string {
+	return v.Typename
+}
+
+// GetMessage returns RemoveUserFromOrganizationRemoveUserFromOrganizationPythonError.Message, and is useful for accessing the field via an interface.
+func (v *RemoveUserFromOrganizationRemoveUserFromOrganizationPythonError) GetMessage() string {
+	return v.Message
+}
+
+// RemoveUserFromOrganizationRemoveUserFromOrganizationRemoveUserFromOrganizationMutationResult includes the requested fields of the GraphQL interface RemoveUserFromOrganizationMutationResult.
+//
+// RemoveUserFromOrganizationRemoveUserFromOrganizationRemoveUserFromOrganizationMutationResult is implemented by the following types:
+// RemoveUserFromOrganizationRemoveUserFromOrganizationCantRemoveAllAdminsError
+// RemoveUserFromOrganizationRemoveUserFromOrganizationPythonError
+// RemoveUserFromOrganizationRemoveUserFromOrganizationRemoveUserFromOrganizationSuccess
+// RemoveUserFromOrganizationRemoveUserFromOrganizationUnauthorizedError
+type RemoveUserFromOrganizationRemoveUserFromOrganizationRemoveUserFromOrganizationMutationResult interface {
+	implementsGraphQLInterfaceRemoveUserFromOrganizationRemoveUserFromOrganizationRemoveUserFromOrganizationMutationResult()
+	// GetTypename returns the receiver's concrete GraphQL type-name (see interface doc for possible values).
+	GetTypename() string
+}
+
+func (v *RemoveUserFromOrganizationRemoveUserFromOrganizationCantRemoveAllAdminsError) implementsGraphQLInterfaceRemoveUserFromOrganizationRemoveUserFromOrganizationRemoveUserFromOrganizationMutationResult() {
+}
+func (v *RemoveUserFromOrganizationRemoveUserFromOrganizationPythonError) implementsGraphQLInterfaceRemoveUserFromOrganizationRemoveUserFromOrganizationRemoveUserFromOrganizationMutationResult() {
+}
+func (v *RemoveUserFromOrganizationRemoveUserFromOrganizationRemoveUserFromOrganizationSuccess) implementsGraphQLInterfaceRemoveUserFromOrganizationRemoveUserFromOrganizationRemoveUserFromOrganizationMutationResult() {
+}
+func (v *RemoveUserFromOrganizationRemoveUserFromOrganizationUnauthorizedError) implementsGraphQLInterfaceRemoveUserFromOrganizationRemoveUserFromOrganizationRemoveUserFromOrganizationMutationResult() {
+}
+
+func __unmarshalRemoveUserFromOrganizationRemoveUserFromOrganizationRemoveUserFromOrganizationMutationResult(b []byte, v *RemoveUserFromOrganizationRemoveUserFromOrganizationRemoveUserFromOrganizationMutationResult) error {
+	if string(b) == "null" {
+		return nil
+	}
+
+	var tn struct {
+		TypeName string `json:"__typename"`
+	}
+	err := json.Unmarshal(b, &tn)
+	if err != nil {
+		return err
+	}
+
+	switch tn.TypeName {
+	case "CantRemoveAllAdminsError":
+		*v = new(RemoveUserFromOrganizationRemoveUserFromOrganizationCantRemoveAllAdminsError)
+		return json.Unmarshal(b, *v)
+	case "PythonError":
+		*v = new(RemoveUserFromOrganizationRemoveUserFromOrganizationPythonError)
+		return json.Unmarshal(b, *v)
+	case "RemoveUserFromOrganizationSuccess":
+		*v = new(RemoveUserFromOrganizationRemoveUserFromOrganizationRemoveUserFromOrganizationSuccess)
+		return json.Unmarshal(b, *v)
+	case "UnauthorizedError":
+		*v = new(RemoveUserFromOrganizationRemoveUserFromOrganizationUnauthorizedError)
+		return json.Unmarshal(b, *v)
+	case "":
+		return fmt.Errorf(
+			"response was missing RemoveUserFromOrganizationMutationResult.__typename")
+	default:
+		return fmt.Errorf(
+			`unexpected concrete type for RemoveUserFromOrganizationRemoveUserFromOrganizationRemoveUserFromOrganizationMutationResult: "%v"`, tn.TypeName)
+	}
+}
+
+func __marshalRemoveUserFromOrganizationRemoveUserFromOrganizationRemoveUserFromOrganizationMutationResult(v *RemoveUserFromOrganizationRemoveUserFromOrganizationRemoveUserFromOrganizationMutationResult) ([]byte, error) {
+
+	var typename string
+	switch v := (*v).(type) {
+	case *RemoveUserFromOrganizationRemoveUserFromOrganizationCantRemoveAllAdminsError:
+		typename = "CantRemoveAllAdminsError"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*RemoveUserFromOrganizationRemoveUserFromOrganizationCantRemoveAllAdminsError
+		}{typename, v}
+		return json.Marshal(result)
+	case *RemoveUserFromOrganizationRemoveUserFromOrganizationPythonError:
+		typename = "PythonError"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*RemoveUserFromOrganizationRemoveUserFromOrganizationPythonError
+		}{typename, v}
+		return json.Marshal(result)
+	case *RemoveUserFromOrganizationRemoveUserFromOrganizationRemoveUserFromOrganizationSuccess:
+		typename = "RemoveUserFromOrganizationSuccess"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*RemoveUserFromOrganizationRemoveUserFromOrganizationRemoveUserFromOrganizationSuccess
+		}{typename, v}
+		return json.Marshal(result)
+	case *RemoveUserFromOrganizationRemoveUserFromOrganizationUnauthorizedError:
+		typename = "UnauthorizedError"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*RemoveUserFromOrganizationRemoveUserFromOrganizationUnauthorizedError
+		}{typename, v}
+		return json.Marshal(result)
+	case nil:
+		return []byte("null"), nil
+	default:
+		return nil, fmt.Errorf(
+			`unexpected concrete type for RemoveUserFromOrganizationRemoveUserFromOrganizationRemoveUserFromOrganizationMutationResult: "%T"`, v)
+	}
+}
+
+// RemoveUserFromOrganizationRemoveUserFromOrganizationRemoveUserFromOrganizationSuccess includes the requested fields of the GraphQL type RemoveUserFromOrganizationSuccess.
+type RemoveUserFromOrganizationRemoveUserFromOrganizationRemoveUserFromOrganizationSuccess struct {
+	Typename string `json:"__typename"`
+	Email    string `json:"email"`
+}
+
+// GetTypename returns RemoveUserFromOrganizationRemoveUserFromOrganizationRemoveUserFromOrganizationSuccess.Typename, and is useful for accessing the field via an interface.
+func (v *RemoveUserFromOrganizationRemoveUserFromOrganizationRemoveUserFromOrganizationSuccess) GetTypename() string {
+	return v.Typename
+}
+
+// GetEmail returns RemoveUserFromOrganizationRemoveUserFromOrganizationRemoveUserFromOrganizationSuccess.Email, and is useful for accessing the field via an interface.
+func (v *RemoveUserFromOrganizationRemoveUserFromOrganizationRemoveUserFromOrganizationSuccess) GetEmail() string {
+	return v.Email
+}
+
+// RemoveUserFromOrganizationRemoveUserFromOrganizationUnauthorizedError includes the requested fields of the GraphQL type UnauthorizedError.
+type RemoveUserFromOrganizationRemoveUserFromOrganizationUnauthorizedError struct {
+	Typename string `json:"__typename"`
+	Message  string `json:"message"`
+}
+
+// GetTypename returns RemoveUserFromOrganizationRemoveUserFromOrganizationUnauthorizedError.Typename, and is useful for accessing the field via an interface.
+func (v *RemoveUserFromOrganizationRemoveUserFromOrganizationUnauthorizedError) GetTypename() string {
+	return v.Typename
+}
+
+// GetMessage returns RemoveUserFromOrganizationRemoveUserFromOrganizationUnauthorizedError.Message, and is useful for accessing the field via an interface.
+func (v *RemoveUserFromOrganizationRemoveUserFromOrganizationUnauthorizedError) GetMessage() string {
+	return v.Message
+}
+
+// RemoveUserFromOrganizationResponse is returned by RemoveUserFromOrganization on success.
+type RemoveUserFromOrganizationResponse struct {
+	RemoveUserFromOrganization RemoveUserFromOrganizationRemoveUserFromOrganizationRemoveUserFromOrganizationMutationResult `json:"-"`
+}
+
+// GetRemoveUserFromOrganization returns RemoveUserFromOrganizationResponse.RemoveUserFromOrganization, and is useful for accessing the field via an interface.
+func (v *RemoveUserFromOrganizationResponse) GetRemoveUserFromOrganization() RemoveUserFromOrganizationRemoveUserFromOrganizationRemoveUserFromOrganizationMutationResult {
+	return v.RemoveUserFromOrganization
+}
+
+func (v *RemoveUserFromOrganizationResponse) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*RemoveUserFromOrganizationResponse
+		RemoveUserFromOrganization json.RawMessage `json:"removeUserFromOrganization"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.RemoveUserFromOrganizationResponse = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.RemoveUserFromOrganization
+		src := firstPass.RemoveUserFromOrganization
+		if len(src) != 0 && string(src) != "null" {
+			err = __unmarshalRemoveUserFromOrganizationRemoveUserFromOrganizationRemoveUserFromOrganizationMutationResult(
+				src, dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal RemoveUserFromOrganizationResponse.RemoveUserFromOrganization: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalRemoveUserFromOrganizationResponse struct {
+	RemoveUserFromOrganization json.RawMessage `json:"removeUserFromOrganization"`
+}
+
+func (v *RemoveUserFromOrganizationResponse) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *RemoveUserFromOrganizationResponse) __premarshalJSON() (*__premarshalRemoveUserFromOrganizationResponse, error) {
+	var retval __premarshalRemoveUserFromOrganizationResponse
+
+	{
+
+		dst := &retval.RemoveUserFromOrganization
+		src := v.RemoveUserFromOrganization
+		var err error
+		*dst, err = __marshalRemoveUserFromOrganizationRemoveUserFromOrganizationRemoveUserFromOrganizationMutationResult(
+			&src)
+		if err != nil {
+			return nil, fmt.Errorf(
+				"unable to marshal RemoveUserFromOrganizationResponse.RemoveUserFromOrganization: %w", err)
 		}
 	}
 	return &retval, nil
@@ -320,6 +782,69 @@ func (v *UsersOrErrorUnauthorizedError) GetTypename() string { return v.Typename
 // GetMessage returns UsersOrErrorUnauthorizedError.Message, and is useful for accessing the field via an interface.
 func (v *UsersOrErrorUnauthorizedError) GetMessage() string { return v.Message }
 
+// __AddUserInput is used internally by genqlient
+type __AddUserInput struct {
+	Email string `json:"email"`
+}
+
+// GetEmail returns __AddUserInput.Email, and is useful for accessing the field via an interface.
+func (v *__AddUserInput) GetEmail() string { return v.Email }
+
+// __RemoveUserFromOrganizationInput is used internally by genqlient
+type __RemoveUserFromOrganizationInput struct {
+	Email string `json:"email"`
+}
+
+// GetEmail returns __RemoveUserFromOrganizationInput.Email, and is useful for accessing the field via an interface.
+func (v *__RemoveUserFromOrganizationInput) GetEmail() string { return v.Email }
+
+// The query or mutation executed by AddUser.
+const AddUser_Operation = `
+mutation AddUser ($email: String!) {
+	addUserToOrganization(email: $email) {
+		__typename
+		... on AddUserToOrganizationSuccess {
+			email
+		}
+		... on PythonError {
+			message
+		}
+		... on UnauthorizedError {
+			message
+		}
+		... on UserLimitError {
+			message
+		}
+	}
+}
+`
+
+func AddUser(
+	ctx_ context.Context,
+	client_ graphql.Client,
+	email string,
+) (*AddUserResponse, error) {
+	req_ := &graphql.Request{
+		OpName: "AddUser",
+		Query:  AddUser_Operation,
+		Variables: &__AddUserInput{
+			Email: email,
+		},
+	}
+	var err_ error
+
+	var data_ AddUserResponse
+	resp_ := &graphql.Response{Data: &data_}
+
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
+	)
+
+	return &data_, err_
+}
+
 // The query or mutation executed by GetCurrentDeployment.
 const GetCurrentDeployment_Operation = `
 query GetCurrentDeployment {
@@ -392,6 +917,53 @@ func GetUsers(
 	var err_ error
 
 	var data_ GetUsersResponse
+	resp_ := &graphql.Response{Data: &data_}
+
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
+	)
+
+	return &data_, err_
+}
+
+// The query or mutation executed by RemoveUserFromOrganization.
+const RemoveUserFromOrganization_Operation = `
+mutation RemoveUserFromOrganization ($email: String!) {
+	removeUserFromOrganization(email: $email) {
+		__typename
+		... on RemoveUserFromOrganizationSuccess {
+			email
+		}
+		... on PythonError {
+			message
+		}
+		... on UnauthorizedError {
+			message
+		}
+		... on CantRemoveAllAdminsError {
+			message
+		}
+	}
+}
+`
+
+func RemoveUserFromOrganization(
+	ctx_ context.Context,
+	client_ graphql.Client,
+	email string,
+) (*RemoveUserFromOrganizationResponse, error) {
+	req_ := &graphql.Request{
+		OpName: "RemoveUserFromOrganization",
+		Query:  RemoveUserFromOrganization_Operation,
+		Variables: &__RemoveUserFromOrganizationInput{
+			Email: email,
+		},
+	}
+	var err_ error
+
+	var data_ RemoveUserFromOrganizationResponse
 	resp_ := &graphql.Response{Data: &data_}
 
 	err_ = client_.MakeRequest(

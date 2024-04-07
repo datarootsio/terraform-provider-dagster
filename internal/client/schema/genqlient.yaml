@@ -2,5 +2,6 @@
 # https://github.com/Khan/genqlient/blob/main/docs/genqlient.yaml
 schema: schema.graphql
 operations:
-- queries/*.graphql
+  - queries/*.graphql
+  - mutations/*.graphql
 generated: generated.go

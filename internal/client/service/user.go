@@ -33,3 +33,26 @@ func (c UsersClient) GetUserByEmail(ctx context.Context, email string) (schema.U
 
 	return schema.User{}, errors.New("no user with email " + email + " found")
 }
+
+func (c UsersClient) AddUser(ctx context.Context, email string) error {
+	resp, err := schema.AddUser(ctx, c.client, email)
+	if err != nil {
+		return err
+	}
+
+	response := (*resp).AddUserToOrganization
+	response_name := response.GetTypename()
+	var error_msg string
+
+	if response_name == "AddUserToOrganizationSuccess" {
+		return nil
+	} else if response_name == "PythonError" {
+		error_msg = response.(*schema.AddUserAddUserToOrganizationPythonError).Message
+	} else if response_name == "UnauthorizedError" {
+		error_msg = response.(*schema.AddUserAddUserToOrganizationUnauthorizedError).Message
+	} else if response_name == "UserLimitError" {
+		error_msg = response.(*schema.AddUserAddUserToOrganizationUserLimitError).Message
+	}
+
+	return errors.New(error_msg)
+}

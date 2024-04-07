@@ -1,0 +1,16 @@
+mutation AddUser($email: String!) {
+  addUserToOrganization(email: $email) {
+    ... on AddUserToOrganizationSuccess {
+      email
+    }
+    ... on PythonError {
+      message
+    }
+    ... on UnauthorizedError {
+      message
+    }
+    ... on UserLimitError {
+      message
+    }
+  }
+}

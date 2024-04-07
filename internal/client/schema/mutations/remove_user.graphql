@@ -1,0 +1,16 @@
+mutation RemoveUserFromOrganization($email: String!) {
+  removeUserFromOrganization(email: $email) {
+    ... on RemoveUserFromOrganizationSuccess {
+      email
+    }
+    ... on PythonError {
+      message
+    }
+    ... on UnauthorizedError {
+      message
+    }
+    ... on CantRemoveAllAdminsError {
+      message
+    }
+  }
+}
