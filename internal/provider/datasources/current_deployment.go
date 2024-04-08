@@ -10,7 +10,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-// Ensure the implementation satisfies the expected interfaces.
 var _ datasource.DataSource = &CurrentDeploymentDataSource{}
 var _ datasource.DataSourceWithConfigure = &CurrentDeploymentDataSource{}
 
@@ -23,19 +22,14 @@ type CurrentDeploymentDataSourceModel struct {
 	Name types.String `tfsdk:"name"`
 }
 
-// NewCurrentDeploymentDataSource returns a new CurrentDeploymentDataSource.
-//
-//nolint:ireturn // required by Terraform API
 func NewCurrentDeploymentDataSource() datasource.DataSource {
 	return &CurrentDeploymentDataSource{}
 }
 
-// Metadata returns the data source type name.
 func (d *CurrentDeploymentDataSource) Metadata(_ context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_current_deployment"
 }
 
-// Schema defines the schema for the data source.
 func (d *CurrentDeploymentDataSource) Schema(_ context.Context, _ datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		Description: `Retrieve information about a the CurrentDeployment.`,
@@ -52,7 +46,6 @@ func (d *CurrentDeploymentDataSource) Schema(_ context.Context, _ datasource.Sch
 	}
 }
 
-// Configure adds the provider-configured client to the data source.
 func (d *CurrentDeploymentDataSource) Configure(_ context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
@@ -71,11 +64,9 @@ func (d *CurrentDeploymentDataSource) Configure(_ context.Context, req datasourc
 	d.client = client
 }
 
-// Read refreshes the Terraform state with the latest data.
 func (d *CurrentDeploymentDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
 	var data CurrentDeploymentDataSourceModel
 
-	// Read Terraform configuration data into the model
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 
 	if resp.Diagnostics.HasError() {

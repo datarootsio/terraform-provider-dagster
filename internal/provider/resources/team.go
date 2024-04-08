@@ -110,6 +110,7 @@ func (r *TeamResource) Read(ctx context.Context, req resource.ReadRequest, resp 
 	if err != nil {
 		var errComp *clientTypes.ErrTeamNotFound
 		if errors.As(err, &errComp) {
+			tflog.Trace(ctx, "Team not found, probably already deleted manually, removing from state")
 			resp.State.RemoveResource(ctx)
 		} else {
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read team, got error: %s", err))
@@ -117,7 +118,7 @@ func (r *TeamResource) Read(ctx context.Context, req resource.ReadRequest, resp 
 		return
 	}
 
-	// Team might be renamed
+	// Team might be renamed, update
 	data.Name = types.StringValue(team.Name)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -140,7 +141,6 @@ func (r *TeamResource) Update(ctx context.Context, req resource.UpdateRequest, r
 func (r *TeamResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	var data TeamResourceModel
 
-	// Read Terraform prior state data into the model
 	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
 
 	if resp.Diagnostics.HasError() {
@@ -148,13 +148,14 @@ func (r *TeamResource) Delete(ctx context.Context, req resource.DeleteRequest, r
 	}
 
 	teamId, err := r.client.TeamsClient.DeleteTeam(ctx, data.Id.ValueString())
-	var errComp *clientTypes.ErrTeamNotFound
-	if errors.As(err, &errComp) {
-		tflog.Trace(ctx, "Team not found, probably already deleted manually, removing from state")
-		resp.State.RemoveResource(ctx)
-		return
-	} else if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to delete team, got error: %s", err))
+	if err != nil {
+		var errComp *clientTypes.ErrTeamNotFound
+		if errors.As(err, &errComp) {
+			tflog.Trace(ctx, "Team not found, probably already deleted manually, removing from state")
+			resp.State.RemoveResource(ctx)
+		} else {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to delete team, got error: %s", err))
+		}
 		return
 	}
 
