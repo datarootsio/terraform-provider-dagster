@@ -5,9 +5,676 @@ package schema
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 
 	"github.com/Khan/genqlient/graphql"
 )
+
+// CreateTeamCreateOrUpdateTeamCreateOrUpdateTeamMutationResult includes the requested fields of the GraphQL interface CreateOrUpdateTeamMutationResult.
+//
+// CreateTeamCreateOrUpdateTeamCreateOrUpdateTeamMutationResult is implemented by the following types:
+// CreateTeamCreateOrUpdateTeamCreateOrUpdateTeamSuccess
+// CreateTeamCreateOrUpdateTeamPythonError
+// CreateTeamCreateOrUpdateTeamUnauthorizedError
+type CreateTeamCreateOrUpdateTeamCreateOrUpdateTeamMutationResult interface {
+	implementsGraphQLInterfaceCreateTeamCreateOrUpdateTeamCreateOrUpdateTeamMutationResult()
+	// GetTypename returns the receiver's concrete GraphQL type-name (see interface doc for possible values).
+	GetTypename() string
+}
+
+func (v *CreateTeamCreateOrUpdateTeamCreateOrUpdateTeamSuccess) implementsGraphQLInterfaceCreateTeamCreateOrUpdateTeamCreateOrUpdateTeamMutationResult() {
+}
+func (v *CreateTeamCreateOrUpdateTeamPythonError) implementsGraphQLInterfaceCreateTeamCreateOrUpdateTeamCreateOrUpdateTeamMutationResult() {
+}
+func (v *CreateTeamCreateOrUpdateTeamUnauthorizedError) implementsGraphQLInterfaceCreateTeamCreateOrUpdateTeamCreateOrUpdateTeamMutationResult() {
+}
+
+func __unmarshalCreateTeamCreateOrUpdateTeamCreateOrUpdateTeamMutationResult(b []byte, v *CreateTeamCreateOrUpdateTeamCreateOrUpdateTeamMutationResult) error {
+	if string(b) == "null" {
+		return nil
+	}
+
+	var tn struct {
+		TypeName string `json:"__typename"`
+	}
+	err := json.Unmarshal(b, &tn)
+	if err != nil {
+		return err
+	}
+
+	switch tn.TypeName {
+	case "CreateOrUpdateTeamSuccess":
+		*v = new(CreateTeamCreateOrUpdateTeamCreateOrUpdateTeamSuccess)
+		return json.Unmarshal(b, *v)
+	case "PythonError":
+		*v = new(CreateTeamCreateOrUpdateTeamPythonError)
+		return json.Unmarshal(b, *v)
+	case "UnauthorizedError":
+		*v = new(CreateTeamCreateOrUpdateTeamUnauthorizedError)
+		return json.Unmarshal(b, *v)
+	case "":
+		return fmt.Errorf(
+			"response was missing CreateOrUpdateTeamMutationResult.__typename")
+	default:
+		return fmt.Errorf(
+			`unexpected concrete type for CreateTeamCreateOrUpdateTeamCreateOrUpdateTeamMutationResult: "%v"`, tn.TypeName)
+	}
+}
+
+func __marshalCreateTeamCreateOrUpdateTeamCreateOrUpdateTeamMutationResult(v *CreateTeamCreateOrUpdateTeamCreateOrUpdateTeamMutationResult) ([]byte, error) {
+
+	var typename string
+	switch v := (*v).(type) {
+	case *CreateTeamCreateOrUpdateTeamCreateOrUpdateTeamSuccess:
+		typename = "CreateOrUpdateTeamSuccess"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*CreateTeamCreateOrUpdateTeamCreateOrUpdateTeamSuccess
+		}{typename, v}
+		return json.Marshal(result)
+	case *CreateTeamCreateOrUpdateTeamPythonError:
+		typename = "PythonError"
+
+		premarshaled, err := v.__premarshalJSON()
+		if err != nil {
+			return nil, err
+		}
+		result := struct {
+			TypeName string `json:"__typename"`
+			*__premarshalCreateTeamCreateOrUpdateTeamPythonError
+		}{typename, premarshaled}
+		return json.Marshal(result)
+	case *CreateTeamCreateOrUpdateTeamUnauthorizedError:
+		typename = "UnauthorizedError"
+
+		premarshaled, err := v.__premarshalJSON()
+		if err != nil {
+			return nil, err
+		}
+		result := struct {
+			TypeName string `json:"__typename"`
+			*__premarshalCreateTeamCreateOrUpdateTeamUnauthorizedError
+		}{typename, premarshaled}
+		return json.Marshal(result)
+	case nil:
+		return []byte("null"), nil
+	default:
+		return nil, fmt.Errorf(
+			`unexpected concrete type for CreateTeamCreateOrUpdateTeamCreateOrUpdateTeamMutationResult: "%T"`, v)
+	}
+}
+
+// CreateTeamCreateOrUpdateTeamCreateOrUpdateTeamSuccess includes the requested fields of the GraphQL type CreateOrUpdateTeamSuccess.
+type CreateTeamCreateOrUpdateTeamCreateOrUpdateTeamSuccess struct {
+	Typename string                                                                    `json:"__typename"`
+	Team     CreateTeamCreateOrUpdateTeamCreateOrUpdateTeamSuccessTeamDagsterCloudTeam `json:"team"`
+}
+
+// GetTypename returns CreateTeamCreateOrUpdateTeamCreateOrUpdateTeamSuccess.Typename, and is useful for accessing the field via an interface.
+func (v *CreateTeamCreateOrUpdateTeamCreateOrUpdateTeamSuccess) GetTypename() string {
+	return v.Typename
+}
+
+// GetTeam returns CreateTeamCreateOrUpdateTeamCreateOrUpdateTeamSuccess.Team, and is useful for accessing the field via an interface.
+func (v *CreateTeamCreateOrUpdateTeamCreateOrUpdateTeamSuccess) GetTeam() CreateTeamCreateOrUpdateTeamCreateOrUpdateTeamSuccessTeamDagsterCloudTeam {
+	return v.Team
+}
+
+// CreateTeamCreateOrUpdateTeamCreateOrUpdateTeamSuccessTeamDagsterCloudTeam includes the requested fields of the GraphQL type DagsterCloudTeam.
+type CreateTeamCreateOrUpdateTeamCreateOrUpdateTeamSuccessTeamDagsterCloudTeam struct {
+	Team `json:"-"`
+}
+
+// GetId returns CreateTeamCreateOrUpdateTeamCreateOrUpdateTeamSuccessTeamDagsterCloudTeam.Id, and is useful for accessing the field via an interface.
+func (v *CreateTeamCreateOrUpdateTeamCreateOrUpdateTeamSuccessTeamDagsterCloudTeam) GetId() string {
+	return v.Team.Id
+}
+
+// GetName returns CreateTeamCreateOrUpdateTeamCreateOrUpdateTeamSuccessTeamDagsterCloudTeam.Name, and is useful for accessing the field via an interface.
+func (v *CreateTeamCreateOrUpdateTeamCreateOrUpdateTeamSuccessTeamDagsterCloudTeam) GetName() string {
+	return v.Team.Name
+}
+
+func (v *CreateTeamCreateOrUpdateTeamCreateOrUpdateTeamSuccessTeamDagsterCloudTeam) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*CreateTeamCreateOrUpdateTeamCreateOrUpdateTeamSuccessTeamDagsterCloudTeam
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.CreateTeamCreateOrUpdateTeamCreateOrUpdateTeamSuccessTeamDagsterCloudTeam = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(
+		b, &v.Team)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+type __premarshalCreateTeamCreateOrUpdateTeamCreateOrUpdateTeamSuccessTeamDagsterCloudTeam struct {
+	Id string `json:"id"`
+
+	Name string `json:"name"`
+}
+
+func (v *CreateTeamCreateOrUpdateTeamCreateOrUpdateTeamSuccessTeamDagsterCloudTeam) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *CreateTeamCreateOrUpdateTeamCreateOrUpdateTeamSuccessTeamDagsterCloudTeam) __premarshalJSON() (*__premarshalCreateTeamCreateOrUpdateTeamCreateOrUpdateTeamSuccessTeamDagsterCloudTeam, error) {
+	var retval __premarshalCreateTeamCreateOrUpdateTeamCreateOrUpdateTeamSuccessTeamDagsterCloudTeam
+
+	retval.Id = v.Team.Id
+	retval.Name = v.Team.Name
+	return &retval, nil
+}
+
+// CreateTeamCreateOrUpdateTeamPythonError includes the requested fields of the GraphQL type PythonError.
+type CreateTeamCreateOrUpdateTeamPythonError struct {
+	Typename    string `json:"__typename"`
+	PythonError `json:"-"`
+}
+
+// GetTypename returns CreateTeamCreateOrUpdateTeamPythonError.Typename, and is useful for accessing the field via an interface.
+func (v *CreateTeamCreateOrUpdateTeamPythonError) GetTypename() string { return v.Typename }
+
+// GetMessage returns CreateTeamCreateOrUpdateTeamPythonError.Message, and is useful for accessing the field via an interface.
+func (v *CreateTeamCreateOrUpdateTeamPythonError) GetMessage() string { return v.PythonError.Message }
+
+func (v *CreateTeamCreateOrUpdateTeamPythonError) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*CreateTeamCreateOrUpdateTeamPythonError
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.CreateTeamCreateOrUpdateTeamPythonError = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(
+		b, &v.PythonError)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+type __premarshalCreateTeamCreateOrUpdateTeamPythonError struct {
+	Typename string `json:"__typename"`
+
+	Message string `json:"message"`
+}
+
+func (v *CreateTeamCreateOrUpdateTeamPythonError) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *CreateTeamCreateOrUpdateTeamPythonError) __premarshalJSON() (*__premarshalCreateTeamCreateOrUpdateTeamPythonError, error) {
+	var retval __premarshalCreateTeamCreateOrUpdateTeamPythonError
+
+	retval.Typename = v.Typename
+	retval.Message = v.PythonError.Message
+	return &retval, nil
+}
+
+// CreateTeamCreateOrUpdateTeamUnauthorizedError includes the requested fields of the GraphQL type UnauthorizedError.
+type CreateTeamCreateOrUpdateTeamUnauthorizedError struct {
+	Typename          string `json:"__typename"`
+	UnauthorizedError `json:"-"`
+}
+
+// GetTypename returns CreateTeamCreateOrUpdateTeamUnauthorizedError.Typename, and is useful for accessing the field via an interface.
+func (v *CreateTeamCreateOrUpdateTeamUnauthorizedError) GetTypename() string { return v.Typename }
+
+// GetMessage returns CreateTeamCreateOrUpdateTeamUnauthorizedError.Message, and is useful for accessing the field via an interface.
+func (v *CreateTeamCreateOrUpdateTeamUnauthorizedError) GetMessage() string {
+	return v.UnauthorizedError.Message
+}
+
+func (v *CreateTeamCreateOrUpdateTeamUnauthorizedError) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*CreateTeamCreateOrUpdateTeamUnauthorizedError
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.CreateTeamCreateOrUpdateTeamUnauthorizedError = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(
+		b, &v.UnauthorizedError)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+type __premarshalCreateTeamCreateOrUpdateTeamUnauthorizedError struct {
+	Typename string `json:"__typename"`
+
+	Message string `json:"message"`
+}
+
+func (v *CreateTeamCreateOrUpdateTeamUnauthorizedError) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *CreateTeamCreateOrUpdateTeamUnauthorizedError) __premarshalJSON() (*__premarshalCreateTeamCreateOrUpdateTeamUnauthorizedError, error) {
+	var retval __premarshalCreateTeamCreateOrUpdateTeamUnauthorizedError
+
+	retval.Typename = v.Typename
+	retval.Message = v.UnauthorizedError.Message
+	return &retval, nil
+}
+
+// CreateTeamResponse is returned by CreateTeam on success.
+type CreateTeamResponse struct {
+	CreateOrUpdateTeam CreateTeamCreateOrUpdateTeamCreateOrUpdateTeamMutationResult `json:"-"`
+}
+
+// GetCreateOrUpdateTeam returns CreateTeamResponse.CreateOrUpdateTeam, and is useful for accessing the field via an interface.
+func (v *CreateTeamResponse) GetCreateOrUpdateTeam() CreateTeamCreateOrUpdateTeamCreateOrUpdateTeamMutationResult {
+	return v.CreateOrUpdateTeam
+}
+
+func (v *CreateTeamResponse) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*CreateTeamResponse
+		CreateOrUpdateTeam json.RawMessage `json:"createOrUpdateTeam"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.CreateTeamResponse = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.CreateOrUpdateTeam
+		src := firstPass.CreateOrUpdateTeam
+		if len(src) != 0 && string(src) != "null" {
+			err = __unmarshalCreateTeamCreateOrUpdateTeamCreateOrUpdateTeamMutationResult(
+				src, dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal CreateTeamResponse.CreateOrUpdateTeam: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalCreateTeamResponse struct {
+	CreateOrUpdateTeam json.RawMessage `json:"createOrUpdateTeam"`
+}
+
+func (v *CreateTeamResponse) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *CreateTeamResponse) __premarshalJSON() (*__premarshalCreateTeamResponse, error) {
+	var retval __premarshalCreateTeamResponse
+
+	{
+
+		dst := &retval.CreateOrUpdateTeam
+		src := v.CreateOrUpdateTeam
+		var err error
+		*dst, err = __marshalCreateTeamCreateOrUpdateTeamCreateOrUpdateTeamMutationResult(
+			&src)
+		if err != nil {
+			return nil, fmt.Errorf(
+				"unable to marshal CreateTeamResponse.CreateOrUpdateTeam: %w", err)
+		}
+	}
+	return &retval, nil
+}
+
+// DeleteTeamDeleteTeamDeleteTeamMutationResult includes the requested fields of the GraphQL interface DeleteTeamMutationResult.
+//
+// DeleteTeamDeleteTeamDeleteTeamMutationResult is implemented by the following types:
+// DeleteTeamDeleteTeamDeleteTeamSuccess
+// DeleteTeamDeleteTeamPythonError
+// DeleteTeamDeleteTeamUnauthorizedError
+type DeleteTeamDeleteTeamDeleteTeamMutationResult interface {
+	implementsGraphQLInterfaceDeleteTeamDeleteTeamDeleteTeamMutationResult()
+	// GetTypename returns the receiver's concrete GraphQL type-name (see interface doc for possible values).
+	GetTypename() string
+}
+
+func (v *DeleteTeamDeleteTeamDeleteTeamSuccess) implementsGraphQLInterfaceDeleteTeamDeleteTeamDeleteTeamMutationResult() {
+}
+func (v *DeleteTeamDeleteTeamPythonError) implementsGraphQLInterfaceDeleteTeamDeleteTeamDeleteTeamMutationResult() {
+}
+func (v *DeleteTeamDeleteTeamUnauthorizedError) implementsGraphQLInterfaceDeleteTeamDeleteTeamDeleteTeamMutationResult() {
+}
+
+func __unmarshalDeleteTeamDeleteTeamDeleteTeamMutationResult(b []byte, v *DeleteTeamDeleteTeamDeleteTeamMutationResult) error {
+	if string(b) == "null" {
+		return nil
+	}
+
+	var tn struct {
+		TypeName string `json:"__typename"`
+	}
+	err := json.Unmarshal(b, &tn)
+	if err != nil {
+		return err
+	}
+
+	switch tn.TypeName {
+	case "DeleteTeamSuccess":
+		*v = new(DeleteTeamDeleteTeamDeleteTeamSuccess)
+		return json.Unmarshal(b, *v)
+	case "PythonError":
+		*v = new(DeleteTeamDeleteTeamPythonError)
+		return json.Unmarshal(b, *v)
+	case "UnauthorizedError":
+		*v = new(DeleteTeamDeleteTeamUnauthorizedError)
+		return json.Unmarshal(b, *v)
+	case "":
+		return fmt.Errorf(
+			"response was missing DeleteTeamMutationResult.__typename")
+	default:
+		return fmt.Errorf(
+			`unexpected concrete type for DeleteTeamDeleteTeamDeleteTeamMutationResult: "%v"`, tn.TypeName)
+	}
+}
+
+func __marshalDeleteTeamDeleteTeamDeleteTeamMutationResult(v *DeleteTeamDeleteTeamDeleteTeamMutationResult) ([]byte, error) {
+
+	var typename string
+	switch v := (*v).(type) {
+	case *DeleteTeamDeleteTeamDeleteTeamSuccess:
+		typename = "DeleteTeamSuccess"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*DeleteTeamDeleteTeamDeleteTeamSuccess
+		}{typename, v}
+		return json.Marshal(result)
+	case *DeleteTeamDeleteTeamPythonError:
+		typename = "PythonError"
+
+		premarshaled, err := v.__premarshalJSON()
+		if err != nil {
+			return nil, err
+		}
+		result := struct {
+			TypeName string `json:"__typename"`
+			*__premarshalDeleteTeamDeleteTeamPythonError
+		}{typename, premarshaled}
+		return json.Marshal(result)
+	case *DeleteTeamDeleteTeamUnauthorizedError:
+		typename = "UnauthorizedError"
+
+		premarshaled, err := v.__premarshalJSON()
+		if err != nil {
+			return nil, err
+		}
+		result := struct {
+			TypeName string `json:"__typename"`
+			*__premarshalDeleteTeamDeleteTeamUnauthorizedError
+		}{typename, premarshaled}
+		return json.Marshal(result)
+	case nil:
+		return []byte("null"), nil
+	default:
+		return nil, fmt.Errorf(
+			`unexpected concrete type for DeleteTeamDeleteTeamDeleteTeamMutationResult: "%T"`, v)
+	}
+}
+
+// DeleteTeamDeleteTeamDeleteTeamSuccess includes the requested fields of the GraphQL type DeleteTeamSuccess.
+type DeleteTeamDeleteTeamDeleteTeamSuccess struct {
+	Typename string `json:"__typename"`
+	TeamId   string `json:"teamId"`
+}
+
+// GetTypename returns DeleteTeamDeleteTeamDeleteTeamSuccess.Typename, and is useful for accessing the field via an interface.
+func (v *DeleteTeamDeleteTeamDeleteTeamSuccess) GetTypename() string { return v.Typename }
+
+// GetTeamId returns DeleteTeamDeleteTeamDeleteTeamSuccess.TeamId, and is useful for accessing the field via an interface.
+func (v *DeleteTeamDeleteTeamDeleteTeamSuccess) GetTeamId() string { return v.TeamId }
+
+// DeleteTeamDeleteTeamPythonError includes the requested fields of the GraphQL type PythonError.
+type DeleteTeamDeleteTeamPythonError struct {
+	Typename    string `json:"__typename"`
+	PythonError `json:"-"`
+}
+
+// GetTypename returns DeleteTeamDeleteTeamPythonError.Typename, and is useful for accessing the field via an interface.
+func (v *DeleteTeamDeleteTeamPythonError) GetTypename() string { return v.Typename }
+
+// GetMessage returns DeleteTeamDeleteTeamPythonError.Message, and is useful for accessing the field via an interface.
+func (v *DeleteTeamDeleteTeamPythonError) GetMessage() string { return v.PythonError.Message }
+
+func (v *DeleteTeamDeleteTeamPythonError) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*DeleteTeamDeleteTeamPythonError
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.DeleteTeamDeleteTeamPythonError = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(
+		b, &v.PythonError)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+type __premarshalDeleteTeamDeleteTeamPythonError struct {
+	Typename string `json:"__typename"`
+
+	Message string `json:"message"`
+}
+
+func (v *DeleteTeamDeleteTeamPythonError) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *DeleteTeamDeleteTeamPythonError) __premarshalJSON() (*__premarshalDeleteTeamDeleteTeamPythonError, error) {
+	var retval __premarshalDeleteTeamDeleteTeamPythonError
+
+	retval.Typename = v.Typename
+	retval.Message = v.PythonError.Message
+	return &retval, nil
+}
+
+// DeleteTeamDeleteTeamUnauthorizedError includes the requested fields of the GraphQL type UnauthorizedError.
+type DeleteTeamDeleteTeamUnauthorizedError struct {
+	Typename          string `json:"__typename"`
+	UnauthorizedError `json:"-"`
+}
+
+// GetTypename returns DeleteTeamDeleteTeamUnauthorizedError.Typename, and is useful for accessing the field via an interface.
+func (v *DeleteTeamDeleteTeamUnauthorizedError) GetTypename() string { return v.Typename }
+
+// GetMessage returns DeleteTeamDeleteTeamUnauthorizedError.Message, and is useful for accessing the field via an interface.
+func (v *DeleteTeamDeleteTeamUnauthorizedError) GetMessage() string {
+	return v.UnauthorizedError.Message
+}
+
+func (v *DeleteTeamDeleteTeamUnauthorizedError) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*DeleteTeamDeleteTeamUnauthorizedError
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.DeleteTeamDeleteTeamUnauthorizedError = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(
+		b, &v.UnauthorizedError)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+type __premarshalDeleteTeamDeleteTeamUnauthorizedError struct {
+	Typename string `json:"__typename"`
+
+	Message string `json:"message"`
+}
+
+func (v *DeleteTeamDeleteTeamUnauthorizedError) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *DeleteTeamDeleteTeamUnauthorizedError) __premarshalJSON() (*__premarshalDeleteTeamDeleteTeamUnauthorizedError, error) {
+	var retval __premarshalDeleteTeamDeleteTeamUnauthorizedError
+
+	retval.Typename = v.Typename
+	retval.Message = v.UnauthorizedError.Message
+	return &retval, nil
+}
+
+// DeleteTeamResponse is returned by DeleteTeam on success.
+type DeleteTeamResponse struct {
+	DeleteTeam DeleteTeamDeleteTeamDeleteTeamMutationResult `json:"-"`
+}
+
+// GetDeleteTeam returns DeleteTeamResponse.DeleteTeam, and is useful for accessing the field via an interface.
+func (v *DeleteTeamResponse) GetDeleteTeam() DeleteTeamDeleteTeamDeleteTeamMutationResult {
+	return v.DeleteTeam
+}
+
+func (v *DeleteTeamResponse) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*DeleteTeamResponse
+		DeleteTeam json.RawMessage `json:"deleteTeam"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.DeleteTeamResponse = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.DeleteTeam
+		src := firstPass.DeleteTeam
+		if len(src) != 0 && string(src) != "null" {
+			err = __unmarshalDeleteTeamDeleteTeamDeleteTeamMutationResult(
+				src, dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal DeleteTeamResponse.DeleteTeam: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalDeleteTeamResponse struct {
+	DeleteTeam json.RawMessage `json:"deleteTeam"`
+}
+
+func (v *DeleteTeamResponse) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *DeleteTeamResponse) __premarshalJSON() (*__premarshalDeleteTeamResponse, error) {
+	var retval __premarshalDeleteTeamResponse
+
+	{
+
+		dst := &retval.DeleteTeam
+		src := v.DeleteTeam
+		var err error
+		*dst, err = __marshalDeleteTeamDeleteTeamDeleteTeamMutationResult(
+			&src)
+		if err != nil {
+			return nil, fmt.Errorf(
+				"unable to marshal DeleteTeamResponse.DeleteTeam: %w", err)
+		}
+	}
+	return &retval, nil
+}
 
 // Deployment includes the GraphQL fields of DagsterCloudDeployment requested by the fragment Deployment.
 type Deployment struct {
@@ -93,6 +760,820 @@ func (v *GetCurrentDeploymentResponse) GetCurrentDeployment() GetCurrentDeployme
 	return v.CurrentDeployment
 }
 
+// ListTeamPermissionsResponse is returned by ListTeamPermissions on success.
+type ListTeamPermissionsResponse struct {
+	TeamPermissions []ListTeamPermissionsTeamPermissionsDagsterCloudTeamPermissions `json:"teamPermissions"`
+}
+
+// GetTeamPermissions returns ListTeamPermissionsResponse.TeamPermissions, and is useful for accessing the field via an interface.
+func (v *ListTeamPermissionsResponse) GetTeamPermissions() []ListTeamPermissionsTeamPermissionsDagsterCloudTeamPermissions {
+	return v.TeamPermissions
+}
+
+// ListTeamPermissionsTeamPermissionsDagsterCloudTeamPermissions includes the requested fields of the GraphQL type DagsterCloudTeamPermissions.
+type ListTeamPermissionsTeamPermissionsDagsterCloudTeamPermissions struct {
+	TeamPermission `json:"-"`
+}
+
+// GetId returns ListTeamPermissionsTeamPermissionsDagsterCloudTeamPermissions.Id, and is useful for accessing the field via an interface.
+func (v *ListTeamPermissionsTeamPermissionsDagsterCloudTeamPermissions) GetId() string {
+	return v.TeamPermission.Id
+}
+
+// GetTeam returns ListTeamPermissionsTeamPermissionsDagsterCloudTeamPermissions.Team, and is useful for accessing the field via an interface.
+func (v *ListTeamPermissionsTeamPermissionsDagsterCloudTeamPermissions) GetTeam() TeamPermissionTeamDagsterCloudTeam {
+	return v.TeamPermission.Team
+}
+
+// GetOrganizationPermissionGrant returns ListTeamPermissionsTeamPermissionsDagsterCloudTeamPermissions.OrganizationPermissionGrant, and is useful for accessing the field via an interface.
+func (v *ListTeamPermissionsTeamPermissionsDagsterCloudTeamPermissions) GetOrganizationPermissionGrant() TeamPermissionOrganizationPermissionGrantDagsterCloudScopedPermissionGrant {
+	return v.TeamPermission.OrganizationPermissionGrant
+}
+
+// GetAllBranchDeploymentsPermissionGrant returns ListTeamPermissionsTeamPermissionsDagsterCloudTeamPermissions.AllBranchDeploymentsPermissionGrant, and is useful for accessing the field via an interface.
+func (v *ListTeamPermissionsTeamPermissionsDagsterCloudTeamPermissions) GetAllBranchDeploymentsPermissionGrant() TeamPermissionAllBranchDeploymentsPermissionGrantDagsterCloudScopedPermissionGrant {
+	return v.TeamPermission.AllBranchDeploymentsPermissionGrant
+}
+
+// GetDeploymentPermissionGrants returns ListTeamPermissionsTeamPermissionsDagsterCloudTeamPermissions.DeploymentPermissionGrants, and is useful for accessing the field via an interface.
+func (v *ListTeamPermissionsTeamPermissionsDagsterCloudTeamPermissions) GetDeploymentPermissionGrants() []TeamPermissionDeploymentPermissionGrantsDagsterCloudScopedPermissionGrant {
+	return v.TeamPermission.DeploymentPermissionGrants
+}
+
+func (v *ListTeamPermissionsTeamPermissionsDagsterCloudTeamPermissions) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*ListTeamPermissionsTeamPermissionsDagsterCloudTeamPermissions
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.ListTeamPermissionsTeamPermissionsDagsterCloudTeamPermissions = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(
+		b, &v.TeamPermission)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+type __premarshalListTeamPermissionsTeamPermissionsDagsterCloudTeamPermissions struct {
+	Id string `json:"id"`
+
+	Team TeamPermissionTeamDagsterCloudTeam `json:"team"`
+
+	OrganizationPermissionGrant TeamPermissionOrganizationPermissionGrantDagsterCloudScopedPermissionGrant `json:"organizationPermissionGrant"`
+
+	AllBranchDeploymentsPermissionGrant TeamPermissionAllBranchDeploymentsPermissionGrantDagsterCloudScopedPermissionGrant `json:"allBranchDeploymentsPermissionGrant"`
+
+	DeploymentPermissionGrants []TeamPermissionDeploymentPermissionGrantsDagsterCloudScopedPermissionGrant `json:"deploymentPermissionGrants"`
+}
+
+func (v *ListTeamPermissionsTeamPermissionsDagsterCloudTeamPermissions) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *ListTeamPermissionsTeamPermissionsDagsterCloudTeamPermissions) __premarshalJSON() (*__premarshalListTeamPermissionsTeamPermissionsDagsterCloudTeamPermissions, error) {
+	var retval __premarshalListTeamPermissionsTeamPermissionsDagsterCloudTeamPermissions
+
+	retval.Id = v.TeamPermission.Id
+	retval.Team = v.TeamPermission.Team
+	retval.OrganizationPermissionGrant = v.TeamPermission.OrganizationPermissionGrant
+	retval.AllBranchDeploymentsPermissionGrant = v.TeamPermission.AllBranchDeploymentsPermissionGrant
+	retval.DeploymentPermissionGrants = v.TeamPermission.DeploymentPermissionGrants
+	return &retval, nil
+}
+
+// ListTeamsResponse is returned by ListTeams on success.
+type ListTeamsResponse struct {
+	TeamPermissions []ListTeamsTeamPermissionsDagsterCloudTeamPermissions `json:"teamPermissions"`
+}
+
+// GetTeamPermissions returns ListTeamsResponse.TeamPermissions, and is useful for accessing the field via an interface.
+func (v *ListTeamsResponse) GetTeamPermissions() []ListTeamsTeamPermissionsDagsterCloudTeamPermissions {
+	return v.TeamPermissions
+}
+
+// ListTeamsTeamPermissionsDagsterCloudTeamPermissions includes the requested fields of the GraphQL type DagsterCloudTeamPermissions.
+type ListTeamsTeamPermissionsDagsterCloudTeamPermissions struct {
+	Team ListTeamsTeamPermissionsDagsterCloudTeamPermissionsTeamDagsterCloudTeam `json:"team"`
+}
+
+// GetTeam returns ListTeamsTeamPermissionsDagsterCloudTeamPermissions.Team, and is useful for accessing the field via an interface.
+func (v *ListTeamsTeamPermissionsDagsterCloudTeamPermissions) GetTeam() ListTeamsTeamPermissionsDagsterCloudTeamPermissionsTeamDagsterCloudTeam {
+	return v.Team
+}
+
+// ListTeamsTeamPermissionsDagsterCloudTeamPermissionsTeamDagsterCloudTeam includes the requested fields of the GraphQL type DagsterCloudTeam.
+type ListTeamsTeamPermissionsDagsterCloudTeamPermissionsTeamDagsterCloudTeam struct {
+	Team `json:"-"`
+}
+
+// GetId returns ListTeamsTeamPermissionsDagsterCloudTeamPermissionsTeamDagsterCloudTeam.Id, and is useful for accessing the field via an interface.
+func (v *ListTeamsTeamPermissionsDagsterCloudTeamPermissionsTeamDagsterCloudTeam) GetId() string {
+	return v.Team.Id
+}
+
+// GetName returns ListTeamsTeamPermissionsDagsterCloudTeamPermissionsTeamDagsterCloudTeam.Name, and is useful for accessing the field via an interface.
+func (v *ListTeamsTeamPermissionsDagsterCloudTeamPermissionsTeamDagsterCloudTeam) GetName() string {
+	return v.Team.Name
+}
+
+func (v *ListTeamsTeamPermissionsDagsterCloudTeamPermissionsTeamDagsterCloudTeam) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*ListTeamsTeamPermissionsDagsterCloudTeamPermissionsTeamDagsterCloudTeam
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.ListTeamsTeamPermissionsDagsterCloudTeamPermissionsTeamDagsterCloudTeam = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(
+		b, &v.Team)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+type __premarshalListTeamsTeamPermissionsDagsterCloudTeamPermissionsTeamDagsterCloudTeam struct {
+	Id string `json:"id"`
+
+	Name string `json:"name"`
+}
+
+func (v *ListTeamsTeamPermissionsDagsterCloudTeamPermissionsTeamDagsterCloudTeam) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *ListTeamsTeamPermissionsDagsterCloudTeamPermissionsTeamDagsterCloudTeam) __premarshalJSON() (*__premarshalListTeamsTeamPermissionsDagsterCloudTeamPermissionsTeamDagsterCloudTeam, error) {
+	var retval __premarshalListTeamsTeamPermissionsDagsterCloudTeamPermissionsTeamDagsterCloudTeam
+
+	retval.Id = v.Team.Id
+	retval.Name = v.Team.Name
+	return &retval, nil
+}
+
+// LocationScopedGrant includes the GraphQL fields of LocationScopedGrant requested by the fragment LocationScopedGrant.
+type LocationScopedGrant struct {
+	LocationName string          `json:"locationName"`
+	Grant        PermissionGrant `json:"grant"`
+}
+
+// GetLocationName returns LocationScopedGrant.LocationName, and is useful for accessing the field via an interface.
+func (v *LocationScopedGrant) GetLocationName() string { return v.LocationName }
+
+// GetGrant returns LocationScopedGrant.Grant, and is useful for accessing the field via an interface.
+func (v *LocationScopedGrant) GetGrant() PermissionGrant { return v.Grant }
+
+type PermissionDeploymentScope string
+
+const (
+	PermissionDeploymentScopeDeployment           PermissionDeploymentScope = "DEPLOYMENT"
+	PermissionDeploymentScopeOrganization         PermissionDeploymentScope = "ORGANIZATION"
+	PermissionDeploymentScopeAllBranchDeployments PermissionDeploymentScope = "ALL_BRANCH_DEPLOYMENTS"
+)
+
+type PermissionGrant string
+
+const (
+	PermissionGrantViewer   PermissionGrant = "VIEWER"
+	PermissionGrantLauncher PermissionGrant = "LAUNCHER"
+	PermissionGrantEditor   PermissionGrant = "EDITOR"
+	PermissionGrantAdmin    PermissionGrant = "ADMIN"
+	PermissionGrantAgent    PermissionGrant = "AGENT"
+)
+
+// PythonError includes the GraphQL fields of PythonError requested by the fragment PythonError.
+type PythonError struct {
+	Message string `json:"message"`
+}
+
+// GetMessage returns PythonError.Message, and is useful for accessing the field via an interface.
+func (v *PythonError) GetMessage() string { return v.Message }
+
+// ScopedPermissionGrant includes the GraphQL fields of DagsterCloudScopedPermissionGrant requested by the fragment ScopedPermissionGrant.
+type ScopedPermissionGrant struct {
+	Id              int                                                      `json:"id"`
+	OrganizationId  int                                                      `json:"organizationId"`
+	DeploymentId    int                                                      `json:"deploymentId"`
+	Grant           PermissionGrant                                          `json:"grant"`
+	LocationGrants  []ScopedPermissionGrantLocationGrantsLocationScopedGrant `json:"locationGrants"`
+	DeploymentScope PermissionDeploymentScope                                `json:"deploymentScope"`
+}
+
+// GetId returns ScopedPermissionGrant.Id, and is useful for accessing the field via an interface.
+func (v *ScopedPermissionGrant) GetId() int { return v.Id }
+
+// GetOrganizationId returns ScopedPermissionGrant.OrganizationId, and is useful for accessing the field via an interface.
+func (v *ScopedPermissionGrant) GetOrganizationId() int { return v.OrganizationId }
+
+// GetDeploymentId returns ScopedPermissionGrant.DeploymentId, and is useful for accessing the field via an interface.
+func (v *ScopedPermissionGrant) GetDeploymentId() int { return v.DeploymentId }
+
+// GetGrant returns ScopedPermissionGrant.Grant, and is useful for accessing the field via an interface.
+func (v *ScopedPermissionGrant) GetGrant() PermissionGrant { return v.Grant }
+
+// GetLocationGrants returns ScopedPermissionGrant.LocationGrants, and is useful for accessing the field via an interface.
+func (v *ScopedPermissionGrant) GetLocationGrants() []ScopedPermissionGrantLocationGrantsLocationScopedGrant {
+	return v.LocationGrants
+}
+
+// GetDeploymentScope returns ScopedPermissionGrant.DeploymentScope, and is useful for accessing the field via an interface.
+func (v *ScopedPermissionGrant) GetDeploymentScope() PermissionDeploymentScope {
+	return v.DeploymentScope
+}
+
+// ScopedPermissionGrantLocationGrantsLocationScopedGrant includes the requested fields of the GraphQL type LocationScopedGrant.
+type ScopedPermissionGrantLocationGrantsLocationScopedGrant struct {
+	LocationScopedGrant `json:"-"`
+}
+
+// GetLocationName returns ScopedPermissionGrantLocationGrantsLocationScopedGrant.LocationName, and is useful for accessing the field via an interface.
+func (v *ScopedPermissionGrantLocationGrantsLocationScopedGrant) GetLocationName() string {
+	return v.LocationScopedGrant.LocationName
+}
+
+// GetGrant returns ScopedPermissionGrantLocationGrantsLocationScopedGrant.Grant, and is useful for accessing the field via an interface.
+func (v *ScopedPermissionGrantLocationGrantsLocationScopedGrant) GetGrant() PermissionGrant {
+	return v.LocationScopedGrant.Grant
+}
+
+func (v *ScopedPermissionGrantLocationGrantsLocationScopedGrant) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*ScopedPermissionGrantLocationGrantsLocationScopedGrant
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.ScopedPermissionGrantLocationGrantsLocationScopedGrant = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(
+		b, &v.LocationScopedGrant)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+type __premarshalScopedPermissionGrantLocationGrantsLocationScopedGrant struct {
+	LocationName string `json:"locationName"`
+
+	Grant PermissionGrant `json:"grant"`
+}
+
+func (v *ScopedPermissionGrantLocationGrantsLocationScopedGrant) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *ScopedPermissionGrantLocationGrantsLocationScopedGrant) __premarshalJSON() (*__premarshalScopedPermissionGrantLocationGrantsLocationScopedGrant, error) {
+	var retval __premarshalScopedPermissionGrantLocationGrantsLocationScopedGrant
+
+	retval.LocationName = v.LocationScopedGrant.LocationName
+	retval.Grant = v.LocationScopedGrant.Grant
+	return &retval, nil
+}
+
+// Team includes the GraphQL fields of DagsterCloudTeam requested by the fragment Team.
+type Team struct {
+	Id   string `json:"id"`
+	Name string `json:"name"`
+}
+
+// GetId returns Team.Id, and is useful for accessing the field via an interface.
+func (v *Team) GetId() string { return v.Id }
+
+// GetName returns Team.Name, and is useful for accessing the field via an interface.
+func (v *Team) GetName() string { return v.Name }
+
+// TeamPermission includes the GraphQL fields of DagsterCloudTeamPermissions requested by the fragment TeamPermission.
+type TeamPermission struct {
+	Id                                  string                                                                             `json:"id"`
+	Team                                TeamPermissionTeamDagsterCloudTeam                                                 `json:"team"`
+	OrganizationPermissionGrant         TeamPermissionOrganizationPermissionGrantDagsterCloudScopedPermissionGrant         `json:"organizationPermissionGrant"`
+	AllBranchDeploymentsPermissionGrant TeamPermissionAllBranchDeploymentsPermissionGrantDagsterCloudScopedPermissionGrant `json:"allBranchDeploymentsPermissionGrant"`
+	DeploymentPermissionGrants          []TeamPermissionDeploymentPermissionGrantsDagsterCloudScopedPermissionGrant        `json:"deploymentPermissionGrants"`
+}
+
+// GetId returns TeamPermission.Id, and is useful for accessing the field via an interface.
+func (v *TeamPermission) GetId() string { return v.Id }
+
+// GetTeam returns TeamPermission.Team, and is useful for accessing the field via an interface.
+func (v *TeamPermission) GetTeam() TeamPermissionTeamDagsterCloudTeam { return v.Team }
+
+// GetOrganizationPermissionGrant returns TeamPermission.OrganizationPermissionGrant, and is useful for accessing the field via an interface.
+func (v *TeamPermission) GetOrganizationPermissionGrant() TeamPermissionOrganizationPermissionGrantDagsterCloudScopedPermissionGrant {
+	return v.OrganizationPermissionGrant
+}
+
+// GetAllBranchDeploymentsPermissionGrant returns TeamPermission.AllBranchDeploymentsPermissionGrant, and is useful for accessing the field via an interface.
+func (v *TeamPermission) GetAllBranchDeploymentsPermissionGrant() TeamPermissionAllBranchDeploymentsPermissionGrantDagsterCloudScopedPermissionGrant {
+	return v.AllBranchDeploymentsPermissionGrant
+}
+
+// GetDeploymentPermissionGrants returns TeamPermission.DeploymentPermissionGrants, and is useful for accessing the field via an interface.
+func (v *TeamPermission) GetDeploymentPermissionGrants() []TeamPermissionDeploymentPermissionGrantsDagsterCloudScopedPermissionGrant {
+	return v.DeploymentPermissionGrants
+}
+
+// TeamPermissionAllBranchDeploymentsPermissionGrantDagsterCloudScopedPermissionGrant includes the requested fields of the GraphQL type DagsterCloudScopedPermissionGrant.
+type TeamPermissionAllBranchDeploymentsPermissionGrantDagsterCloudScopedPermissionGrant struct {
+	ScopedPermissionGrant `json:"-"`
+}
+
+// GetId returns TeamPermissionAllBranchDeploymentsPermissionGrantDagsterCloudScopedPermissionGrant.Id, and is useful for accessing the field via an interface.
+func (v *TeamPermissionAllBranchDeploymentsPermissionGrantDagsterCloudScopedPermissionGrant) GetId() int {
+	return v.ScopedPermissionGrant.Id
+}
+
+// GetOrganizationId returns TeamPermissionAllBranchDeploymentsPermissionGrantDagsterCloudScopedPermissionGrant.OrganizationId, and is useful for accessing the field via an interface.
+func (v *TeamPermissionAllBranchDeploymentsPermissionGrantDagsterCloudScopedPermissionGrant) GetOrganizationId() int {
+	return v.ScopedPermissionGrant.OrganizationId
+}
+
+// GetDeploymentId returns TeamPermissionAllBranchDeploymentsPermissionGrantDagsterCloudScopedPermissionGrant.DeploymentId, and is useful for accessing the field via an interface.
+func (v *TeamPermissionAllBranchDeploymentsPermissionGrantDagsterCloudScopedPermissionGrant) GetDeploymentId() int {
+	return v.ScopedPermissionGrant.DeploymentId
+}
+
+// GetGrant returns TeamPermissionAllBranchDeploymentsPermissionGrantDagsterCloudScopedPermissionGrant.Grant, and is useful for accessing the field via an interface.
+func (v *TeamPermissionAllBranchDeploymentsPermissionGrantDagsterCloudScopedPermissionGrant) GetGrant() PermissionGrant {
+	return v.ScopedPermissionGrant.Grant
+}
+
+// GetLocationGrants returns TeamPermissionAllBranchDeploymentsPermissionGrantDagsterCloudScopedPermissionGrant.LocationGrants, and is useful for accessing the field via an interface.
+func (v *TeamPermissionAllBranchDeploymentsPermissionGrantDagsterCloudScopedPermissionGrant) GetLocationGrants() []ScopedPermissionGrantLocationGrantsLocationScopedGrant {
+	return v.ScopedPermissionGrant.LocationGrants
+}
+
+// GetDeploymentScope returns TeamPermissionAllBranchDeploymentsPermissionGrantDagsterCloudScopedPermissionGrant.DeploymentScope, and is useful for accessing the field via an interface.
+func (v *TeamPermissionAllBranchDeploymentsPermissionGrantDagsterCloudScopedPermissionGrant) GetDeploymentScope() PermissionDeploymentScope {
+	return v.ScopedPermissionGrant.DeploymentScope
+}
+
+func (v *TeamPermissionAllBranchDeploymentsPermissionGrantDagsterCloudScopedPermissionGrant) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*TeamPermissionAllBranchDeploymentsPermissionGrantDagsterCloudScopedPermissionGrant
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.TeamPermissionAllBranchDeploymentsPermissionGrantDagsterCloudScopedPermissionGrant = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(
+		b, &v.ScopedPermissionGrant)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+type __premarshalTeamPermissionAllBranchDeploymentsPermissionGrantDagsterCloudScopedPermissionGrant struct {
+	Id int `json:"id"`
+
+	OrganizationId int `json:"organizationId"`
+
+	DeploymentId int `json:"deploymentId"`
+
+	Grant PermissionGrant `json:"grant"`
+
+	LocationGrants []ScopedPermissionGrantLocationGrantsLocationScopedGrant `json:"locationGrants"`
+
+	DeploymentScope PermissionDeploymentScope `json:"deploymentScope"`
+}
+
+func (v *TeamPermissionAllBranchDeploymentsPermissionGrantDagsterCloudScopedPermissionGrant) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *TeamPermissionAllBranchDeploymentsPermissionGrantDagsterCloudScopedPermissionGrant) __premarshalJSON() (*__premarshalTeamPermissionAllBranchDeploymentsPermissionGrantDagsterCloudScopedPermissionGrant, error) {
+	var retval __premarshalTeamPermissionAllBranchDeploymentsPermissionGrantDagsterCloudScopedPermissionGrant
+
+	retval.Id = v.ScopedPermissionGrant.Id
+	retval.OrganizationId = v.ScopedPermissionGrant.OrganizationId
+	retval.DeploymentId = v.ScopedPermissionGrant.DeploymentId
+	retval.Grant = v.ScopedPermissionGrant.Grant
+	retval.LocationGrants = v.ScopedPermissionGrant.LocationGrants
+	retval.DeploymentScope = v.ScopedPermissionGrant.DeploymentScope
+	return &retval, nil
+}
+
+// TeamPermissionDeploymentPermissionGrantsDagsterCloudScopedPermissionGrant includes the requested fields of the GraphQL type DagsterCloudScopedPermissionGrant.
+type TeamPermissionDeploymentPermissionGrantsDagsterCloudScopedPermissionGrant struct {
+	ScopedPermissionGrant `json:"-"`
+}
+
+// GetId returns TeamPermissionDeploymentPermissionGrantsDagsterCloudScopedPermissionGrant.Id, and is useful for accessing the field via an interface.
+func (v *TeamPermissionDeploymentPermissionGrantsDagsterCloudScopedPermissionGrant) GetId() int {
+	return v.ScopedPermissionGrant.Id
+}
+
+// GetOrganizationId returns TeamPermissionDeploymentPermissionGrantsDagsterCloudScopedPermissionGrant.OrganizationId, and is useful for accessing the field via an interface.
+func (v *TeamPermissionDeploymentPermissionGrantsDagsterCloudScopedPermissionGrant) GetOrganizationId() int {
+	return v.ScopedPermissionGrant.OrganizationId
+}
+
+// GetDeploymentId returns TeamPermissionDeploymentPermissionGrantsDagsterCloudScopedPermissionGrant.DeploymentId, and is useful for accessing the field via an interface.
+func (v *TeamPermissionDeploymentPermissionGrantsDagsterCloudScopedPermissionGrant) GetDeploymentId() int {
+	return v.ScopedPermissionGrant.DeploymentId
+}
+
+// GetGrant returns TeamPermissionDeploymentPermissionGrantsDagsterCloudScopedPermissionGrant.Grant, and is useful for accessing the field via an interface.
+func (v *TeamPermissionDeploymentPermissionGrantsDagsterCloudScopedPermissionGrant) GetGrant() PermissionGrant {
+	return v.ScopedPermissionGrant.Grant
+}
+
+// GetLocationGrants returns TeamPermissionDeploymentPermissionGrantsDagsterCloudScopedPermissionGrant.LocationGrants, and is useful for accessing the field via an interface.
+func (v *TeamPermissionDeploymentPermissionGrantsDagsterCloudScopedPermissionGrant) GetLocationGrants() []ScopedPermissionGrantLocationGrantsLocationScopedGrant {
+	return v.ScopedPermissionGrant.LocationGrants
+}
+
+// GetDeploymentScope returns TeamPermissionDeploymentPermissionGrantsDagsterCloudScopedPermissionGrant.DeploymentScope, and is useful for accessing the field via an interface.
+func (v *TeamPermissionDeploymentPermissionGrantsDagsterCloudScopedPermissionGrant) GetDeploymentScope() PermissionDeploymentScope {
+	return v.ScopedPermissionGrant.DeploymentScope
+}
+
+func (v *TeamPermissionDeploymentPermissionGrantsDagsterCloudScopedPermissionGrant) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*TeamPermissionDeploymentPermissionGrantsDagsterCloudScopedPermissionGrant
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.TeamPermissionDeploymentPermissionGrantsDagsterCloudScopedPermissionGrant = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(
+		b, &v.ScopedPermissionGrant)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+type __premarshalTeamPermissionDeploymentPermissionGrantsDagsterCloudScopedPermissionGrant struct {
+	Id int `json:"id"`
+
+	OrganizationId int `json:"organizationId"`
+
+	DeploymentId int `json:"deploymentId"`
+
+	Grant PermissionGrant `json:"grant"`
+
+	LocationGrants []ScopedPermissionGrantLocationGrantsLocationScopedGrant `json:"locationGrants"`
+
+	DeploymentScope PermissionDeploymentScope `json:"deploymentScope"`
+}
+
+func (v *TeamPermissionDeploymentPermissionGrantsDagsterCloudScopedPermissionGrant) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *TeamPermissionDeploymentPermissionGrantsDagsterCloudScopedPermissionGrant) __premarshalJSON() (*__premarshalTeamPermissionDeploymentPermissionGrantsDagsterCloudScopedPermissionGrant, error) {
+	var retval __premarshalTeamPermissionDeploymentPermissionGrantsDagsterCloudScopedPermissionGrant
+
+	retval.Id = v.ScopedPermissionGrant.Id
+	retval.OrganizationId = v.ScopedPermissionGrant.OrganizationId
+	retval.DeploymentId = v.ScopedPermissionGrant.DeploymentId
+	retval.Grant = v.ScopedPermissionGrant.Grant
+	retval.LocationGrants = v.ScopedPermissionGrant.LocationGrants
+	retval.DeploymentScope = v.ScopedPermissionGrant.DeploymentScope
+	return &retval, nil
+}
+
+// TeamPermissionOrganizationPermissionGrantDagsterCloudScopedPermissionGrant includes the requested fields of the GraphQL type DagsterCloudScopedPermissionGrant.
+type TeamPermissionOrganizationPermissionGrantDagsterCloudScopedPermissionGrant struct {
+	ScopedPermissionGrant `json:"-"`
+}
+
+// GetId returns TeamPermissionOrganizationPermissionGrantDagsterCloudScopedPermissionGrant.Id, and is useful for accessing the field via an interface.
+func (v *TeamPermissionOrganizationPermissionGrantDagsterCloudScopedPermissionGrant) GetId() int {
+	return v.ScopedPermissionGrant.Id
+}
+
+// GetOrganizationId returns TeamPermissionOrganizationPermissionGrantDagsterCloudScopedPermissionGrant.OrganizationId, and is useful for accessing the field via an interface.
+func (v *TeamPermissionOrganizationPermissionGrantDagsterCloudScopedPermissionGrant) GetOrganizationId() int {
+	return v.ScopedPermissionGrant.OrganizationId
+}
+
+// GetDeploymentId returns TeamPermissionOrganizationPermissionGrantDagsterCloudScopedPermissionGrant.DeploymentId, and is useful for accessing the field via an interface.
+func (v *TeamPermissionOrganizationPermissionGrantDagsterCloudScopedPermissionGrant) GetDeploymentId() int {
+	return v.ScopedPermissionGrant.DeploymentId
+}
+
+// GetGrant returns TeamPermissionOrganizationPermissionGrantDagsterCloudScopedPermissionGrant.Grant, and is useful for accessing the field via an interface.
+func (v *TeamPermissionOrganizationPermissionGrantDagsterCloudScopedPermissionGrant) GetGrant() PermissionGrant {
+	return v.ScopedPermissionGrant.Grant
+}
+
+// GetLocationGrants returns TeamPermissionOrganizationPermissionGrantDagsterCloudScopedPermissionGrant.LocationGrants, and is useful for accessing the field via an interface.
+func (v *TeamPermissionOrganizationPermissionGrantDagsterCloudScopedPermissionGrant) GetLocationGrants() []ScopedPermissionGrantLocationGrantsLocationScopedGrant {
+	return v.ScopedPermissionGrant.LocationGrants
+}
+
+// GetDeploymentScope returns TeamPermissionOrganizationPermissionGrantDagsterCloudScopedPermissionGrant.DeploymentScope, and is useful for accessing the field via an interface.
+func (v *TeamPermissionOrganizationPermissionGrantDagsterCloudScopedPermissionGrant) GetDeploymentScope() PermissionDeploymentScope {
+	return v.ScopedPermissionGrant.DeploymentScope
+}
+
+func (v *TeamPermissionOrganizationPermissionGrantDagsterCloudScopedPermissionGrant) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*TeamPermissionOrganizationPermissionGrantDagsterCloudScopedPermissionGrant
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.TeamPermissionOrganizationPermissionGrantDagsterCloudScopedPermissionGrant = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(
+		b, &v.ScopedPermissionGrant)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+type __premarshalTeamPermissionOrganizationPermissionGrantDagsterCloudScopedPermissionGrant struct {
+	Id int `json:"id"`
+
+	OrganizationId int `json:"organizationId"`
+
+	DeploymentId int `json:"deploymentId"`
+
+	Grant PermissionGrant `json:"grant"`
+
+	LocationGrants []ScopedPermissionGrantLocationGrantsLocationScopedGrant `json:"locationGrants"`
+
+	DeploymentScope PermissionDeploymentScope `json:"deploymentScope"`
+}
+
+func (v *TeamPermissionOrganizationPermissionGrantDagsterCloudScopedPermissionGrant) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *TeamPermissionOrganizationPermissionGrantDagsterCloudScopedPermissionGrant) __premarshalJSON() (*__premarshalTeamPermissionOrganizationPermissionGrantDagsterCloudScopedPermissionGrant, error) {
+	var retval __premarshalTeamPermissionOrganizationPermissionGrantDagsterCloudScopedPermissionGrant
+
+	retval.Id = v.ScopedPermissionGrant.Id
+	retval.OrganizationId = v.ScopedPermissionGrant.OrganizationId
+	retval.DeploymentId = v.ScopedPermissionGrant.DeploymentId
+	retval.Grant = v.ScopedPermissionGrant.Grant
+	retval.LocationGrants = v.ScopedPermissionGrant.LocationGrants
+	retval.DeploymentScope = v.ScopedPermissionGrant.DeploymentScope
+	return &retval, nil
+}
+
+// TeamPermissionTeamDagsterCloudTeam includes the requested fields of the GraphQL type DagsterCloudTeam.
+type TeamPermissionTeamDagsterCloudTeam struct {
+	Team `json:"-"`
+}
+
+// GetId returns TeamPermissionTeamDagsterCloudTeam.Id, and is useful for accessing the field via an interface.
+func (v *TeamPermissionTeamDagsterCloudTeam) GetId() string { return v.Team.Id }
+
+// GetName returns TeamPermissionTeamDagsterCloudTeam.Name, and is useful for accessing the field via an interface.
+func (v *TeamPermissionTeamDagsterCloudTeam) GetName() string { return v.Team.Name }
+
+func (v *TeamPermissionTeamDagsterCloudTeam) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*TeamPermissionTeamDagsterCloudTeam
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.TeamPermissionTeamDagsterCloudTeam = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(
+		b, &v.Team)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+type __premarshalTeamPermissionTeamDagsterCloudTeam struct {
+	Id string `json:"id"`
+
+	Name string `json:"name"`
+}
+
+func (v *TeamPermissionTeamDagsterCloudTeam) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *TeamPermissionTeamDagsterCloudTeam) __premarshalJSON() (*__premarshalTeamPermissionTeamDagsterCloudTeam, error) {
+	var retval __premarshalTeamPermissionTeamDagsterCloudTeam
+
+	retval.Id = v.Team.Id
+	retval.Name = v.Team.Name
+	return &retval, nil
+}
+
+// UnauthorizedError includes the GraphQL fields of UnauthorizedError requested by the fragment UnauthorizedError.
+type UnauthorizedError struct {
+	Message string `json:"message"`
+}
+
+// GetMessage returns UnauthorizedError.Message, and is useful for accessing the field via an interface.
+func (v *UnauthorizedError) GetMessage() string { return v.Message }
+
+// __CreateTeamInput is used internally by genqlient
+type __CreateTeamInput struct {
+	Name string `json:"name"`
+}
+
+// GetName returns __CreateTeamInput.Name, and is useful for accessing the field via an interface.
+func (v *__CreateTeamInput) GetName() string { return v.Name }
+
+// __DeleteTeamInput is used internally by genqlient
+type __DeleteTeamInput struct {
+	TeamId string `json:"teamId"`
+}
+
+// GetTeamId returns __DeleteTeamInput.TeamId, and is useful for accessing the field via an interface.
+func (v *__DeleteTeamInput) GetTeamId() string { return v.TeamId }
+
+// The query or mutation executed by CreateTeam.
+const CreateTeam_Operation = `
+mutation CreateTeam ($name: String!) {
+	createOrUpdateTeam(name: $name) {
+		__typename
+		... on CreateOrUpdateTeamSuccess {
+			team {
+				... Team
+			}
+		}
+		... UnauthorizedError
+		... PythonError
+	}
+}
+fragment Team on DagsterCloudTeam {
+	id
+	name
+}
+fragment UnauthorizedError on UnauthorizedError {
+	message
+}
+fragment PythonError on PythonError {
+	message
+}
+`
+
+func CreateTeam(
+	ctx_ context.Context,
+	client_ graphql.Client,
+	name string,
+) (*CreateTeamResponse, error) {
+	req_ := &graphql.Request{
+		OpName: "CreateTeam",
+		Query:  CreateTeam_Operation,
+		Variables: &__CreateTeamInput{
+			Name: name,
+		},
+	}
+	var err_ error
+
+	var data_ CreateTeamResponse
+	resp_ := &graphql.Response{Data: &data_}
+
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
+	)
+
+	return &data_, err_
+}
+
+// The query or mutation executed by DeleteTeam.
+const DeleteTeam_Operation = `
+mutation DeleteTeam ($teamId: String!) {
+	deleteTeam(teamId: $teamId) {
+		__typename
+		... on DeleteTeamSuccess {
+			teamId
+		}
+		... UnauthorizedError
+		... PythonError
+	}
+}
+fragment UnauthorizedError on UnauthorizedError {
+	message
+}
+fragment PythonError on PythonError {
+	message
+}
+`
+
+func DeleteTeam(
+	ctx_ context.Context,
+	client_ graphql.Client,
+	teamId string,
+) (*DeleteTeamResponse, error) {
+	req_ := &graphql.Request{
+		OpName: "DeleteTeam",
+		Query:  DeleteTeam_Operation,
+		Variables: &__DeleteTeamInput{
+			TeamId: teamId,
+		},
+	}
+	var err_ error
+
+	var data_ DeleteTeamResponse
+	resp_ := &graphql.Response{Data: &data_}
+
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
+	)
+
+	return &data_, err_
+}
+
 // The query or mutation executed by GetCurrentDeployment.
 const GetCurrentDeployment_Operation = `
 query GetCurrentDeployment {
@@ -117,6 +1598,107 @@ func GetCurrentDeployment(
 	var err_ error
 
 	var data_ GetCurrentDeploymentResponse
+	resp_ := &graphql.Response{Data: &data_}
+
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
+	)
+
+	return &data_, err_
+}
+
+// The query or mutation executed by ListTeamPermissions.
+const ListTeamPermissions_Operation = `
+query ListTeamPermissions {
+	teamPermissions {
+		... TeamPermission
+	}
+}
+fragment TeamPermission on DagsterCloudTeamPermissions {
+	id
+	team {
+		... Team
+	}
+	organizationPermissionGrant {
+		... ScopedPermissionGrant
+	}
+	allBranchDeploymentsPermissionGrant {
+		... ScopedPermissionGrant
+	}
+	deploymentPermissionGrants {
+		... ScopedPermissionGrant
+	}
+}
+fragment Team on DagsterCloudTeam {
+	id
+	name
+}
+fragment ScopedPermissionGrant on DagsterCloudScopedPermissionGrant {
+	id
+	organizationId
+	deploymentId
+	grant
+	locationGrants {
+		... LocationScopedGrant
+	}
+	deploymentScope
+}
+fragment LocationScopedGrant on LocationScopedGrant {
+	locationName
+	grant
+}
+`
+
+func ListTeamPermissions(
+	ctx_ context.Context,
+	client_ graphql.Client,
+) (*ListTeamPermissionsResponse, error) {
+	req_ := &graphql.Request{
+		OpName: "ListTeamPermissions",
+		Query:  ListTeamPermissions_Operation,
+	}
+	var err_ error
+
+	var data_ ListTeamPermissionsResponse
+	resp_ := &graphql.Response{Data: &data_}
+
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
+	)
+
+	return &data_, err_
+}
+
+// The query or mutation executed by ListTeams.
+const ListTeams_Operation = `
+query ListTeams {
+	teamPermissions {
+		team {
+			... Team
+		}
+	}
+}
+fragment Team on DagsterCloudTeam {
+	id
+	name
+}
+`
+
+func ListTeams(
+	ctx_ context.Context,
+	client_ graphql.Client,
+) (*ListTeamsResponse, error) {
+	req_ := &graphql.Request{
+		OpName: "ListTeams",
+		Query:  ListTeams_Operation,
+	}
+	var err_ error
+
+	var data_ ListTeamsResponse
 	resp_ := &graphql.Response{Data: &data_}
 
 	err_ = client_.MakeRequest(

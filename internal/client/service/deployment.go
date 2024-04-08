@@ -18,10 +18,10 @@ func NewDeploymentClient(client graphql.Client) DeploymentClient {
 }
 
 func (c DeploymentClient) GetCurrentDeployment(ctx context.Context) (schema.Deployment, error) {
-	result, err := schema.GetCurrentDeployment(ctx, c.client)
+	resp, err := schema.GetCurrentDeployment(ctx, c.client)
 	if err != nil {
 		return schema.Deployment{}, err
 	}
 
-	return result.CurrentDeployment.Deployment, nil
+	return resp.CurrentDeployment.Deployment, nil
 }

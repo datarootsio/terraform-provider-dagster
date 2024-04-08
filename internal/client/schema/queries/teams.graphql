@@ -1,0 +1,76 @@
+#   createOrUpdateTeam(name: String!): CreateOrUpdateTeamMutationResult!
+#   renameTeam(name: String!, teamId: String!): RenameTeamResult!
+#   deleteTeam(teamId: String!): DeleteTeamMutationResult!
+
+fragment Team on DagsterCloudTeam {
+  id
+  name
+}
+
+fragment TeamPermission on DagsterCloudTeamPermissions {
+  id
+  team {
+    ...Team
+  }
+  organizationPermissionGrant {
+    ...ScopedPermissionGrant
+  }
+  allBranchDeploymentsPermissionGrant {
+    ...ScopedPermissionGrant
+  }
+  deploymentPermissionGrants {
+    ...ScopedPermissionGrant
+  }
+}
+
+fragment ScopedPermissionGrant on DagsterCloudScopedPermissionGrant {
+  id
+  organizationId
+  deploymentId
+  grant
+  locationGrants {
+    ...LocationScopedGrant
+  }
+  deploymentScope
+}
+
+fragment LocationScopedGrant on LocationScopedGrant {
+  locationName
+  grant
+}
+
+query ListTeamPermissions {
+  teamPermissions {
+    ...TeamPermission
+  }
+}
+
+query ListTeams {
+  teamPermissions {
+    team {
+      ...Team
+    }
+  }
+}
+
+mutation CreateTeam($name: String!) {
+  createOrUpdateTeam(name: $name) {
+    ... on CreateOrUpdateTeamSuccess {
+      team {
+        ...Team
+      }
+    }
+    ...UnauthorizedError
+    ...PythonError
+  }
+}
+
+mutation DeleteTeam($teamId: String!) {
+  deleteTeam(teamId: $teamId) {
+    ... on DeleteTeamSuccess {
+      teamId
+    }
+    ...UnauthorizedError
+    ...PythonError
+  }
+}

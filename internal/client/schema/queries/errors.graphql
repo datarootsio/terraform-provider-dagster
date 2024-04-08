@@ -1,0 +1,7 @@
+fragment PythonError on PythonError {
+  message
+}
+
+fragment UnauthorizedError on UnauthorizedError {
+  message
+}
