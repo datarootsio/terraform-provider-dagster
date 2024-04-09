@@ -74,3 +74,13 @@ mutation DeleteTeam($teamId: String!) {
     ...PythonError
   }
 }
+
+mutation RenameTeam($name: String!, $teamId: String!) {
+  renameTeam(name: $name, teamId: $teamId) {
+    ... on DagsterCloudTeam {
+      ...Team
+    }
+    ...PythonError
+    ...UnauthorizedError
+  }
+}

@@ -84,7 +84,6 @@ func (r *TeamResource) Create(ctx context.Context, req resource.CreateRequest, r
 	}
 
 	team, err := r.client.TeamsClient.CreateTeam(ctx, data.Name.ValueString())
-
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create team, got error: %s", err))
 		return
@@ -133,7 +132,14 @@ func (r *TeamResource) Update(ctx context.Context, req resource.UpdateRequest, r
 		return
 	}
 
-	// TODO: handle in place rename
+	team, err := r.client.TeamsClient.RenameTeam(ctx, data.Name.ValueString(), data.Id.ValueString())
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create team, got error: %s", err))
+		return
+	}
+
+	data.Id = types.StringValue(team.Id)
+	data.Name = types.StringValue(team.Name)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }

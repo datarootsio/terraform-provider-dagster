@@ -976,6 +976,363 @@ type PythonError struct {
 // GetMessage returns PythonError.Message, and is useful for accessing the field via an interface.
 func (v *PythonError) GetMessage() string { return v.Message }
 
+// RenameTeamRenameTeamDagsterCloudTeam includes the requested fields of the GraphQL type DagsterCloudTeam.
+type RenameTeamRenameTeamDagsterCloudTeam struct {
+	Typename string `json:"__typename"`
+	Team     `json:"-"`
+}
+
+// GetTypename returns RenameTeamRenameTeamDagsterCloudTeam.Typename, and is useful for accessing the field via an interface.
+func (v *RenameTeamRenameTeamDagsterCloudTeam) GetTypename() string { return v.Typename }
+
+// GetId returns RenameTeamRenameTeamDagsterCloudTeam.Id, and is useful for accessing the field via an interface.
+func (v *RenameTeamRenameTeamDagsterCloudTeam) GetId() string { return v.Team.Id }
+
+// GetName returns RenameTeamRenameTeamDagsterCloudTeam.Name, and is useful for accessing the field via an interface.
+func (v *RenameTeamRenameTeamDagsterCloudTeam) GetName() string { return v.Team.Name }
+
+func (v *RenameTeamRenameTeamDagsterCloudTeam) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*RenameTeamRenameTeamDagsterCloudTeam
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.RenameTeamRenameTeamDagsterCloudTeam = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(
+		b, &v.Team)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+type __premarshalRenameTeamRenameTeamDagsterCloudTeam struct {
+	Typename string `json:"__typename"`
+
+	Id string `json:"id"`
+
+	Name string `json:"name"`
+}
+
+func (v *RenameTeamRenameTeamDagsterCloudTeam) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *RenameTeamRenameTeamDagsterCloudTeam) __premarshalJSON() (*__premarshalRenameTeamRenameTeamDagsterCloudTeam, error) {
+	var retval __premarshalRenameTeamRenameTeamDagsterCloudTeam
+
+	retval.Typename = v.Typename
+	retval.Id = v.Team.Id
+	retval.Name = v.Team.Name
+	return &retval, nil
+}
+
+// RenameTeamRenameTeamPythonError includes the requested fields of the GraphQL type PythonError.
+type RenameTeamRenameTeamPythonError struct {
+	Typename    string `json:"__typename"`
+	PythonError `json:"-"`
+}
+
+// GetTypename returns RenameTeamRenameTeamPythonError.Typename, and is useful for accessing the field via an interface.
+func (v *RenameTeamRenameTeamPythonError) GetTypename() string { return v.Typename }
+
+// GetMessage returns RenameTeamRenameTeamPythonError.Message, and is useful for accessing the field via an interface.
+func (v *RenameTeamRenameTeamPythonError) GetMessage() string { return v.PythonError.Message }
+
+func (v *RenameTeamRenameTeamPythonError) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*RenameTeamRenameTeamPythonError
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.RenameTeamRenameTeamPythonError = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(
+		b, &v.PythonError)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+type __premarshalRenameTeamRenameTeamPythonError struct {
+	Typename string `json:"__typename"`
+
+	Message string `json:"message"`
+}
+
+func (v *RenameTeamRenameTeamPythonError) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *RenameTeamRenameTeamPythonError) __premarshalJSON() (*__premarshalRenameTeamRenameTeamPythonError, error) {
+	var retval __premarshalRenameTeamRenameTeamPythonError
+
+	retval.Typename = v.Typename
+	retval.Message = v.PythonError.Message
+	return &retval, nil
+}
+
+// RenameTeamRenameTeamRenameTeamResult includes the requested fields of the GraphQL interface RenameTeamResult.
+//
+// RenameTeamRenameTeamRenameTeamResult is implemented by the following types:
+// RenameTeamRenameTeamDagsterCloudTeam
+// RenameTeamRenameTeamPythonError
+// RenameTeamRenameTeamUnauthorizedError
+type RenameTeamRenameTeamRenameTeamResult interface {
+	implementsGraphQLInterfaceRenameTeamRenameTeamRenameTeamResult()
+	// GetTypename returns the receiver's concrete GraphQL type-name (see interface doc for possible values).
+	GetTypename() string
+}
+
+func (v *RenameTeamRenameTeamDagsterCloudTeam) implementsGraphQLInterfaceRenameTeamRenameTeamRenameTeamResult() {
+}
+func (v *RenameTeamRenameTeamPythonError) implementsGraphQLInterfaceRenameTeamRenameTeamRenameTeamResult() {
+}
+func (v *RenameTeamRenameTeamUnauthorizedError) implementsGraphQLInterfaceRenameTeamRenameTeamRenameTeamResult() {
+}
+
+func __unmarshalRenameTeamRenameTeamRenameTeamResult(b []byte, v *RenameTeamRenameTeamRenameTeamResult) error {
+	if string(b) == "null" {
+		return nil
+	}
+
+	var tn struct {
+		TypeName string `json:"__typename"`
+	}
+	err := json.Unmarshal(b, &tn)
+	if err != nil {
+		return err
+	}
+
+	switch tn.TypeName {
+	case "DagsterCloudTeam":
+		*v = new(RenameTeamRenameTeamDagsterCloudTeam)
+		return json.Unmarshal(b, *v)
+	case "PythonError":
+		*v = new(RenameTeamRenameTeamPythonError)
+		return json.Unmarshal(b, *v)
+	case "UnauthorizedError":
+		*v = new(RenameTeamRenameTeamUnauthorizedError)
+		return json.Unmarshal(b, *v)
+	case "":
+		return fmt.Errorf(
+			"response was missing RenameTeamResult.__typename")
+	default:
+		return fmt.Errorf(
+			`unexpected concrete type for RenameTeamRenameTeamRenameTeamResult: "%v"`, tn.TypeName)
+	}
+}
+
+func __marshalRenameTeamRenameTeamRenameTeamResult(v *RenameTeamRenameTeamRenameTeamResult) ([]byte, error) {
+
+	var typename string
+	switch v := (*v).(type) {
+	case *RenameTeamRenameTeamDagsterCloudTeam:
+		typename = "DagsterCloudTeam"
+
+		premarshaled, err := v.__premarshalJSON()
+		if err != nil {
+			return nil, err
+		}
+		result := struct {
+			TypeName string `json:"__typename"`
+			*__premarshalRenameTeamRenameTeamDagsterCloudTeam
+		}{typename, premarshaled}
+		return json.Marshal(result)
+	case *RenameTeamRenameTeamPythonError:
+		typename = "PythonError"
+
+		premarshaled, err := v.__premarshalJSON()
+		if err != nil {
+			return nil, err
+		}
+		result := struct {
+			TypeName string `json:"__typename"`
+			*__premarshalRenameTeamRenameTeamPythonError
+		}{typename, premarshaled}
+		return json.Marshal(result)
+	case *RenameTeamRenameTeamUnauthorizedError:
+		typename = "UnauthorizedError"
+
+		premarshaled, err := v.__premarshalJSON()
+		if err != nil {
+			return nil, err
+		}
+		result := struct {
+			TypeName string `json:"__typename"`
+			*__premarshalRenameTeamRenameTeamUnauthorizedError
+		}{typename, premarshaled}
+		return json.Marshal(result)
+	case nil:
+		return []byte("null"), nil
+	default:
+		return nil, fmt.Errorf(
+			`unexpected concrete type for RenameTeamRenameTeamRenameTeamResult: "%T"`, v)
+	}
+}
+
+// RenameTeamRenameTeamUnauthorizedError includes the requested fields of the GraphQL type UnauthorizedError.
+type RenameTeamRenameTeamUnauthorizedError struct {
+	Typename          string `json:"__typename"`
+	UnauthorizedError `json:"-"`
+}
+
+// GetTypename returns RenameTeamRenameTeamUnauthorizedError.Typename, and is useful for accessing the field via an interface.
+func (v *RenameTeamRenameTeamUnauthorizedError) GetTypename() string { return v.Typename }
+
+// GetMessage returns RenameTeamRenameTeamUnauthorizedError.Message, and is useful for accessing the field via an interface.
+func (v *RenameTeamRenameTeamUnauthorizedError) GetMessage() string {
+	return v.UnauthorizedError.Message
+}
+
+func (v *RenameTeamRenameTeamUnauthorizedError) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*RenameTeamRenameTeamUnauthorizedError
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.RenameTeamRenameTeamUnauthorizedError = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(
+		b, &v.UnauthorizedError)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+type __premarshalRenameTeamRenameTeamUnauthorizedError struct {
+	Typename string `json:"__typename"`
+
+	Message string `json:"message"`
+}
+
+func (v *RenameTeamRenameTeamUnauthorizedError) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *RenameTeamRenameTeamUnauthorizedError) __premarshalJSON() (*__premarshalRenameTeamRenameTeamUnauthorizedError, error) {
+	var retval __premarshalRenameTeamRenameTeamUnauthorizedError
+
+	retval.Typename = v.Typename
+	retval.Message = v.UnauthorizedError.Message
+	return &retval, nil
+}
+
+// RenameTeamResponse is returned by RenameTeam on success.
+type RenameTeamResponse struct {
+	RenameTeam RenameTeamRenameTeamRenameTeamResult `json:"-"`
+}
+
+// GetRenameTeam returns RenameTeamResponse.RenameTeam, and is useful for accessing the field via an interface.
+func (v *RenameTeamResponse) GetRenameTeam() RenameTeamRenameTeamRenameTeamResult {
+	return v.RenameTeam
+}
+
+func (v *RenameTeamResponse) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*RenameTeamResponse
+		RenameTeam json.RawMessage `json:"renameTeam"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.RenameTeamResponse = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.RenameTeam
+		src := firstPass.RenameTeam
+		if len(src) != 0 && string(src) != "null" {
+			err = __unmarshalRenameTeamRenameTeamRenameTeamResult(
+				src, dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal RenameTeamResponse.RenameTeam: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalRenameTeamResponse struct {
+	RenameTeam json.RawMessage `json:"renameTeam"`
+}
+
+func (v *RenameTeamResponse) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *RenameTeamResponse) __premarshalJSON() (*__premarshalRenameTeamResponse, error) {
+	var retval __premarshalRenameTeamResponse
+
+	{
+
+		dst := &retval.RenameTeam
+		src := v.RenameTeam
+		var err error
+		*dst, err = __marshalRenameTeamRenameTeamRenameTeamResult(
+			&src)
+		if err != nil {
+			return nil, fmt.Errorf(
+				"unable to marshal RenameTeamResponse.RenameTeam: %w", err)
+		}
+	}
+	return &retval, nil
+}
+
 // ScopedPermissionGrant includes the GraphQL fields of DagsterCloudScopedPermissionGrant requested by the fragment ScopedPermissionGrant.
 type ScopedPermissionGrant struct {
 	Id              int                                                      `json:"id"`
@@ -1476,6 +1833,18 @@ type __DeleteTeamInput struct {
 // GetTeamId returns __DeleteTeamInput.TeamId, and is useful for accessing the field via an interface.
 func (v *__DeleteTeamInput) GetTeamId() string { return v.TeamId }
 
+// __RenameTeamInput is used internally by genqlient
+type __RenameTeamInput struct {
+	Name   string `json:"name"`
+	TeamId string `json:"teamId"`
+}
+
+// GetName returns __RenameTeamInput.Name, and is useful for accessing the field via an interface.
+func (v *__RenameTeamInput) GetName() string { return v.Name }
+
+// GetTeamId returns __RenameTeamInput.TeamId, and is useful for accessing the field via an interface.
+func (v *__RenameTeamInput) GetTeamId() string { return v.TeamId }
+
 // The query or mutation executed by CreateTeam.
 const CreateTeam_Operation = `
 mutation CreateTeam ($name: String!) {
@@ -1699,6 +2068,58 @@ func ListTeams(
 	var err_ error
 
 	var data_ ListTeamsResponse
+	resp_ := &graphql.Response{Data: &data_}
+
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
+	)
+
+	return &data_, err_
+}
+
+// The query or mutation executed by RenameTeam.
+const RenameTeam_Operation = `
+mutation RenameTeam ($name: String!, $teamId: String!) {
+	renameTeam(name: $name, teamId: $teamId) {
+		__typename
+		... on DagsterCloudTeam {
+			... Team
+		}
+		... PythonError
+		... UnauthorizedError
+	}
+}
+fragment Team on DagsterCloudTeam {
+	id
+	name
+}
+fragment PythonError on PythonError {
+	message
+}
+fragment UnauthorizedError on UnauthorizedError {
+	message
+}
+`
+
+func RenameTeam(
+	ctx_ context.Context,
+	client_ graphql.Client,
+	name string,
+	teamId string,
+) (*RenameTeamResponse, error) {
+	req_ := &graphql.Request{
+		OpName: "RenameTeam",
+		Query:  RenameTeam_Operation,
+		Variables: &__RenameTeamInput{
+			Name:   name,
+			TeamId: teamId,
+		},
+	}
+	var err_ error
+
+	var data_ RenameTeamResponse
 	resp_ := &graphql.Response{Data: &data_}
 
 	err_ = client_.MakeRequest(

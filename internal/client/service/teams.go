@@ -119,3 +119,26 @@ func (c *TeamsClient) DeleteTeam(ctx context.Context, id string) (string, error)
 		return "", fmt.Errorf("unexpected type(%T) of result", resp.DeleteTeam)
 	}
 }
+
+func (c *TeamsClient) RenameTeam(ctx context.Context, name string, id string) (schema.Team, error) {
+	_, err := c.GetTeamById(ctx, id)
+	if err != nil {
+		return schema.Team{}, err
+	}
+
+	resp, err := schema.RenameTeam(ctx, c.client, name, id)
+	if err != nil {
+		return schema.Team{}, err
+	}
+
+	switch respCast := resp.RenameTeam.(type) {
+	case *schema.RenameTeamRenameTeamDagsterCloudTeam:
+		return respCast.Team, nil
+	case *schema.RenameTeamRenameTeamPythonError:
+		return schema.Team{}, &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
+	case *schema.RenameTeamRenameTeamUnauthorizedError:
+		return schema.Team{}, &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
+	default:
+		return schema.Team{}, fmt.Errorf("unexpected type(%T) of result", resp.RenameTeam)
+	}
+}
