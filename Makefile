@@ -1,10 +1,10 @@
 NAME=dagster
 BINARY=terraform-provider-${NAME}
 
-default: build
+default: clean generate build docs
 .PHONY: default
 
-build: clean docs generate
+build: 
 	mkdir -p build/
 	go build -o build/$(BINARY)
 .PHONY: build
@@ -26,5 +26,5 @@ docs:
 
 reflex:
 	@go install github.com/cespare/reflex@latest
-	reflex -r "\.graphql$$" -s -- sh -c "make build"
+	reflex -r "\.graphql$$" -s -- sh -c "make"
 .PHONY: reflex
