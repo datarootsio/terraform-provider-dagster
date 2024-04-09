@@ -4,8 +4,10 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"strings"
 
 	"github.com/datarootsio/terraform-provider-dagster/internal/client"
+	clientSchema "github.com/datarootsio/terraform-provider-dagster/internal/client/schema"
 	clientTypes "github.com/datarootsio/terraform-provider-dagster/internal/client/types"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -105,20 +107,45 @@ func (r *TeamResource) Read(ctx context.Context, req resource.ReadRequest, resp 
 		return
 	}
 
-	team, err := r.client.TeamsClient.GetTeamById(ctx, data.Id.ValueString())
-	if err != nil {
-		var errComp *clientTypes.ErrTeamNotFound
-		if errors.As(err, &errComp) {
-			tflog.Trace(ctx, "Team not found, probably already deleted manually, removing from state")
-			resp.State.RemoveResource(ctx)
-		} else {
-			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read team, got error: %s", err))
+	var team *clientSchema.Team
+	// We can import teams via Id or Name, handle both cases.
+	switch {
+	case !data.Id.IsNull():
+		teamResp, err := r.client.TeamsClient.GetTeamById(ctx, data.Id.ValueString())
+		team = &teamResp
+		if err != nil {
+			var errComp *clientTypes.ErrTeamNotFound
+			// This handles the case when a resource is still in the state but delete from the API
+			// in that case we remove the resource from the state so that it gets recreated.
+			// We check for !data.Name.IsNull() because if it is null it means we just imported a resource
+			// via "tf import" and we want to show an error message instead of resp.State.RemoveResource.
+			if errors.As(err, &errComp) && !data.Name.IsNull() {
+				tflog.Trace(ctx, "Team not found, probably already deleted manually, removing from state")
+				resp.State.RemoveResource(ctx)
+			} else {
+				resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read team, got error: %s", err))
+			}
+			return
 		}
+	case !data.Name.IsNull():
+		teamResp, err := r.client.TeamsClient.GetTeamByName(ctx, data.Name.ValueString())
+		team = &teamResp
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read team, got error: %s", err))
+			return
+		}
+	default:
+		resp.Diagnostics.AddError(
+			"Both ID and Name are unset",
+			"This is a bug in the Terraform provider. Please report it to the maintainers.",
+		)
+
 		return
 	}
 
 	// Team might be renamed, update
 	data.Name = types.StringValue(team.Name)
+	data.Id = types.StringValue(team.Id)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -169,5 +196,10 @@ func (r *TeamResource) Delete(ctx context.Context, req resource.DeleteRequest, r
 }
 
 func (r *TeamResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
-	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
+	if strings.HasPrefix(req.ID, "name/") {
+		name := strings.TrimPrefix(req.ID, "name/")
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("name"), name)...)
+	} else {
+		resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), req.ID)...)
+	}
 }

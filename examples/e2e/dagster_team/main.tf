@@ -31,7 +31,7 @@ provider "dagster" {
 }
 
 resource "dagster_team" "example" {
-  name = "my_example_team_from_provider_aaa"
+  name = "example_team"
 }
 
 output "team" {

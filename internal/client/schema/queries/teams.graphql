@@ -1,7 +1,3 @@
-#   createOrUpdateTeam(name: String!): CreateOrUpdateTeamMutationResult!
-#   renameTeam(name: String!, teamId: String!): RenameTeamResult!
-#   deleteTeam(teamId: String!): DeleteTeamMutationResult!
-
 fragment Team on DagsterCloudTeam {
   id
   name
