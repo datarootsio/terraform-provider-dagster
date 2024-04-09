@@ -5,3 +5,11 @@ fragment PythonError on PythonError {
 fragment UnauthorizedError on UnauthorizedError {
   message
 }
+
+fragment UserLimitError on UserLimitError {
+  message
+}
+
+fragment CantRemoveAllAdminsError on CantRemoveAllAdminsError {
+  message
+}

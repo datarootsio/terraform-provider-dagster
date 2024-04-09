@@ -2,30 +2,22 @@ package types
 
 import "fmt"
 
-type ErrTeamNotFound struct {
-	Name string
-	Id   string
+type ErrNotFound struct {
+	What  string
+	Value string
 }
 
-func (e *ErrTeamNotFound) Error() string {
-	if e.Name != "" {
-		return fmt.Sprintf("team with name(%s) not found", e.Name)
-	}
-
-	if e.Id != "" {
-		return fmt.Sprintf("team with id(%s) not found", e.Id)
-	}
-
-	return "team not found"
+func (e *ErrNotFound) Error() string {
+	return fmt.Sprintf("%s(%s) not found", e.What, e.Value)
 }
 
-type ErrTeamAlreadyExists struct {
-	Name string
+type ErrAlreadyExists struct {
+	What  string
+	Value string
 }
 
-func (e *ErrTeamAlreadyExists) Error() string {
-	return fmt.Sprintf("team with name(%s) already exists", e.Name)
-
+func (e *ErrAlreadyExists) Error() string {
+	return fmt.Sprintf("%s(%s) already exists", e.What, e.Value)
 }
 
 type ErrApi struct {

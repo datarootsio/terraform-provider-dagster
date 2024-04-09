@@ -115,7 +115,7 @@ func (r *TeamResource) Read(ctx context.Context, req resource.ReadRequest, resp 
 		teamResp, err := r.client.TeamsClient.GetTeamById(ctx, data.Id.ValueString())
 		team = &teamResp
 		if err != nil {
-			var errComp *clientTypes.ErrTeamNotFound
+			var errComp *clientTypes.ErrNotFound
 			// This handles the case when a resource is still in the state but delete from the API
 			// in that case we remove the resource from the state so that it gets recreated.
 			// We check for !data.Name.IsNull() because if it is null it means we just imported a resource
@@ -182,7 +182,7 @@ func (r *TeamResource) Delete(ctx context.Context, req resource.DeleteRequest, r
 
 	teamId, err := r.client.TeamsClient.DeleteTeam(ctx, data.Id.ValueString())
 	if err != nil {
-		var errComp *clientTypes.ErrTeamNotFound
+		var errComp *clientTypes.ErrNotFound
 		if errors.As(err, &errComp) {
 			tflog.Trace(ctx, "Team not found, probably already deleted manually, removing from state")
 			resp.State.RemoveResource(ctx)

@@ -35,12 +35,6 @@ fragment LocationScopedGrant on LocationScopedGrant {
   grant
 }
 
-query ListTeamPermissions {
-  teamPermissions {
-    ...TeamPermission
-  }
-}
-
 query ListTeams {
   teamPermissions {
     team {
@@ -78,5 +72,57 @@ mutation RenameTeam($name: String!, $teamId: String!) {
     }
     ...PythonError
     ...UnauthorizedError
+  }
+}
+
+query ListTeamPermissions {
+  teamPermissions {
+    ...TeamPermission
+  }
+}
+
+mutation CreateOrUpdateTeamPermission(
+  $deploymentId: Int
+  $deploymentScope: PermissionDeploymentScope!
+  $grant: PermissionGrant!
+  $locationGrants: [LocationScopedGrantInput]
+  $teamId: String!
+) {
+  createOrUpdateTeamPermission(
+    deploymentId: $deploymentId
+    deploymentScope: $deploymentScope
+    grant: $grant
+    locationGrants: $locationGrants
+    teamId: $teamId
+  ) {
+    ... on CreateOrUpdateTeamPermissionSuccess {
+      teamPermissions {
+        ...TeamPermission
+      }
+    }
+    ...PythonError
+    ...UnauthorizedError
+    ...UserLimitError
+  }
+}
+
+mutation RemoveTeamPermission(
+  $deploymentId: Int
+  $deploymentScope: PermissionDeploymentScope!
+  $teamId: String!
+) {
+  removeTeamPermission(
+    deploymentId: $deploymentId
+    deploymentScope: $deploymentScope
+    teamId: $teamId
+  ) {
+    ... on RemoveTeamPermissionSuccess {
+      teamPermissions {
+        ...TeamPermission
+      }
+    }
+    ...PythonError
+    ...UnauthorizedError
+    ...CantRemoveAllAdminsError
   }
 }
