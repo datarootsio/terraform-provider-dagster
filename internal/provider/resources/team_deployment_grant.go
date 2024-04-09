@@ -7,10 +7,12 @@ import (
 
 	"github.com/datarootsio/terraform-provider-dagster/internal/client"
 	clientTypes "github.com/datarootsio/terraform-provider-dagster/internal/client/types"
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
@@ -52,6 +54,9 @@ func (r *TeamDeploymentGrantResource) Schema(ctx context.Context, req resource.S
 			"grant": schema.StringAttribute{
 				MarkdownDescription: "Team Deployment Grant Grant",
 				Required:            true,
+				Validators: []validator.String{
+					stringvalidator.OneOf(clientTypes.GrantEnumValues()...),
+				},
 			},
 			"id": schema.Int64Attribute{
 				MarkdownDescription: "Team Deployment Grant Id",
