@@ -23,3 +23,8 @@ docs:
 	rm -rf ./docs/images
 	go generate ./...
 .PHONY: docs
+
+reflex:
+	@go install github.com/cespare/reflex@latest
+	reflex -r "\.graphql$$" -s -- sh -c "make build"
+.PHONY: reflex
