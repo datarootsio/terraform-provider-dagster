@@ -107,8 +107,9 @@ func (r *TeamResource) Read(ctx context.Context, req resource.ReadRequest, resp 
 		return
 	}
 
+	// We can import teams via Id or Name, so in that case both Id or Name could be null.
+	// If we just do a state refresh we fetch metadata via Id.
 	var team *clientSchema.Team
-	// We can import teams via Id or Name, handle both cases.
 	switch {
 	case !data.Id.IsNull():
 		teamResp, err := r.client.TeamsClient.GetTeamById(ctx, data.Id.ValueString())
@@ -139,7 +140,6 @@ func (r *TeamResource) Read(ctx context.Context, req resource.ReadRequest, resp 
 			"Both ID and Name are unset",
 			"This is a bug in the Terraform provider. Please report it to the maintainers.",
 		)
-
 		return
 	}
 
