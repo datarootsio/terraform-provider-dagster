@@ -32,10 +32,6 @@ provider "dagster" {
 
 data "dagster_current_deployment" "current" {}
 
-output "deployment_id" {
-  value = data.dagster_current_deployment.current.id
-}
-
-output "deployment_name" {
-  value = data.dagster_current_deployment.current.name
+output "deployment" {
+  value = data.dagster_current_deployment.current
 }

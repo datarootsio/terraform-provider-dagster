@@ -31,13 +31,10 @@ provider "dagster" {
 }
 
 resource "dagster_team" "example" {
-  name = "my_example_team_from_provider"
+  name = "my_example_team_from_provider_aaa"
 }
 
-output "team_id" {
-  value = dagster_team.example.id
+output "team" {
+  value = dagster_team.example
 }
 
-output "team_name" {
-  value = dagster_team.example.name
-}
