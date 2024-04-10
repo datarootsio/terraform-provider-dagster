@@ -13,7 +13,6 @@ var grantMap = map[string]schema.PermissionGrant{
 	"LAUNCHER": schema.PermissionGrantLauncher,
 	"EDITOR":   schema.PermissionGrantEditor,
 	"ADMIN":    schema.PermissionGrantAdmin,
-	"AGENT":    schema.PermissionGrantAgent,
 }
 
 func ConvertToGrantEnum(grant string) (schema.PermissionGrant, error) {

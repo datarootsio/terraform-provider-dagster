@@ -23,7 +23,14 @@ resource "dagster_team_deployment_grant" "example" {
   deployment_id = data.dagster_current_deployment.current.id
   team_id       = dagster_team.example.id
 
-  grant = "VIEWER" # One of ["LAUNCHER" "EDITOR" "ADMIN" "AGENT" "VIEWER"]
+  grant = "VIEWER" # One of ["LAUNCHER" "EDITOR" "ADMIN" "VIEWER"]
+
+  code_location_grants = [
+    {
+      name  = "example_code_location"
+      grant = "LAUNCHER" # One of ["LAUNCHER" "EDITOR" "ADMIN" "VIEWER"]
+    },
+  ]
 }
 ```
 
@@ -36,6 +43,18 @@ resource "dagster_team_deployment_grant" "example" {
 - `grant` (String) Team Deployment Grant Grant
 - `team_id` (String) Team Deployment Grant TeamId
 
+### Optional
+
+- `code_location_grants` (Attributes Set) (see [below for nested schema](#nestedatt--code_location_grants))
+
 ### Read-Only
 
 - `id` (Number) Team Deployment Grant Id
+
+<a id="nestedatt--code_location_grants"></a>
+### Nested Schema for `code_location_grants`
+
+Required:
+
+- `grant` (String) Code location Grant
+- `name` (String) Code location Name

@@ -162,30 +162,17 @@ func (c *TeamsClient) GetTeamDeploymentGrantByTeamAndDeploymentId(ctx context.Co
 	return schema.ScopedPermissionGrant{}, &types.ErrNotFound{What: "DeploymentGrant", Value: teamId}
 }
 
-func (c *TeamsClient) CreateOrUpdateTeamDeploymentGrant(ctx context.Context, teamId string, deploymentId int, grant schema.PermissionGrant) (schema.ScopedPermissionGrant, error) {
+func (c *TeamsClient) CreateOrUpdateTeamDeploymentGrant(ctx context.Context, teamId string, deploymentId int, grant schema.PermissionGrant, locationGrants []schema.LocationScopedGrant,
+) (schema.ScopedPermissionGrant, error) {
 	// TODO: check if team exists and check if deployment exists => to return specific errors
-	existingPermissionGrant, err := c.GetTeamDeploymentGrantByTeamAndDeploymentId(ctx, teamId, deploymentId)
+	locationGrantsInput := make([]schema.LocationScopedGrantInput, 0, len(locationGrants))
 
-	locationGrants := make([]schema.LocationScopedGrantInput, 0)
-
-	var errComp *types.ErrNotFound
-	if errors.As(err, &errComp) {
-		// TeamDeploymentGrant does not exist, initialize empty list
-		// Do nothing
-	} else if err != nil {
-		// error fetching GetTeamDeploymentGrantByTeamAndDeploymentId, return error
-		return schema.ScopedPermissionGrant{}, err
-	} else {
-		// exists, transform existing LocationScopedGrant into LocationScopedGrantInput
-		for _, locationGrant := range existingPermissionGrant.LocationGrants {
-			locationGrants = append(
-				locationGrants,
-				schema.LocationScopedGrantInput{
-					LocationName: locationGrant.LocationName,
-					Grant:        locationGrant.Grant,
-				},
-			)
-		}
+	for _, locationGrant := range locationGrants {
+		// TODO check if code location exists
+		locationGrantsInput = append(
+			locationGrantsInput,
+			schema.LocationScopedGrantInput(locationGrant),
+		)
 	}
 
 	resp, err := schema.CreateOrUpdateTeamPermission(
@@ -194,14 +181,14 @@ func (c *TeamsClient) CreateOrUpdateTeamDeploymentGrant(ctx context.Context, tea
 		deploymentId,
 		schema.PermissionDeploymentScopeDeployment,
 		grant,
-		locationGrants,
+		locationGrantsInput,
 		teamId,
 	)
 	if err != nil {
 		return schema.ScopedPermissionGrant{}, err
 	}
 
-	// At this point the DeploymentGrant should exist so fetch the last state from the API
+	// Get the Updated DeploymentGrant => Id changes every update
 	updatedPermissionGrant, err := c.GetTeamDeploymentGrantByTeamAndDeploymentId(ctx, teamId, deploymentId)
 	if err != nil {
 		return schema.ScopedPermissionGrant{}, err

@@ -6,6 +6,7 @@ import (
 	"fmt"
 
 	"github.com/datarootsio/terraform-provider-dagster/internal/client"
+	clientSchema "github.com/datarootsio/terraform-provider-dagster/internal/client/schema"
 	clientTypes "github.com/datarootsio/terraform-provider-dagster/internal/client/types"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -28,10 +29,11 @@ type TeamDeploymentGrantResource struct {
 }
 
 type TeamDeploymentGrantResourceModel struct {
-	DeploymentId types.Int64  `tfsdk:"deployment_id"`
-	TeamId       types.String `tfsdk:"team_id"`
-	Grant        types.String `tfsdk:"grant"`
-	Id           types.Int64  `tfsdk:"id"`
+	DeploymentId       types.Int64  `tfsdk:"deployment_id"`
+	TeamId             types.String `tfsdk:"team_id"`
+	Grant              types.String `tfsdk:"grant"`
+	CodeLocationGrants types.Set    `tfsdk:"code_location_grants"`
+	Id                 types.Int64  `tfsdk:"id"`
 }
 
 func (r *TeamDeploymentGrantResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -57,6 +59,24 @@ func (r *TeamDeploymentGrantResource) Schema(ctx context.Context, req resource.S
 				Validators: []validator.String{
 					stringvalidator.OneOf(clientTypes.GrantEnumValues()...),
 				},
+			},
+			"code_location_grants": schema.SetNestedAttribute{
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"name": schema.StringAttribute{
+							MarkdownDescription: "Code location Name",
+							Required:            true,
+						},
+						"grant": schema.StringAttribute{
+							MarkdownDescription: "Code location Grant",
+							Required:            true,
+							Validators: []validator.String{
+								stringvalidator.OneOf(clientTypes.GrantEnumValues()...),
+							},
+						},
+					},
+				},
+				Optional: true,
 			},
 			"id": schema.Int64Attribute{
 				MarkdownDescription: "Team Deployment Grant Id",
@@ -102,11 +122,35 @@ func (r *TeamDeploymentGrantResource) Create(ctx context.Context, req resource.C
 		return
 	}
 
+	codeLocationGrants := make([]clientSchema.LocationScopedGrant, 0)
+
+	if !data.CodeLocationGrants.IsNull() {
+		for _, codeLocationGrant := range data.CodeLocationGrants.Elements() {
+			codeLocationGrantObject := codeLocationGrant.(types.Object)
+			attributes := codeLocationGrantObject.Attributes()
+
+			grant, err := clientTypes.ConvertToGrantEnum(attributes["grant"].(types.String).ValueString())
+			if err != nil {
+				resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create team deployment grant, got error: %s", err))
+				return
+			}
+
+			codeLocationGrants = append(
+				codeLocationGrants,
+				clientSchema.LocationScopedGrant{
+					LocationName: attributes["name"].(types.String).ValueString(),
+					Grant:        grant,
+				},
+			)
+		}
+	}
+
 	teamDeploymentGrant, err := r.client.TeamsClient.CreateOrUpdateTeamDeploymentGrant(
 		ctx,
 		data.TeamId.ValueString(),
 		int(data.DeploymentId.ValueInt64()),
 		grantEnum,
+		codeLocationGrants,
 	)
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create team deployment grant, got error: %s", err))
@@ -169,11 +213,35 @@ func (r *TeamDeploymentGrantResource) Update(ctx context.Context, req resource.U
 		return
 	}
 
+	codeLocationGrants := make([]clientSchema.LocationScopedGrant, 0)
+
+	if !data.CodeLocationGrants.IsNull() {
+		for _, codeLocationGrant := range data.CodeLocationGrants.Elements() {
+			codeLocationGrantObject := codeLocationGrant.(types.Object)
+			attributes := codeLocationGrantObject.Attributes()
+
+			grant, err := clientTypes.ConvertToGrantEnum(attributes["grant"].(types.String).ValueString())
+			if err != nil {
+				resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create team deployment grant, got error: %s", err))
+				return
+			}
+
+			codeLocationGrants = append(
+				codeLocationGrants,
+				clientSchema.LocationScopedGrant{
+					LocationName: attributes["name"].(types.String).ValueString(),
+					Grant:        grant,
+				},
+			)
+		}
+	}
+
 	teamDeploymentGrant, err := r.client.TeamsClient.CreateOrUpdateTeamDeploymentGrant(
 		ctx,
 		data.TeamId.ValueString(),
 		int(data.DeploymentId.ValueInt64()),
 		grantEnum,
+		codeLocationGrants,
 	)
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create team deployment grant, got error: %s", err))

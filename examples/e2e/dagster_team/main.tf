@@ -40,15 +40,14 @@ resource "dagster_team_deployment_grant" "example" {
   deployment_id = data.dagster_current_deployment.current.id
   team_id       = dagster_team.example.id
 
-  grant = "LAUNCHER" # One of ["LAUNCHER" "EDITOR" "ADMIN" "AGENT" "VIEWER"]
+  grant = "VIEWER" # One of ["LAUNCHER" "EDITOR" "ADMIN" "VIEWER"]
 
-  # # https://developer.hashicorp.com/terraform/plugin/framework/handling-data/attributes/list-nested
-  # code_location_grants =  [
-  #   {
-  #     name  = "platform-testing-de/dagster-dbt-poc"
-  #     grant = "EDITOR" # One of ["LAUNCHER" "EDITOR" "ADMIN" "AGENT" "VIEWER"]
-  #   }
-  # ]
+  code_location_grants = [
+    {
+      name  = "example_code_location"
+      grant = "LAUNCHER" # One of ["LAUNCHER" "EDITOR" "ADMIN" "VIEWER"]
+    },
+  ]
 }
 
 output "team" {
