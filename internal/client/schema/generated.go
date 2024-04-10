@@ -10,6 +10,397 @@ import (
 	"github.com/Khan/genqlient/graphql"
 )
 
+// AddOrUpdateCodeLocationAddOrUpdateLocationAddOrUpdateLocationMutationResult includes the requested fields of the GraphQL interface AddOrUpdateLocationMutationResult.
+//
+// AddOrUpdateCodeLocationAddOrUpdateLocationAddOrUpdateLocationMutationResult is implemented by the following types:
+// AddOrUpdateCodeLocationAddOrUpdateLocationInvalidLocationError
+// AddOrUpdateCodeLocationAddOrUpdateLocationPythonError
+// AddOrUpdateCodeLocationAddOrUpdateLocationUnauthorizedError
+// AddOrUpdateCodeLocationAddOrUpdateLocationWorkspaceEntry
+type AddOrUpdateCodeLocationAddOrUpdateLocationAddOrUpdateLocationMutationResult interface {
+	implementsGraphQLInterfaceAddOrUpdateCodeLocationAddOrUpdateLocationAddOrUpdateLocationMutationResult()
+	// GetTypename returns the receiver's concrete GraphQL type-name (see interface doc for possible values).
+	GetTypename() string
+}
+
+func (v *AddOrUpdateCodeLocationAddOrUpdateLocationInvalidLocationError) implementsGraphQLInterfaceAddOrUpdateCodeLocationAddOrUpdateLocationAddOrUpdateLocationMutationResult() {
+}
+func (v *AddOrUpdateCodeLocationAddOrUpdateLocationPythonError) implementsGraphQLInterfaceAddOrUpdateCodeLocationAddOrUpdateLocationAddOrUpdateLocationMutationResult() {
+}
+func (v *AddOrUpdateCodeLocationAddOrUpdateLocationUnauthorizedError) implementsGraphQLInterfaceAddOrUpdateCodeLocationAddOrUpdateLocationAddOrUpdateLocationMutationResult() {
+}
+func (v *AddOrUpdateCodeLocationAddOrUpdateLocationWorkspaceEntry) implementsGraphQLInterfaceAddOrUpdateCodeLocationAddOrUpdateLocationAddOrUpdateLocationMutationResult() {
+}
+
+func __unmarshalAddOrUpdateCodeLocationAddOrUpdateLocationAddOrUpdateLocationMutationResult(b []byte, v *AddOrUpdateCodeLocationAddOrUpdateLocationAddOrUpdateLocationMutationResult) error {
+	if string(b) == "null" {
+		return nil
+	}
+
+	var tn struct {
+		TypeName string `json:"__typename"`
+	}
+	err := json.Unmarshal(b, &tn)
+	if err != nil {
+		return err
+	}
+
+	switch tn.TypeName {
+	case "InvalidLocationError":
+		*v = new(AddOrUpdateCodeLocationAddOrUpdateLocationInvalidLocationError)
+		return json.Unmarshal(b, *v)
+	case "PythonError":
+		*v = new(AddOrUpdateCodeLocationAddOrUpdateLocationPythonError)
+		return json.Unmarshal(b, *v)
+	case "UnauthorizedError":
+		*v = new(AddOrUpdateCodeLocationAddOrUpdateLocationUnauthorizedError)
+		return json.Unmarshal(b, *v)
+	case "WorkspaceEntry":
+		*v = new(AddOrUpdateCodeLocationAddOrUpdateLocationWorkspaceEntry)
+		return json.Unmarshal(b, *v)
+	case "":
+		return fmt.Errorf(
+			"response was missing AddOrUpdateLocationMutationResult.__typename")
+	default:
+		return fmt.Errorf(
+			`unexpected concrete type for AddOrUpdateCodeLocationAddOrUpdateLocationAddOrUpdateLocationMutationResult: "%v"`, tn.TypeName)
+	}
+}
+
+func __marshalAddOrUpdateCodeLocationAddOrUpdateLocationAddOrUpdateLocationMutationResult(v *AddOrUpdateCodeLocationAddOrUpdateLocationAddOrUpdateLocationMutationResult) ([]byte, error) {
+
+	var typename string
+	switch v := (*v).(type) {
+	case *AddOrUpdateCodeLocationAddOrUpdateLocationInvalidLocationError:
+		typename = "InvalidLocationError"
+
+		premarshaled, err := v.__premarshalJSON()
+		if err != nil {
+			return nil, err
+		}
+		result := struct {
+			TypeName string `json:"__typename"`
+			*__premarshalAddOrUpdateCodeLocationAddOrUpdateLocationInvalidLocationError
+		}{typename, premarshaled}
+		return json.Marshal(result)
+	case *AddOrUpdateCodeLocationAddOrUpdateLocationPythonError:
+		typename = "PythonError"
+
+		premarshaled, err := v.__premarshalJSON()
+		if err != nil {
+			return nil, err
+		}
+		result := struct {
+			TypeName string `json:"__typename"`
+			*__premarshalAddOrUpdateCodeLocationAddOrUpdateLocationPythonError
+		}{typename, premarshaled}
+		return json.Marshal(result)
+	case *AddOrUpdateCodeLocationAddOrUpdateLocationUnauthorizedError:
+		typename = "UnauthorizedError"
+
+		premarshaled, err := v.__premarshalJSON()
+		if err != nil {
+			return nil, err
+		}
+		result := struct {
+			TypeName string `json:"__typename"`
+			*__premarshalAddOrUpdateCodeLocationAddOrUpdateLocationUnauthorizedError
+		}{typename, premarshaled}
+		return json.Marshal(result)
+	case *AddOrUpdateCodeLocationAddOrUpdateLocationWorkspaceEntry:
+		typename = "WorkspaceEntry"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*AddOrUpdateCodeLocationAddOrUpdateLocationWorkspaceEntry
+		}{typename, v}
+		return json.Marshal(result)
+	case nil:
+		return []byte("null"), nil
+	default:
+		return nil, fmt.Errorf(
+			`unexpected concrete type for AddOrUpdateCodeLocationAddOrUpdateLocationAddOrUpdateLocationMutationResult: "%T"`, v)
+	}
+}
+
+// AddOrUpdateCodeLocationAddOrUpdateLocationInvalidLocationError includes the requested fields of the GraphQL type InvalidLocationError.
+type AddOrUpdateCodeLocationAddOrUpdateLocationInvalidLocationError struct {
+	Typename             string `json:"__typename"`
+	InvalidLocationError `json:"-"`
+}
+
+// GetTypename returns AddOrUpdateCodeLocationAddOrUpdateLocationInvalidLocationError.Typename, and is useful for accessing the field via an interface.
+func (v *AddOrUpdateCodeLocationAddOrUpdateLocationInvalidLocationError) GetTypename() string {
+	return v.Typename
+}
+
+// GetMessage returns AddOrUpdateCodeLocationAddOrUpdateLocationInvalidLocationError.Message, and is useful for accessing the field via an interface.
+func (v *AddOrUpdateCodeLocationAddOrUpdateLocationInvalidLocationError) GetMessage() string {
+	return v.InvalidLocationError.Message
+}
+
+func (v *AddOrUpdateCodeLocationAddOrUpdateLocationInvalidLocationError) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*AddOrUpdateCodeLocationAddOrUpdateLocationInvalidLocationError
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.AddOrUpdateCodeLocationAddOrUpdateLocationInvalidLocationError = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(
+		b, &v.InvalidLocationError)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+type __premarshalAddOrUpdateCodeLocationAddOrUpdateLocationInvalidLocationError struct {
+	Typename string `json:"__typename"`
+
+	Message string `json:"message"`
+}
+
+func (v *AddOrUpdateCodeLocationAddOrUpdateLocationInvalidLocationError) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *AddOrUpdateCodeLocationAddOrUpdateLocationInvalidLocationError) __premarshalJSON() (*__premarshalAddOrUpdateCodeLocationAddOrUpdateLocationInvalidLocationError, error) {
+	var retval __premarshalAddOrUpdateCodeLocationAddOrUpdateLocationInvalidLocationError
+
+	retval.Typename = v.Typename
+	retval.Message = v.InvalidLocationError.Message
+	return &retval, nil
+}
+
+// AddOrUpdateCodeLocationAddOrUpdateLocationPythonError includes the requested fields of the GraphQL type PythonError.
+type AddOrUpdateCodeLocationAddOrUpdateLocationPythonError struct {
+	Typename    string `json:"__typename"`
+	PythonError `json:"-"`
+}
+
+// GetTypename returns AddOrUpdateCodeLocationAddOrUpdateLocationPythonError.Typename, and is useful for accessing the field via an interface.
+func (v *AddOrUpdateCodeLocationAddOrUpdateLocationPythonError) GetTypename() string {
+	return v.Typename
+}
+
+// GetMessage returns AddOrUpdateCodeLocationAddOrUpdateLocationPythonError.Message, and is useful for accessing the field via an interface.
+func (v *AddOrUpdateCodeLocationAddOrUpdateLocationPythonError) GetMessage() string {
+	return v.PythonError.Message
+}
+
+func (v *AddOrUpdateCodeLocationAddOrUpdateLocationPythonError) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*AddOrUpdateCodeLocationAddOrUpdateLocationPythonError
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.AddOrUpdateCodeLocationAddOrUpdateLocationPythonError = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(
+		b, &v.PythonError)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+type __premarshalAddOrUpdateCodeLocationAddOrUpdateLocationPythonError struct {
+	Typename string `json:"__typename"`
+
+	Message string `json:"message"`
+}
+
+func (v *AddOrUpdateCodeLocationAddOrUpdateLocationPythonError) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *AddOrUpdateCodeLocationAddOrUpdateLocationPythonError) __premarshalJSON() (*__premarshalAddOrUpdateCodeLocationAddOrUpdateLocationPythonError, error) {
+	var retval __premarshalAddOrUpdateCodeLocationAddOrUpdateLocationPythonError
+
+	retval.Typename = v.Typename
+	retval.Message = v.PythonError.Message
+	return &retval, nil
+}
+
+// AddOrUpdateCodeLocationAddOrUpdateLocationUnauthorizedError includes the requested fields of the GraphQL type UnauthorizedError.
+type AddOrUpdateCodeLocationAddOrUpdateLocationUnauthorizedError struct {
+	Typename          string `json:"__typename"`
+	UnauthorizedError `json:"-"`
+}
+
+// GetTypename returns AddOrUpdateCodeLocationAddOrUpdateLocationUnauthorizedError.Typename, and is useful for accessing the field via an interface.
+func (v *AddOrUpdateCodeLocationAddOrUpdateLocationUnauthorizedError) GetTypename() string {
+	return v.Typename
+}
+
+// GetMessage returns AddOrUpdateCodeLocationAddOrUpdateLocationUnauthorizedError.Message, and is useful for accessing the field via an interface.
+func (v *AddOrUpdateCodeLocationAddOrUpdateLocationUnauthorizedError) GetMessage() string {
+	return v.UnauthorizedError.Message
+}
+
+func (v *AddOrUpdateCodeLocationAddOrUpdateLocationUnauthorizedError) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*AddOrUpdateCodeLocationAddOrUpdateLocationUnauthorizedError
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.AddOrUpdateCodeLocationAddOrUpdateLocationUnauthorizedError = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(
+		b, &v.UnauthorizedError)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+type __premarshalAddOrUpdateCodeLocationAddOrUpdateLocationUnauthorizedError struct {
+	Typename string `json:"__typename"`
+
+	Message string `json:"message"`
+}
+
+func (v *AddOrUpdateCodeLocationAddOrUpdateLocationUnauthorizedError) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *AddOrUpdateCodeLocationAddOrUpdateLocationUnauthorizedError) __premarshalJSON() (*__premarshalAddOrUpdateCodeLocationAddOrUpdateLocationUnauthorizedError, error) {
+	var retval __premarshalAddOrUpdateCodeLocationAddOrUpdateLocationUnauthorizedError
+
+	retval.Typename = v.Typename
+	retval.Message = v.UnauthorizedError.Message
+	return &retval, nil
+}
+
+// AddOrUpdateCodeLocationAddOrUpdateLocationWorkspaceEntry includes the requested fields of the GraphQL type WorkspaceEntry.
+type AddOrUpdateCodeLocationAddOrUpdateLocationWorkspaceEntry struct {
+	Typename     string `json:"__typename"`
+	LocationName string `json:"locationName"`
+}
+
+// GetTypename returns AddOrUpdateCodeLocationAddOrUpdateLocationWorkspaceEntry.Typename, and is useful for accessing the field via an interface.
+func (v *AddOrUpdateCodeLocationAddOrUpdateLocationWorkspaceEntry) GetTypename() string {
+	return v.Typename
+}
+
+// GetLocationName returns AddOrUpdateCodeLocationAddOrUpdateLocationWorkspaceEntry.LocationName, and is useful for accessing the field via an interface.
+func (v *AddOrUpdateCodeLocationAddOrUpdateLocationWorkspaceEntry) GetLocationName() string {
+	return v.LocationName
+}
+
+// AddOrUpdateCodeLocationResponse is returned by AddOrUpdateCodeLocation on success.
+type AddOrUpdateCodeLocationResponse struct {
+	AddOrUpdateLocation AddOrUpdateCodeLocationAddOrUpdateLocationAddOrUpdateLocationMutationResult `json:"-"`
+}
+
+// GetAddOrUpdateLocation returns AddOrUpdateCodeLocationResponse.AddOrUpdateLocation, and is useful for accessing the field via an interface.
+func (v *AddOrUpdateCodeLocationResponse) GetAddOrUpdateLocation() AddOrUpdateCodeLocationAddOrUpdateLocationAddOrUpdateLocationMutationResult {
+	return v.AddOrUpdateLocation
+}
+
+func (v *AddOrUpdateCodeLocationResponse) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*AddOrUpdateCodeLocationResponse
+		AddOrUpdateLocation json.RawMessage `json:"addOrUpdateLocation"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.AddOrUpdateCodeLocationResponse = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.AddOrUpdateLocation
+		src := firstPass.AddOrUpdateLocation
+		if len(src) != 0 && string(src) != "null" {
+			err = __unmarshalAddOrUpdateCodeLocationAddOrUpdateLocationAddOrUpdateLocationMutationResult(
+				src, dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal AddOrUpdateCodeLocationResponse.AddOrUpdateLocation: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalAddOrUpdateCodeLocationResponse struct {
+	AddOrUpdateLocation json.RawMessage `json:"addOrUpdateLocation"`
+}
+
+func (v *AddOrUpdateCodeLocationResponse) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *AddOrUpdateCodeLocationResponse) __premarshalJSON() (*__premarshalAddOrUpdateCodeLocationResponse, error) {
+	var retval __premarshalAddOrUpdateCodeLocationResponse
+
+	{
+
+		dst := &retval.AddOrUpdateLocation
+		src := v.AddOrUpdateLocation
+		var err error
+		*dst, err = __marshalAddOrUpdateCodeLocationAddOrUpdateLocationAddOrUpdateLocationMutationResult(
+			&src)
+		if err != nil {
+			return nil, fmt.Errorf(
+				"unable to marshal AddOrUpdateCodeLocationResponse.AddOrUpdateLocation: %w", err)
+		}
+	}
+	return &retval, nil
+}
+
 // AddUserAddUserToOrganizationAddUserToOrganizationMutationResult includes the requested fields of the GraphQL interface AddUserToOrganizationMutationResult.
 //
 // AddUserAddUserToOrganizationAddUserToOrganizationMutationResult is implemented by the following types:
@@ -1334,6 +1725,312 @@ func (v *CreateTeamResponse) __premarshalJSON() (*__premarshalCreateTeamResponse
 	return &retval, nil
 }
 
+// DeleteCodeLocationDeleteLocationDeleteLocationMutationResult includes the requested fields of the GraphQL interface DeleteLocationMutationResult.
+//
+// DeleteCodeLocationDeleteLocationDeleteLocationMutationResult is implemented by the following types:
+// DeleteCodeLocationDeleteLocationDeleteLocationSuccess
+// DeleteCodeLocationDeleteLocationPythonError
+// DeleteCodeLocationDeleteLocationUnauthorizedError
+type DeleteCodeLocationDeleteLocationDeleteLocationMutationResult interface {
+	implementsGraphQLInterfaceDeleteCodeLocationDeleteLocationDeleteLocationMutationResult()
+	// GetTypename returns the receiver's concrete GraphQL type-name (see interface doc for possible values).
+	GetTypename() string
+}
+
+func (v *DeleteCodeLocationDeleteLocationDeleteLocationSuccess) implementsGraphQLInterfaceDeleteCodeLocationDeleteLocationDeleteLocationMutationResult() {
+}
+func (v *DeleteCodeLocationDeleteLocationPythonError) implementsGraphQLInterfaceDeleteCodeLocationDeleteLocationDeleteLocationMutationResult() {
+}
+func (v *DeleteCodeLocationDeleteLocationUnauthorizedError) implementsGraphQLInterfaceDeleteCodeLocationDeleteLocationDeleteLocationMutationResult() {
+}
+
+func __unmarshalDeleteCodeLocationDeleteLocationDeleteLocationMutationResult(b []byte, v *DeleteCodeLocationDeleteLocationDeleteLocationMutationResult) error {
+	if string(b) == "null" {
+		return nil
+	}
+
+	var tn struct {
+		TypeName string `json:"__typename"`
+	}
+	err := json.Unmarshal(b, &tn)
+	if err != nil {
+		return err
+	}
+
+	switch tn.TypeName {
+	case "DeleteLocationSuccess":
+		*v = new(DeleteCodeLocationDeleteLocationDeleteLocationSuccess)
+		return json.Unmarshal(b, *v)
+	case "PythonError":
+		*v = new(DeleteCodeLocationDeleteLocationPythonError)
+		return json.Unmarshal(b, *v)
+	case "UnauthorizedError":
+		*v = new(DeleteCodeLocationDeleteLocationUnauthorizedError)
+		return json.Unmarshal(b, *v)
+	case "":
+		return fmt.Errorf(
+			"response was missing DeleteLocationMutationResult.__typename")
+	default:
+		return fmt.Errorf(
+			`unexpected concrete type for DeleteCodeLocationDeleteLocationDeleteLocationMutationResult: "%v"`, tn.TypeName)
+	}
+}
+
+func __marshalDeleteCodeLocationDeleteLocationDeleteLocationMutationResult(v *DeleteCodeLocationDeleteLocationDeleteLocationMutationResult) ([]byte, error) {
+
+	var typename string
+	switch v := (*v).(type) {
+	case *DeleteCodeLocationDeleteLocationDeleteLocationSuccess:
+		typename = "DeleteLocationSuccess"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*DeleteCodeLocationDeleteLocationDeleteLocationSuccess
+		}{typename, v}
+		return json.Marshal(result)
+	case *DeleteCodeLocationDeleteLocationPythonError:
+		typename = "PythonError"
+
+		premarshaled, err := v.__premarshalJSON()
+		if err != nil {
+			return nil, err
+		}
+		result := struct {
+			TypeName string `json:"__typename"`
+			*__premarshalDeleteCodeLocationDeleteLocationPythonError
+		}{typename, premarshaled}
+		return json.Marshal(result)
+	case *DeleteCodeLocationDeleteLocationUnauthorizedError:
+		typename = "UnauthorizedError"
+
+		premarshaled, err := v.__premarshalJSON()
+		if err != nil {
+			return nil, err
+		}
+		result := struct {
+			TypeName string `json:"__typename"`
+			*__premarshalDeleteCodeLocationDeleteLocationUnauthorizedError
+		}{typename, premarshaled}
+		return json.Marshal(result)
+	case nil:
+		return []byte("null"), nil
+	default:
+		return nil, fmt.Errorf(
+			`unexpected concrete type for DeleteCodeLocationDeleteLocationDeleteLocationMutationResult: "%T"`, v)
+	}
+}
+
+// DeleteCodeLocationDeleteLocationDeleteLocationSuccess includes the requested fields of the GraphQL type DeleteLocationSuccess.
+type DeleteCodeLocationDeleteLocationDeleteLocationSuccess struct {
+	Typename     string `json:"__typename"`
+	LocationName string `json:"locationName"`
+}
+
+// GetTypename returns DeleteCodeLocationDeleteLocationDeleteLocationSuccess.Typename, and is useful for accessing the field via an interface.
+func (v *DeleteCodeLocationDeleteLocationDeleteLocationSuccess) GetTypename() string {
+	return v.Typename
+}
+
+// GetLocationName returns DeleteCodeLocationDeleteLocationDeleteLocationSuccess.LocationName, and is useful for accessing the field via an interface.
+func (v *DeleteCodeLocationDeleteLocationDeleteLocationSuccess) GetLocationName() string {
+	return v.LocationName
+}
+
+// DeleteCodeLocationDeleteLocationPythonError includes the requested fields of the GraphQL type PythonError.
+type DeleteCodeLocationDeleteLocationPythonError struct {
+	Typename    string `json:"__typename"`
+	PythonError `json:"-"`
+}
+
+// GetTypename returns DeleteCodeLocationDeleteLocationPythonError.Typename, and is useful for accessing the field via an interface.
+func (v *DeleteCodeLocationDeleteLocationPythonError) GetTypename() string { return v.Typename }
+
+// GetMessage returns DeleteCodeLocationDeleteLocationPythonError.Message, and is useful for accessing the field via an interface.
+func (v *DeleteCodeLocationDeleteLocationPythonError) GetMessage() string {
+	return v.PythonError.Message
+}
+
+func (v *DeleteCodeLocationDeleteLocationPythonError) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*DeleteCodeLocationDeleteLocationPythonError
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.DeleteCodeLocationDeleteLocationPythonError = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(
+		b, &v.PythonError)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+type __premarshalDeleteCodeLocationDeleteLocationPythonError struct {
+	Typename string `json:"__typename"`
+
+	Message string `json:"message"`
+}
+
+func (v *DeleteCodeLocationDeleteLocationPythonError) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *DeleteCodeLocationDeleteLocationPythonError) __premarshalJSON() (*__premarshalDeleteCodeLocationDeleteLocationPythonError, error) {
+	var retval __premarshalDeleteCodeLocationDeleteLocationPythonError
+
+	retval.Typename = v.Typename
+	retval.Message = v.PythonError.Message
+	return &retval, nil
+}
+
+// DeleteCodeLocationDeleteLocationUnauthorizedError includes the requested fields of the GraphQL type UnauthorizedError.
+type DeleteCodeLocationDeleteLocationUnauthorizedError struct {
+	Typename          string `json:"__typename"`
+	UnauthorizedError `json:"-"`
+}
+
+// GetTypename returns DeleteCodeLocationDeleteLocationUnauthorizedError.Typename, and is useful for accessing the field via an interface.
+func (v *DeleteCodeLocationDeleteLocationUnauthorizedError) GetTypename() string { return v.Typename }
+
+// GetMessage returns DeleteCodeLocationDeleteLocationUnauthorizedError.Message, and is useful for accessing the field via an interface.
+func (v *DeleteCodeLocationDeleteLocationUnauthorizedError) GetMessage() string {
+	return v.UnauthorizedError.Message
+}
+
+func (v *DeleteCodeLocationDeleteLocationUnauthorizedError) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*DeleteCodeLocationDeleteLocationUnauthorizedError
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.DeleteCodeLocationDeleteLocationUnauthorizedError = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(
+		b, &v.UnauthorizedError)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+type __premarshalDeleteCodeLocationDeleteLocationUnauthorizedError struct {
+	Typename string `json:"__typename"`
+
+	Message string `json:"message"`
+}
+
+func (v *DeleteCodeLocationDeleteLocationUnauthorizedError) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *DeleteCodeLocationDeleteLocationUnauthorizedError) __premarshalJSON() (*__premarshalDeleteCodeLocationDeleteLocationUnauthorizedError, error) {
+	var retval __premarshalDeleteCodeLocationDeleteLocationUnauthorizedError
+
+	retval.Typename = v.Typename
+	retval.Message = v.UnauthorizedError.Message
+	return &retval, nil
+}
+
+// DeleteCodeLocationResponse is returned by DeleteCodeLocation on success.
+type DeleteCodeLocationResponse struct {
+	DeleteLocation DeleteCodeLocationDeleteLocationDeleteLocationMutationResult `json:"-"`
+}
+
+// GetDeleteLocation returns DeleteCodeLocationResponse.DeleteLocation, and is useful for accessing the field via an interface.
+func (v *DeleteCodeLocationResponse) GetDeleteLocation() DeleteCodeLocationDeleteLocationDeleteLocationMutationResult {
+	return v.DeleteLocation
+}
+
+func (v *DeleteCodeLocationResponse) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*DeleteCodeLocationResponse
+		DeleteLocation json.RawMessage `json:"deleteLocation"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.DeleteCodeLocationResponse = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.DeleteLocation
+		src := firstPass.DeleteLocation
+		if len(src) != 0 && string(src) != "null" {
+			err = __unmarshalDeleteCodeLocationDeleteLocationDeleteLocationMutationResult(
+				src, dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal DeleteCodeLocationResponse.DeleteLocation: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalDeleteCodeLocationResponse struct {
+	DeleteLocation json.RawMessage `json:"deleteLocation"`
+}
+
+func (v *DeleteCodeLocationResponse) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *DeleteCodeLocationResponse) __premarshalJSON() (*__premarshalDeleteCodeLocationResponse, error) {
+	var retval __premarshalDeleteCodeLocationResponse
+
+	{
+
+		dst := &retval.DeleteLocation
+		src := v.DeleteLocation
+		var err error
+		*dst, err = __marshalDeleteCodeLocationDeleteLocationDeleteLocationMutationResult(
+			&src)
+		if err != nil {
+			return nil, fmt.Errorf(
+				"unable to marshal DeleteCodeLocationResponse.DeleteLocation: %w", err)
+		}
+	}
+	return &retval, nil
+}
+
 // DeleteTeamDeleteTeamDeleteTeamMutationResult includes the requested fields of the GraphQL interface DeleteTeamMutationResult.
 //
 // DeleteTeamDeleteTeamDeleteTeamMutationResult is implemented by the following types:
@@ -2108,6 +2805,32 @@ func (v *GetUsersUsersOrErrorUnauthorizedError) __premarshalJSON() (*__premarsha
 	return &retval, nil
 }
 
+// InvalidLocationError includes the GraphQL fields of InvalidLocationError requested by the fragment InvalidLocationError.
+type InvalidLocationError struct {
+	Message string `json:"message"`
+}
+
+// GetMessage returns InvalidLocationError.Message, and is useful for accessing the field via an interface.
+func (v *InvalidLocationError) GetMessage() string { return v.Message }
+
+// ListCodeLocationsLocationsAsDocument includes the requested fields of the GraphQL type LocationsAsDocument.
+type ListCodeLocationsLocationsAsDocument struct {
+	Document json.RawMessage `json:"document"`
+}
+
+// GetDocument returns ListCodeLocationsLocationsAsDocument.Document, and is useful for accessing the field via an interface.
+func (v *ListCodeLocationsLocationsAsDocument) GetDocument() json.RawMessage { return v.Document }
+
+// ListCodeLocationsResponse is returned by ListCodeLocations on success.
+type ListCodeLocationsResponse struct {
+	LocationsAsDocument ListCodeLocationsLocationsAsDocument `json:"locationsAsDocument"`
+}
+
+// GetLocationsAsDocument returns ListCodeLocationsResponse.LocationsAsDocument, and is useful for accessing the field via an interface.
+func (v *ListCodeLocationsResponse) GetLocationsAsDocument() ListCodeLocationsLocationsAsDocument {
+	return v.LocationsAsDocument
+}
+
 // ListTeamPermissionsResponse is returned by ListTeamPermissions on success.
 type ListTeamPermissionsResponse struct {
 	TeamPermissions []ListTeamPermissionsTeamPermissionsDagsterCloudTeamPermissions `json:"teamPermissions"`
@@ -2308,6 +3031,53 @@ func (v *LocationScopedGrantInput) GetLocationName() string { return v.LocationN
 
 // GetGrant returns LocationScopedGrantInput.Grant, and is useful for accessing the field via an interface.
 func (v *LocationScopedGrantInput) GetGrant() PermissionGrant { return v.Grant }
+
+type LocationSelector struct {
+	Name             string `json:"name"`
+	Image            string `json:"image"`
+	PythonFile       string `json:"pythonFile"`
+	PackageName      string `json:"packageName"`
+	ModuleName       string `json:"moduleName"`
+	WorkingDirectory string `json:"workingDirectory"`
+	ExecutablePath   string `json:"executablePath"`
+	Attribute        string `json:"attribute"`
+	CommitHash       string `json:"commitHash"`
+	Url              string `json:"url"`
+	AgentQueue       string `json:"agentQueue"`
+}
+
+// GetName returns LocationSelector.Name, and is useful for accessing the field via an interface.
+func (v *LocationSelector) GetName() string { return v.Name }
+
+// GetImage returns LocationSelector.Image, and is useful for accessing the field via an interface.
+func (v *LocationSelector) GetImage() string { return v.Image }
+
+// GetPythonFile returns LocationSelector.PythonFile, and is useful for accessing the field via an interface.
+func (v *LocationSelector) GetPythonFile() string { return v.PythonFile }
+
+// GetPackageName returns LocationSelector.PackageName, and is useful for accessing the field via an interface.
+func (v *LocationSelector) GetPackageName() string { return v.PackageName }
+
+// GetModuleName returns LocationSelector.ModuleName, and is useful for accessing the field via an interface.
+func (v *LocationSelector) GetModuleName() string { return v.ModuleName }
+
+// GetWorkingDirectory returns LocationSelector.WorkingDirectory, and is useful for accessing the field via an interface.
+func (v *LocationSelector) GetWorkingDirectory() string { return v.WorkingDirectory }
+
+// GetExecutablePath returns LocationSelector.ExecutablePath, and is useful for accessing the field via an interface.
+func (v *LocationSelector) GetExecutablePath() string { return v.ExecutablePath }
+
+// GetAttribute returns LocationSelector.Attribute, and is useful for accessing the field via an interface.
+func (v *LocationSelector) GetAttribute() string { return v.Attribute }
+
+// GetCommitHash returns LocationSelector.CommitHash, and is useful for accessing the field via an interface.
+func (v *LocationSelector) GetCommitHash() string { return v.CommitHash }
+
+// GetUrl returns LocationSelector.Url, and is useful for accessing the field via an interface.
+func (v *LocationSelector) GetUrl() string { return v.Url }
+
+// GetAgentQueue returns LocationSelector.AgentQueue, and is useful for accessing the field via an interface.
+func (v *LocationSelector) GetAgentQueue() string { return v.AgentQueue }
 
 type PermissionDeploymentScope string
 
@@ -4462,6 +5232,14 @@ func (v *UserPermissionUserDagsterCloudUser) __premarshalJSON() (*__premarshalUs
 	return &retval, nil
 }
 
+// __AddOrUpdateCodeLocationInput is used internally by genqlient
+type __AddOrUpdateCodeLocationInput struct {
+	Location LocationSelector `json:"location"`
+}
+
+// GetLocation returns __AddOrUpdateCodeLocationInput.Location, and is useful for accessing the field via an interface.
+func (v *__AddOrUpdateCodeLocationInput) GetLocation() LocationSelector { return v.Location }
+
 // __AddUserInput is used internally by genqlient
 type __AddUserInput struct {
 	Email string `json:"email"`
@@ -4505,6 +5283,14 @@ type __CreateTeamInput struct {
 
 // GetName returns __CreateTeamInput.Name, and is useful for accessing the field via an interface.
 func (v *__CreateTeamInput) GetName() string { return v.Name }
+
+// __DeleteCodeLocationInput is used internally by genqlient
+type __DeleteCodeLocationInput struct {
+	Name string `json:"name"`
+}
+
+// GetName returns __DeleteCodeLocationInput.Name, and is useful for accessing the field via an interface.
+func (v *__DeleteCodeLocationInput) GetName() string { return v.Name }
 
 // __DeleteTeamInput is used internally by genqlient
 type __DeleteTeamInput struct {
@@ -4551,6 +5337,56 @@ func (v *__RenameTeamInput) GetName() string { return v.Name }
 
 // GetTeamId returns __RenameTeamInput.TeamId, and is useful for accessing the field via an interface.
 func (v *__RenameTeamInput) GetTeamId() string { return v.TeamId }
+
+// The query or mutation executed by AddOrUpdateCodeLocation.
+const AddOrUpdateCodeLocation_Operation = `
+mutation AddOrUpdateCodeLocation ($location: LocationSelector!) {
+	addOrUpdateLocation(location: $location) {
+		__typename
+		... on WorkspaceEntry {
+			locationName
+		}
+		... PythonError
+		... InvalidLocationError
+		... UnauthorizedError
+	}
+}
+fragment PythonError on PythonError {
+	message
+}
+fragment InvalidLocationError on InvalidLocationError {
+	message
+}
+fragment UnauthorizedError on UnauthorizedError {
+	message
+}
+`
+
+func AddOrUpdateCodeLocation(
+	ctx_ context.Context,
+	client_ graphql.Client,
+	location LocationSelector,
+) (*AddOrUpdateCodeLocationResponse, error) {
+	req_ := &graphql.Request{
+		OpName: "AddOrUpdateCodeLocation",
+		Query:  AddOrUpdateCodeLocation_Operation,
+		Variables: &__AddOrUpdateCodeLocationInput{
+			Location: location,
+		},
+	}
+	var err_ error
+
+	var data_ AddOrUpdateCodeLocationResponse
+	resp_ := &graphql.Response{Data: &data_}
+
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
+	)
+
+	return &data_, err_
+}
 
 // The query or mutation executed by AddUser.
 const AddUser_Operation = `
@@ -4786,6 +5622,52 @@ func CreateTeam(
 	return &data_, err_
 }
 
+// The query or mutation executed by DeleteCodeLocation.
+const DeleteCodeLocation_Operation = `
+mutation DeleteCodeLocation ($name: String!) {
+	deleteLocation(locationName: $name) {
+		__typename
+		... on DeleteLocationSuccess {
+			locationName
+		}
+		... PythonError
+		... UnauthorizedError
+	}
+}
+fragment PythonError on PythonError {
+	message
+}
+fragment UnauthorizedError on UnauthorizedError {
+	message
+}
+`
+
+func DeleteCodeLocation(
+	ctx_ context.Context,
+	client_ graphql.Client,
+	name string,
+) (*DeleteCodeLocationResponse, error) {
+	req_ := &graphql.Request{
+		OpName: "DeleteCodeLocation",
+		Query:  DeleteCodeLocation_Operation,
+		Variables: &__DeleteCodeLocationInput{
+			Name: name,
+		},
+	}
+	var err_ error
+
+	var data_ DeleteCodeLocationResponse
+	resp_ := &graphql.Response{Data: &data_}
+
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
+	)
+
+	return &data_, err_
+}
+
 // The query or mutation executed by DeleteTeam.
 const DeleteTeam_Operation = `
 mutation DeleteTeam ($teamId: String!) {
@@ -4936,6 +5818,37 @@ func GetUsers(
 	var err_ error
 
 	var data_ GetUsersResponse
+	resp_ := &graphql.Response{Data: &data_}
+
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
+	)
+
+	return &data_, err_
+}
+
+// The query or mutation executed by ListCodeLocations.
+const ListCodeLocations_Operation = `
+query ListCodeLocations {
+	locationsAsDocument {
+		document
+	}
+}
+`
+
+func ListCodeLocations(
+	ctx_ context.Context,
+	client_ graphql.Client,
+) (*ListCodeLocationsResponse, error) {
+	req_ := &graphql.Request{
+		OpName: "ListCodeLocations",
+		Query:  ListCodeLocations_Operation,
+	}
+	var err_ error
+
+	var data_ ListCodeLocationsResponse
 	resp_ := &graphql.Response{Data: &data_}
 
 	err_ = client_.MakeRequest(

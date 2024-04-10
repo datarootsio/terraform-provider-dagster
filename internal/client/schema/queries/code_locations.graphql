@@ -1,0 +1,26 @@
+query ListCodeLocations {
+  locationsAsDocument {
+    document
+  }
+}
+
+mutation AddOrUpdateCodeLocation($location: LocationSelector!) {
+  addOrUpdateLocation(location: $location) {
+    ... on WorkspaceEntry {
+      locationName
+    }
+    ...PythonError
+    ...InvalidLocationError
+    ...UnauthorizedError
+  }
+}
+
+mutation DeleteCodeLocation($name: String!) {
+  deleteLocation(locationName: $name) {
+    ... on DeleteLocationSuccess {
+      locationName
+    }
+    ...PythonError
+    ...UnauthorizedError
+  }
+}
