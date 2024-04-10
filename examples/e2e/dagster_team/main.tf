@@ -41,6 +41,11 @@ resource "dagster_team_deployment_grant" "example" {
   team_id       = dagster_team.example.id
 
   grant = "EDITOR" # One of ["LAUNCHER" "EDITOR" "ADMIN" "AGENT" "VIEWER"]
+
+  code_location_grant {
+    name  = "platform-testing-de/dagster-dbt-poc"
+    grant = "EDITOR" # One of ["LAUNCHER" "EDITOR" "ADMIN" "AGENT" "VIEWER"]
+  }
 }
 
 output "team" {
