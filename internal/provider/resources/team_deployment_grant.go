@@ -57,7 +57,7 @@ func (r *TeamDeploymentGrantResource) Schema(ctx context.Context, req resource.S
 				MarkdownDescription: "Team Deployment Grant Grant",
 				Required:            true,
 				Validators: []validator.String{
-					stringvalidator.OneOf(clientTypes.GrantEnumValues()...),
+					stringvalidator.OneOf(clientTypes.DeploymentGrantEnumValues()...),
 				},
 			},
 			"code_location_grants": schema.SetNestedAttribute{
@@ -71,7 +71,7 @@ func (r *TeamDeploymentGrantResource) Schema(ctx context.Context, req resource.S
 							MarkdownDescription: "Code location Grant",
 							Required:            true,
 							Validators: []validator.String{
-								stringvalidator.OneOf(clientTypes.GrantEnumValues()...),
+								stringvalidator.OneOf(clientTypes.LocationGrantEnumValues()...),
 							},
 						},
 					},

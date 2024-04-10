@@ -5,7 +5,6 @@ import (
 	"strings"
 
 	"github.com/datarootsio/terraform-provider-dagster/internal/client/schema"
-	"golang.org/x/exp/maps"
 )
 
 var grantMap = map[string]schema.PermissionGrant{
@@ -24,6 +23,10 @@ func ConvertToGrantEnum(grant string) (schema.PermissionGrant, error) {
 	return enum, nil
 }
 
-func GrantEnumValues() []string {
-	return maps.Keys(grantMap)
+func DeploymentGrantEnumValues() []string {
+	return []string{"VIEWER", "LAUNCHER", "EDITOR", "ADMIN"}
+}
+
+func LocationGrantEnumValues() []string {
+	return []string{"LAUNCHER", "EDITOR", "ADMIN"}
 }

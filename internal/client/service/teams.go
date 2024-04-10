@@ -162,9 +162,9 @@ func (c *TeamsClient) GetTeamDeploymentGrantByTeamAndDeploymentId(ctx context.Co
 	return schema.ScopedPermissionGrant{}, &types.ErrNotFound{What: "DeploymentGrant", Value: teamId}
 }
 
-func (c *TeamsClient) CreateOrUpdateTeamDeploymentGrant(ctx context.Context, teamId string, deploymentId int, grant schema.PermissionGrant, locationGrants []schema.LocationScopedGrant,
-) (schema.ScopedPermissionGrant, error) {
+func (c *TeamsClient) CreateOrUpdateTeamDeploymentGrant(ctx context.Context, teamId string, deploymentId int, grant schema.PermissionGrant, locationGrants []schema.LocationScopedGrant) (schema.ScopedPermissionGrant, error) {
 	// TODO: check if team exists and check if deployment exists => to return specific errors
+	// TODO: validate sure grant >= location grant and location grant cant be viewer or agent
 	locationGrantsInput := make([]schema.LocationScopedGrantInput, 0, len(locationGrants))
 
 	for _, locationGrant := range locationGrants {
