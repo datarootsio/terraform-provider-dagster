@@ -6,6 +6,7 @@ import (
 
 	"github.com/datarootsio/terraform-provider-dagster/internal/client"
 	"github.com/datarootsio/terraform-provider-dagster/internal/provider/datasources"
+	"github.com/datarootsio/terraform-provider-dagster/internal/provider/resources"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/provider"
@@ -134,5 +135,8 @@ func (p *DagsterProvider) DataSources(_ context.Context) []func() datasource.Dat
 
 // Resources defines the resources implemented in the provider.
 func (p *DagsterProvider) Resources(_ context.Context) []func() resource.Resource {
-	return []func() resource.Resource{}
+	return []func() resource.Resource{
+		resources.NewTeamResource,
+		resources.NewTeamDeploymentGrantResource,
+	}
 }

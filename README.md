@@ -12,6 +12,7 @@ Terraform provider to manage dagster cloud resources.
 - [ ] deployment / deployment settings
 - [ ] precommit + air
 - [ ] release to terraform provider registry
+- [ ] configure provider with env vars
 
 ## Useful links
 - gql code gen: https://github.com/Khan/genqlient & https://github.com/Khan/genqlient/blob/main/docs/introduction.md
