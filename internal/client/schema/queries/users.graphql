@@ -1,0 +1,60 @@
+fragment User on DagsterCloudUser {
+  userId
+  email
+  name
+  picture
+  isScimProvisioned
+}
+
+fragment UserPermission on DagsterCloudUserWithScopedPermissionGrants {
+  id
+  user {
+    ...User
+  }
+  organizationPermissionGrant {
+    ...ScopedPermissionGrant
+  }
+  allBranchDeploymentsPermissionGrant {
+    ...ScopedPermissionGrant
+  }
+  deploymentPermissionGrants {
+    ...ScopedPermissionGrant
+  }
+}
+
+query GetUsers {
+  usersOrError {
+    ... on DagsterCloudUsersWithScopedPermissionGrants {
+      users {
+        ...UserPermission
+      }
+    }
+    ...UnauthorizedError
+    ...PythonError
+  }
+}
+
+mutation RemoveUser($email: String!) {
+  removeUserFromOrganization(email: $email) {
+    ... on RemoveUserFromOrganizationSuccess {
+      email
+    }
+    ...PythonError
+    ...UnauthorizedError
+    ...CantRemoveAllAdminsError
+  }
+}
+
+mutation AddUser($email: String!) {
+  addUserToOrganization(email: $email) {
+    ... on AddUserToOrganizationSuccess {
+      email
+      userWithGrants {
+        ...UserPermission
+      }
+    }
+    ...PythonError
+    ...UnauthorizedError
+    ...UserLimitError
+  }
+}
