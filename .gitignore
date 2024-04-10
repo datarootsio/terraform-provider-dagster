@@ -58,3 +58,5 @@ override.tf.json
 terraform.rc
 
 build/
+
+.vscode/
