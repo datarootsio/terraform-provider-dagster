@@ -62,7 +62,7 @@ func (r *TeamDeploymentGrantResource) Schema(ctx context.Context, req resource.S
 				MarkdownDescription: "Team Deployment Grant Id",
 				Computed:            true,
 				PlanModifiers: []planmodifier.Int64{
-					int64planmodifier.UseStateForUnknown(),
+					int64planmodifier.RequiresReplace(),
 				},
 			},
 		},
@@ -129,7 +129,7 @@ func (r *TeamDeploymentGrantResource) Read(ctx context.Context, req resource.Rea
 		return
 	}
 
-	teamDeploymentGrant, err := r.client.TeamsClient.GetTeamDeploymentGrant(
+	teamDeploymentGrant, err := r.client.TeamsClient.GetTeamDeploymentGrantByTeamAndDeploymentId(
 		ctx,
 		data.TeamId.ValueString(),
 		int(data.DeploymentId.ValueInt64()),
@@ -181,6 +181,7 @@ func (r *TeamDeploymentGrantResource) Update(ctx context.Context, req resource.U
 	}
 
 	data.Grant = types.StringValue(string(teamDeploymentGrant.Grant))
+	data.Id = types.Int64Value(int64(teamDeploymentGrant.Id))
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }

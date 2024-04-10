@@ -40,18 +40,15 @@ resource "dagster_team_deployment_grant" "example" {
   deployment_id = data.dagster_current_deployment.current.id
   team_id       = dagster_team.example.id
 
-  grant = "VIEWER" # One of ["LAUNCHER" "EDITOR" "ADMIN" "AGENT" "VIEWER"]
+  grant = "EDITOR" # One of ["LAUNCHER" "EDITOR" "ADMIN" "AGENT" "VIEWER"]
 }
-
-# resource "dagster_team_code_location_grant" "example" {
-#   deployment_id      = data.dagster_current_deployment.current.id
-#   team_id            = dagster_team.example.id
-#   code_location_name = "platform-testing-de/dagster-dbt-poc"
-
-#   grant = "VIEWER" # One of ["LAUNCHER" "EDITOR" "ADMIN" "AGENT" "VIEWER"]
-# }
 
 output "team" {
   value = dagster_team.example
 }
+
+output "team_deployment_grant" {
+  value = dagster_team_deployment_grant.example
+}
+
 
