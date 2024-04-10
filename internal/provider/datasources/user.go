@@ -101,7 +101,6 @@ func (d *UserDataSource) Read(ctx context.Context, req datasource.ReadRequest, r
 	user, err := d.client.UsersClient.GetUserByEmail(ctx, data.Email.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to get user information, got error: %s", err))
-
 		return
 	}
 

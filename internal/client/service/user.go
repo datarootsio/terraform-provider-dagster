@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/Khan/genqlient/graphql"
 	"github.com/datarootsio/terraform-provider-dagster/internal/client/schema"
@@ -32,7 +33,7 @@ func (c UsersClient) GetUserByEmail(ctx context.Context, email string) (schema.U
 		}
 	}
 
-	return schema.User{}, &types.ErrNotFound{What: "User", Key: email, Value: email}
+	return schema.User{}, &types.ErrNotFound{What: "User", Key: "email", Value: email}
 }
 
 // AddUser adds a user (identified by an email address) and returns the new user
@@ -42,23 +43,18 @@ func (c UsersClient) AddUser(ctx context.Context, email string) (schema.User, er
 		return schema.User{}, err
 	}
 
-	response := (*resp).AddUserToOrganization
-	responseName := response.GetTypename()
-
-	var errorMsg string
-
-	if responseName == "AddUserToOrganizationSuccess" {
-		user := response.(*schema.AddUserAddUserToOrganizationAddUserToOrganizationSuccess).UserWithGrants.User.User
-		return user, nil
-	} else if responseName == "PythonError" {
-		errorMsg = response.(*schema.AddUserAddUserToOrganizationPythonError).Message
-	} else if responseName == "UnauthorizedError" {
-		errorMsg = response.(*schema.AddUserAddUserToOrganizationUnauthorizedError).Message
-	} else if responseName == "UserLimitError" {
-		errorMsg = response.(*schema.AddUserAddUserToOrganizationUserLimitError).Message
+	switch respCast := resp.AddUserToOrganization.(type) {
+	case *schema.AddUserAddUserToOrganizationAddUserToOrganizationSuccess:
+		return respCast.UserWithGrants.User.User, nil
+	case *schema.AddUserAddUserToOrganizationPythonError:
+		return schema.User{}, &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
+	case *schema.AddUserAddUserToOrganizationUnauthorizedError:
+		return schema.User{}, &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
+	case *schema.AddUserAddUserToOrganizationUserLimitError:
+		return schema.User{}, &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
+	default:
+		return schema.User{}, fmt.Errorf("unexpected type(%T) of result", resp.AddUserToOrganization)
 	}
-
-	return schema.User{}, &types.ErrApi{Typename: responseName, Message: errorMsg}
 }
 
 // RemoveUser removes a user from the organization and returns the email of the user
@@ -68,20 +64,16 @@ func (c UsersClient) RemoveUser(ctx context.Context, email string) (string, erro
 		return "", err
 	}
 
-	response := (*resp).RemoveUserFromOrganization
-	responseName := response.GetTypename()
-	var errorMsg string
-
-	if responseName == "RemoveUserFromOrganizationSuccess" {
-		user := response.(*schema.RemoveUserRemoveUserFromOrganizationRemoveUserFromOrganizationSuccess).Email
-		return user, nil
-	} else if responseName == "PythonError" {
-		errorMsg = response.(*schema.RemoveUserRemoveUserFromOrganizationPythonError).Message
-	} else if responseName == "UnauthorizedError" {
-		errorMsg = response.(*schema.RemoveUserRemoveUserFromOrganizationUnauthorizedError).Message
-	} else if responseName == "CantRemoveAllAdminsError" {
-		errorMsg = response.(*schema.RemoveUserRemoveUserFromOrganizationCantRemoveAllAdminsError).Message
+	switch respCast := resp.RemoveUserFromOrganization.(type) {
+	case *schema.RemoveUserRemoveUserFromOrganizationRemoveUserFromOrganizationSuccess:
+		return respCast.Email, nil
+	case *schema.RemoveUserRemoveUserFromOrganizationPythonError:
+		return "", &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
+	case *schema.RemoveUserRemoveUserFromOrganizationUnauthorizedError:
+		return "", &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
+	case *schema.RemoveUserRemoveUserFromOrganizationCantRemoveAllAdminsError:
+		return "", &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
+	default:
+		return "", fmt.Errorf("unexpected type(%T) of result", resp.RemoveUserFromOrganization)
 	}
-
-	return "", &types.ErrApi{Typename: responseName, Message: errorMsg}
 }
