@@ -58,22 +58,22 @@ func (c UsersClient) AddUser(ctx context.Context, email string) (schema.User, er
 }
 
 // RemoveUser removes a user from the organization and returns the email of the user
-func (c UsersClient) RemoveUser(ctx context.Context, email string) (string, error) {
+func (c UsersClient) RemoveUser(ctx context.Context, email string) error {
 	resp, err := schema.RemoveUser(ctx, c.client, email)
 	if err != nil {
-		return "", err
+		return err
 	}
 
 	switch respCast := resp.RemoveUserFromOrganization.(type) {
 	case *schema.RemoveUserRemoveUserFromOrganizationRemoveUserFromOrganizationSuccess:
-		return respCast.Email, nil
+		return nil
 	case *schema.RemoveUserRemoveUserFromOrganizationPythonError:
-		return "", &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
+		return &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
 	case *schema.RemoveUserRemoveUserFromOrganizationUnauthorizedError:
-		return "", &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
+		return &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
 	case *schema.RemoveUserRemoveUserFromOrganizationCantRemoveAllAdminsError:
-		return "", &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
+		return &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
 	default:
-		return "", fmt.Errorf("unexpected type(%T) of result", resp.RemoveUserFromOrganization)
+		return fmt.Errorf("unexpected type(%T) of result", resp.RemoveUserFromOrganization)
 	}
 }

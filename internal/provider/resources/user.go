@@ -158,7 +158,7 @@ func (r *UserResource) Delete(ctx context.Context, req resource.DeleteRequest, r
 		return
 	}
 
-	userEmail, err := r.client.UsersClient.RemoveUser(ctx, data.Email.ValueString())
+	err := r.client.UsersClient.RemoveUser(ctx, data.Email.ValueString())
 	if err != nil {
 		var errComp *clientTypes.ErrNotFound
 		if errors.As(err, &errComp) {
@@ -171,7 +171,7 @@ func (r *UserResource) Delete(ctx context.Context, req resource.DeleteRequest, r
 		return
 	}
 
-	tflog.Trace(ctx, fmt.Sprintf("Deleted user with email address %s", userEmail))
+	tflog.Trace(ctx, fmt.Sprintf("Deleted user with email address %s", data.Email.ValueString()))
 }
 
 func (r *UserResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
