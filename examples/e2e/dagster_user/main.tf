@@ -62,4 +62,3 @@ output "new_user" {
   #   "name" = ""
   #   "picture" = ""
 }
-}
