@@ -48,6 +48,9 @@ func (c *CodeLocationsClient) GetCodeLocationByName(ctx context.Context, name st
 	return types.CodeLocation{}, &types.ErrNotFound{What: "CodeLocation", Key: "name", Value: name}
 }
 
+// TODO: this is a "simple implementation" of managing code locations.
+// Adding k8s args, ect is not supported with this "simple implementation".
+// For full implementation use addOrUpdateLocationFromDocument (from gql api)
 func (c *CodeLocationsClient) AddCodeLocation(ctx context.Context, codeLocation types.CodeLocation) (types.CodeLocation, error) {
 	_, err := c.GetCodeLocationByName(ctx, codeLocation.Name)
 
