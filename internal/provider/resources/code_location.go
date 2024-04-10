@@ -94,7 +94,7 @@ func (r *CodeLocationResource) Create(ctx context.Context, req resource.CreateRe
 			Name:  data.Name.ValueString(),
 			Image: data.Image.ValueString(),
 			CodeSource: clientTypes.CodeLocationCodeSource{
-				PythonFile: data.CodeSource.Attributes()["python_file"].String(),
+				PythonFile: data.CodeSource.Attributes()["python_file"].(types.String).ValueString(),
 			},
 		},
 	)
@@ -164,7 +164,7 @@ func (r *CodeLocationResource) Update(ctx context.Context, req resource.UpdateRe
 			Name:  data.Name.ValueString(),
 			Image: data.Image.ValueString(),
 			CodeSource: clientTypes.CodeLocationCodeSource{
-				PythonFile: data.CodeSource.Attributes()["python_file"].String(),
+				PythonFile: data.CodeSource.Attributes()["python_file"].(types.String).ValueString(),
 			},
 		},
 	)

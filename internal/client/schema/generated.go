@@ -3032,53 +3032,6 @@ func (v *LocationScopedGrantInput) GetLocationName() string { return v.LocationN
 // GetGrant returns LocationScopedGrantInput.Grant, and is useful for accessing the field via an interface.
 func (v *LocationScopedGrantInput) GetGrant() PermissionGrant { return v.Grant }
 
-type LocationSelector struct {
-	Name             string `json:"name"`
-	Image            string `json:"image"`
-	PythonFile       string `json:"pythonFile"`
-	PackageName      string `json:"packageName"`
-	ModuleName       string `json:"moduleName"`
-	WorkingDirectory string `json:"workingDirectory"`
-	ExecutablePath   string `json:"executablePath"`
-	Attribute        string `json:"attribute"`
-	CommitHash       string `json:"commitHash"`
-	Url              string `json:"url"`
-	AgentQueue       string `json:"agentQueue"`
-}
-
-// GetName returns LocationSelector.Name, and is useful for accessing the field via an interface.
-func (v *LocationSelector) GetName() string { return v.Name }
-
-// GetImage returns LocationSelector.Image, and is useful for accessing the field via an interface.
-func (v *LocationSelector) GetImage() string { return v.Image }
-
-// GetPythonFile returns LocationSelector.PythonFile, and is useful for accessing the field via an interface.
-func (v *LocationSelector) GetPythonFile() string { return v.PythonFile }
-
-// GetPackageName returns LocationSelector.PackageName, and is useful for accessing the field via an interface.
-func (v *LocationSelector) GetPackageName() string { return v.PackageName }
-
-// GetModuleName returns LocationSelector.ModuleName, and is useful for accessing the field via an interface.
-func (v *LocationSelector) GetModuleName() string { return v.ModuleName }
-
-// GetWorkingDirectory returns LocationSelector.WorkingDirectory, and is useful for accessing the field via an interface.
-func (v *LocationSelector) GetWorkingDirectory() string { return v.WorkingDirectory }
-
-// GetExecutablePath returns LocationSelector.ExecutablePath, and is useful for accessing the field via an interface.
-func (v *LocationSelector) GetExecutablePath() string { return v.ExecutablePath }
-
-// GetAttribute returns LocationSelector.Attribute, and is useful for accessing the field via an interface.
-func (v *LocationSelector) GetAttribute() string { return v.Attribute }
-
-// GetCommitHash returns LocationSelector.CommitHash, and is useful for accessing the field via an interface.
-func (v *LocationSelector) GetCommitHash() string { return v.CommitHash }
-
-// GetUrl returns LocationSelector.Url, and is useful for accessing the field via an interface.
-func (v *LocationSelector) GetUrl() string { return v.Url }
-
-// GetAgentQueue returns LocationSelector.AgentQueue, and is useful for accessing the field via an interface.
-func (v *LocationSelector) GetAgentQueue() string { return v.AgentQueue }
-
 type PermissionDeploymentScope string
 
 const (
@@ -5234,11 +5187,19 @@ func (v *UserPermissionUserDagsterCloudUser) __premarshalJSON() (*__premarshalUs
 
 // __AddOrUpdateCodeLocationInput is used internally by genqlient
 type __AddOrUpdateCodeLocationInput struct {
-	Location LocationSelector `json:"location"`
+	Name       string `json:"name"`
+	Image      string `json:"image"`
+	PythonFile string `json:"pythonFile"`
 }
 
-// GetLocation returns __AddOrUpdateCodeLocationInput.Location, and is useful for accessing the field via an interface.
-func (v *__AddOrUpdateCodeLocationInput) GetLocation() LocationSelector { return v.Location }
+// GetName returns __AddOrUpdateCodeLocationInput.Name, and is useful for accessing the field via an interface.
+func (v *__AddOrUpdateCodeLocationInput) GetName() string { return v.Name }
+
+// GetImage returns __AddOrUpdateCodeLocationInput.Image, and is useful for accessing the field via an interface.
+func (v *__AddOrUpdateCodeLocationInput) GetImage() string { return v.Image }
+
+// GetPythonFile returns __AddOrUpdateCodeLocationInput.PythonFile, and is useful for accessing the field via an interface.
+func (v *__AddOrUpdateCodeLocationInput) GetPythonFile() string { return v.PythonFile }
 
 // __AddUserInput is used internally by genqlient
 type __AddUserInput struct {
@@ -5340,8 +5301,8 @@ func (v *__RenameTeamInput) GetTeamId() string { return v.TeamId }
 
 // The query or mutation executed by AddOrUpdateCodeLocation.
 const AddOrUpdateCodeLocation_Operation = `
-mutation AddOrUpdateCodeLocation ($location: LocationSelector!) {
-	addOrUpdateLocation(location: $location) {
+mutation AddOrUpdateCodeLocation ($name: String!, $image: String!, $pythonFile: String!) {
+	addOrUpdateLocation(location: {name:$name,image:$image,pythonFile:$pythonFile}) {
 		__typename
 		... on WorkspaceEntry {
 			locationName
@@ -5365,13 +5326,17 @@ fragment UnauthorizedError on UnauthorizedError {
 func AddOrUpdateCodeLocation(
 	ctx_ context.Context,
 	client_ graphql.Client,
-	location LocationSelector,
+	name string,
+	image string,
+	pythonFile string,
 ) (*AddOrUpdateCodeLocationResponse, error) {
 	req_ := &graphql.Request{
 		OpName: "AddOrUpdateCodeLocation",
 		Query:  AddOrUpdateCodeLocation_Operation,
 		Variables: &__AddOrUpdateCodeLocationInput{
-			Location: location,
+			Name:       name,
+			Image:      image,
+			PythonFile: pythonFile,
 		},
 	}
 	var err_ error

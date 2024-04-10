@@ -60,11 +60,7 @@ func (c *CodeLocationsClient) AddCodeLocation(ctx context.Context, codeLocation 
 		return types.CodeLocation{}, err
 	}
 
-	resp, err := schema.AddOrUpdateCodeLocation(ctx, c.client, schema.LocationSelector{
-		Name:       codeLocation.Name,
-		Image:      codeLocation.Image,
-		PythonFile: codeLocation.CodeSource.PythonFile,
-	})
+	resp, err := schema.AddOrUpdateCodeLocation(ctx, c.client, codeLocation.Name, codeLocation.Image, codeLocation.CodeSource.PythonFile)
 
 	if err != nil {
 		return types.CodeLocation{}, err
@@ -90,11 +86,7 @@ func (c *CodeLocationsClient) UpdateCodeLocation(ctx context.Context, codeLocati
 		return types.CodeLocation{}, err
 	}
 
-	resp, err := schema.AddOrUpdateCodeLocation(ctx, c.client, schema.LocationSelector{
-		Name:       codeLocation.Name,
-		Image:      codeLocation.Image,
-		PythonFile: codeLocation.CodeSource.PythonFile,
-	})
+	resp, err := schema.AddOrUpdateCodeLocation(ctx, c.client, codeLocation.Name, codeLocation.Image, codeLocation.CodeSource.PythonFile)
 
 	if err != nil {
 		return types.CodeLocation{}, err

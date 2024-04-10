@@ -4,8 +4,14 @@ query ListCodeLocations {
   }
 }
 
-mutation AddOrUpdateCodeLocation($location: LocationSelector!) {
-  addOrUpdateLocation(location: $location) {
+mutation AddOrUpdateCodeLocation(
+  $name: String!
+  $image: String!
+  $pythonFile: String!
+) {
+  addOrUpdateLocation(
+    location: { name: $name, image: $image, pythonFile: $pythonFile }
+  ) {
     ... on WorkspaceEntry {
       locationName
     }
