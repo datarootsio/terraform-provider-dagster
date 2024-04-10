@@ -4,20 +4,22 @@ import "fmt"
 
 type ErrNotFound struct {
 	What  string
+	Key   string
 	Value string
 }
 
 func (e *ErrNotFound) Error() string {
-	return fmt.Sprintf("%s(%s) not found", e.What, e.Value)
+	return fmt.Sprintf("%s %s=%s not found", e.What, e.Key, e.Value)
 }
 
 type ErrAlreadyExists struct {
 	What  string
+	Key   string
 	Value string
 }
 
 func (e *ErrAlreadyExists) Error() string {
-	return fmt.Sprintf("%s(%s) already exists", e.What, e.Value)
+	return fmt.Sprintf("%s %s=%s already exists", e.What, e.Key, e.Value)
 }
 
 type ErrApi struct {
