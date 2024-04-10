@@ -143,7 +143,7 @@ func (c *TeamsClient) RenameTeam(ctx context.Context, name string, id string) (s
 	}
 }
 
-func (c *TeamsClient) GetTeamDeploymentGrant(ctx context.Context, teamId string, deploymentId int) (schema.ScopedPermissionGrant, error) {
+func (c *TeamsClient) GetTeamDeploymentGrantByTeamAndDeploymentId(ctx context.Context, teamId string, deploymentId int) (schema.ScopedPermissionGrant, error) {
 	resp, err := schema.ListTeamPermissions(ctx, c.client)
 	if err != nil {
 		return schema.ScopedPermissionGrant{}, err
@@ -164,7 +164,7 @@ func (c *TeamsClient) GetTeamDeploymentGrant(ctx context.Context, teamId string,
 
 func (c *TeamsClient) CreateOrUpdateTeamDeploymentGrant(ctx context.Context, teamId string, deploymentId int, grant schema.PermissionGrant) (schema.ScopedPermissionGrant, error) {
 	// TODO: check if team exists and check if deployment exists => to return specific errors
-	existingPermissionGrant, err := c.GetTeamDeploymentGrant(ctx, teamId, deploymentId)
+	existingPermissionGrant, err := c.GetTeamDeploymentGrantByTeamAndDeploymentId(ctx, teamId, deploymentId)
 
 	locationGrants := make([]schema.LocationScopedGrantInput, 0)
 
@@ -173,7 +173,7 @@ func (c *TeamsClient) CreateOrUpdateTeamDeploymentGrant(ctx context.Context, tea
 		// TeamDeploymentGrant does not exist, initialize empty list
 		// Do nothing
 	} else if err != nil {
-		// error fetching GetTeamDeploymentGrant, return error
+		// error fetching GetTeamDeploymentGrantByTeamAndDeploymentId, return error
 		return schema.ScopedPermissionGrant{}, err
 	} else {
 		// exists, transform existing LocationScopedGrant into LocationScopedGrantInput
@@ -202,7 +202,7 @@ func (c *TeamsClient) CreateOrUpdateTeamDeploymentGrant(ctx context.Context, tea
 	}
 
 	// At this point the DeploymentGrant should exist so fetch the last state from the API
-	updatedPermissionGrant, err := c.GetTeamDeploymentGrant(ctx, teamId, deploymentId)
+	updatedPermissionGrant, err := c.GetTeamDeploymentGrantByTeamAndDeploymentId(ctx, teamId, deploymentId)
 	if err != nil {
 		return schema.ScopedPermissionGrant{}, err
 	}
