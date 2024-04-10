@@ -50,8 +50,16 @@ output "user_email" {
   value = data.dagster_user.user.email
 }
 
-data "dagster_user" "fake_user" {
-  email = "does_not_exist@x.com"
-  # Unable to get user information, got error: no user with email does_not_exist@x.com found
+resource "dagster_user" "test" {
+  email = "foo@bar.be"
 }
 
+output "new_user" {
+  value = dagster_user.test
+  # new_user = {
+  #   "email" = "foo@bar.be"
+  #   "id" = 108370
+  #   "name" = ""
+  #   "picture" = ""
+}
+}

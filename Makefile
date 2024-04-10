@@ -23,3 +23,6 @@ docs:
 	rm -rf ./docs/images
 	go generate ./...
 .PHONY: docs
+
+vet:
+	go vet ./...

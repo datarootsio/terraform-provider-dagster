@@ -1,0 +1,128 @@
+fragment Team on DagsterCloudTeam {
+  id
+  name
+}
+
+fragment TeamPermission on DagsterCloudTeamPermissions {
+  id
+  team {
+    ...Team
+  }
+  organizationPermissionGrant {
+    ...ScopedPermissionGrant
+  }
+  allBranchDeploymentsPermissionGrant {
+    ...ScopedPermissionGrant
+  }
+  deploymentPermissionGrants {
+    ...ScopedPermissionGrant
+  }
+}
+
+fragment ScopedPermissionGrant on DagsterCloudScopedPermissionGrant {
+  id
+  organizationId
+  deploymentId
+  grant
+  locationGrants {
+    ...LocationScopedGrant
+  }
+  deploymentScope
+}
+
+fragment LocationScopedGrant on LocationScopedGrant {
+  locationName
+  grant
+}
+
+query ListTeams {
+  teamPermissions {
+    team {
+      ...Team
+    }
+  }
+}
+
+mutation CreateTeam($name: String!) {
+  createOrUpdateTeam(name: $name) {
+    ... on CreateOrUpdateTeamSuccess {
+      team {
+        ...Team
+      }
+    }
+    ...UnauthorizedError
+    ...PythonError
+  }
+}
+
+mutation DeleteTeam($teamId: String!) {
+  deleteTeam(teamId: $teamId) {
+    ... on DeleteTeamSuccess {
+      teamId
+    }
+    ...UnauthorizedError
+    ...PythonError
+  }
+}
+
+mutation RenameTeam($name: String!, $teamId: String!) {
+  renameTeam(name: $name, teamId: $teamId) {
+    ... on DagsterCloudTeam {
+      ...Team
+    }
+    ...PythonError
+    ...UnauthorizedError
+  }
+}
+
+query ListTeamPermissions {
+  teamPermissions {
+    ...TeamPermission
+  }
+}
+
+mutation CreateOrUpdateTeamPermission(
+  $deploymentId: Int
+  $deploymentScope: PermissionDeploymentScope!
+  $grant: PermissionGrant!
+  $locationGrants: [LocationScopedGrantInput]
+  $teamId: String!
+) {
+  createOrUpdateTeamPermission(
+    deploymentId: $deploymentId
+    deploymentScope: $deploymentScope
+    grant: $grant
+    locationGrants: $locationGrants
+    teamId: $teamId
+  ) {
+    ... on CreateOrUpdateTeamPermissionSuccess {
+      teamPermissions {
+        ...TeamPermission
+      }
+    }
+    ...PythonError
+    ...UnauthorizedError
+    ...UserLimitError
+  }
+}
+
+mutation RemoveTeamPermission(
+  $deploymentId: Int
+  $deploymentScope: PermissionDeploymentScope!
+  $teamId: String!
+) {
+  removeTeamPermission(
+    deploymentId: $deploymentId
+    deploymentScope: $deploymentScope
+    teamId: $teamId
+  ) {
+    ... on RemoveTeamPermissionSuccess {
+      teamPermissions {
+        ...TeamPermission
+      }
+    }
+    ...PythonError
+    ...UnauthorizedError
+    ...CantRemoveAllAdminsError
+  }
+}

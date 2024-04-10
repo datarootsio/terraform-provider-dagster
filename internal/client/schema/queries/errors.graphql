@@ -1,0 +1,15 @@
+fragment PythonError on PythonError {
+  message
+}
+
+fragment UnauthorizedError on UnauthorizedError {
+  message
+}
+
+fragment UserLimitError on UserLimitError {
+  message
+}
+
+fragment CantRemoveAllAdminsError on CantRemoveAllAdminsError {
+  message
+}
