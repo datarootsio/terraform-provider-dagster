@@ -32,7 +32,7 @@ func (c UsersClient) GetUserByEmail(ctx context.Context, email string) (schema.U
 		}
 	}
 
-	return schema.User{}, &types.ErrNotFound{What: "User", Value: email}
+	return schema.User{}, &types.ErrNotFound{What: "User", Key: email, Value: email}
 }
 
 // AddUser adds a user (identified by an email address) and returns the new user

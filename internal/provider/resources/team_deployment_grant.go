@@ -180,10 +180,6 @@ func (r *TeamDeploymentGrantResource) Read(ctx context.Context, req resource.Rea
 	)
 	if err != nil {
 		var errComp *clientTypes.ErrNotFound
-		// This handles the case when a resource is still in the state but delete from the API
-		// in that case we remove the resource from the state so that it gets recreated.
-		// We check for !data.Name.IsNull() because if it is null it means we just imported a resource
-		// via "tf import" and we want to show an error message instead of resp.State.RemoveResource.
 		if errors.As(err, &errComp) {
 			tflog.Trace(ctx, "Team not found, probably already deleted manually, removing from state")
 			resp.State.RemoveResource(ctx)

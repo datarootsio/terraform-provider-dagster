@@ -24,9 +24,6 @@ docs:
 	go generate ./...
 .PHONY: docs
 
-vet:
-	go vet ./...
-
 reflex:
 	@go install github.com/cespare/reflex@latest
 	reflex -r "\.graphql$$" -s -- sh -c "make"

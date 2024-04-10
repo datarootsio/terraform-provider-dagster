@@ -48,7 +48,7 @@ func (c *TeamsClient) GetTeamByName(ctx context.Context, name string) (schema.Te
 		}
 	}
 
-	return schema.Team{}, &types.ErrNotFound{What: "Team", Value: name}
+	return schema.Team{}, &types.ErrNotFound{What: "Team", Key: "name", Value: name}
 }
 
 func (c *TeamsClient) GetTeamById(ctx context.Context, id string) (schema.Team, error) {
@@ -64,14 +64,14 @@ func (c *TeamsClient) GetTeamById(ctx context.Context, id string) (schema.Team, 
 		}
 	}
 
-	return schema.Team{}, &types.ErrNotFound{What: "Team", Value: id}
+	return schema.Team{}, &types.ErrNotFound{What: "Team", Key: "id", Value: id}
 }
 
 func (c *TeamsClient) CreateTeam(ctx context.Context, name string) (schema.Team, error) {
 	_, err := c.GetTeamByName(ctx, name)
 
 	if err == nil {
-		return schema.Team{}, &types.ErrAlreadyExists{What: "Team", Value: name}
+		return schema.Team{}, &types.ErrAlreadyExists{What: "Team", Key: "name", Value: name}
 	}
 
 	var errComp *types.ErrNotFound
@@ -159,7 +159,7 @@ func (c *TeamsClient) GetTeamDeploymentGrantByTeamAndDeploymentId(ctx context.Co
 		}
 	}
 
-	return schema.ScopedPermissionGrant{}, &types.ErrNotFound{What: "DeploymentGrant", Value: teamId}
+	return schema.ScopedPermissionGrant{}, &types.ErrNotFound{What: "DeploymentGrant", Key: "teamId", Value: teamId}
 }
 
 func (c *TeamsClient) CreateOrUpdateTeamDeploymentGrant(ctx context.Context, teamId string, deploymentId int, grant schema.PermissionGrant, locationGrants []schema.LocationScopedGrant) (schema.ScopedPermissionGrant, error) {
