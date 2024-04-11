@@ -14,7 +14,8 @@ Create a Dagster Cloud user.
 
 ```terraform
 resource "dagster_user" "test" {
-  email = "foo.bar@dataroots.io"
+  email                      = "foo.bar@dataroots.io"
+  remove_default_permissions = true
 }
 ```
 
@@ -24,6 +25,7 @@ resource "dagster_user" "test" {
 ### Required
 
 - `email` (String) Email address used to register the Dagster Cloud user
+- `remove_default_permissions` (Boolean) Remove the default Viewer permissions on creation
 
 ### Read-Only
 
