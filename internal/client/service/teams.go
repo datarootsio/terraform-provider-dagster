@@ -234,3 +234,22 @@ func (c *TeamsClient) RemoveTeamDeploymentGrant(ctx context.Context, teamId stri
 		return fmt.Errorf("unexpected type(%T) of result", resp.RemoveTeamPermission)
 	}
 }
+
+func (c *TeamsClient) IsUserInTeam(ctx context.Context, userId int, teamId string) (bool, error) {
+	resp, err := schema.ListTeamPermissions(ctx, c.client)
+	if err != nil {
+		return false, err
+	}
+
+	for _, teamPermission := range resp.TeamPermissions {
+		if teamPermission.Id == teamId {
+			for _, user := range teamPermission.Team.Members {
+				if user.UserId == userId {
+					return true, nil
+				}
+			}
+		}
+	}
+
+	return false, nil
+}

@@ -1,6 +1,9 @@
 fragment Team on DagsterCloudTeam {
   id
   name
+  members {
+    ...User
+  }
 }
 
 fragment TeamPermission on DagsterCloudTeamPermissions {
