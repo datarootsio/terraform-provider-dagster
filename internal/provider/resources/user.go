@@ -84,14 +84,28 @@ func (r *UserResource) Create(ctx context.Context, req resource.CreateRequest, r
 	var data UserResourceModel
 
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
-
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	user, err := r.client.UsersClient.AddUser(ctx, data.Email.ValueString())
+	// Check if user exists already
+	email := data.Email.ValueString()
+	user, err := r.client.UsersClient.GetUserByEmail(ctx, email)
+	if err == nil { // Exists
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("User with email %s is already registered", email))
+		return
+	}
+
+	user, err = r.client.UsersClient.AddUser(ctx, email)
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create user, got error: %s", err))
+		return
+	}
+
+	// Remove the default "Viewer" permission on all deployments and codelocations
+	err = removeAllUserPermissions(ctx, r.client, email)
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("%s", err))
 		return
 	}
 
@@ -176,4 +190,37 @@ func (r *UserResource) Delete(ctx context.Context, req resource.DeleteRequest, r
 
 func (r *UserResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	resource.ImportStatePassthroughID(ctx, path.Root("email"), req, resp)
+}
+
+// removeAllUserPermissions removes the default "Viewer" permission on all (normal and branch) deployments
+func removeAllUserPermissions(ctx context.Context, client client.DagsterClient, email string) error {
+	deployments, err := client.DeploymentClient.GetAllDeployments(ctx)
+	if err != nil {
+		return errors.New("Erorr getting a list of deployments")
+	}
+
+	var deploymentId int
+	for _, deployment := range deployments {
+		deploymentId = deployment.DeploymentId
+		err := client.UsersClient.RemoveUserPermission(
+			ctx,
+			email,
+			deploymentId,
+			clientSchema.PermissionDeploymentScopeDeployment,
+		)
+		if err != nil {
+			return errors.New(
+				fmt.Sprintf("error removing permissions from user %s on deployment %v", email, deploymentId),
+			)
+		}
+	}
+
+	// deploymentId does not matter in this call
+	err = client.UsersClient.RemoveUserPermission(ctx, email, 0, clientSchema.PermissionDeploymentScopeAllBranchDeployments)
+	if err != nil {
+		return errors.New(
+			fmt.Sprintf("error removing permissions from user %s on branch deployments", email),
+		)
+	}
+	return nil
 }

@@ -77,3 +77,29 @@ func (c UsersClient) RemoveUser(ctx context.Context, email string) error {
 		return fmt.Errorf("unexpected type(%T) of result", resp.RemoveUserFromOrganization)
 	}
 }
+
+// RemoveUserPermission removes (branch) deployment or organization permissions from a user
+func (c UsersClient) RemoveUserPermission(ctx context.Context, email string, deploymentId int, deploymentScope schema.PermissionDeploymentScope) error {
+	resp, err := schema.RemoveUserPermission(ctx, c.client, email, deploymentId, deploymentScope)
+
+	if err != nil {
+		return err
+	}
+
+	switch respCast := resp.RemoveUserPermissions.(type) {
+	case *schema.RemoveUserPermissionRemoveUserPermissionsDagsterCloudUserWithScopedPermissionGrants:
+		return nil
+	case *schema.RemoveUserPermissionRemoveUserPermissionsCantRemoveAllAdminsError:
+		return &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
+	case *schema.RemoveUserPermissionRemoveUserPermissionsPythonError:
+		return &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
+	case *schema.RemoveUserPermissionRemoveUserPermissionsUnauthorizedError:
+		return &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
+	case *schema.RemoveUserPermissionRemoveUserPermissionsUserLimitError:
+		return &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
+	case *schema.RemoveUserPermissionRemoveUserPermissionsUserNotFoundError:
+		return &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
+	default:
+		return fmt.Errorf("unexpected type(%T) of result", resp.RemoveUserPermissions)
+	}
+}

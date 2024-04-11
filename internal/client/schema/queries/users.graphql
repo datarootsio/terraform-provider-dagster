@@ -58,3 +58,26 @@ mutation AddUser($email: String!) {
     ...UserLimitError
   }
 }
+
+mutation RemoveUserPermission(
+  $email: String!
+  $deploymentId: Int
+  $deploymentScope: PermissionDeploymentScope!
+) {
+  removeUserPermissions(
+    userPermission: {
+      email: $email
+      deploymentId: $deploymentId
+      deploymentScope: $deploymentScope
+    }
+  ) {
+    ... on DagsterCloudUserWithScopedPermissionGrants {
+      id
+    }
+    ...CantRemoveAllAdminsError
+    ...UserNotFoundError
+    ...UnauthorizedError
+    ...UserLimitError
+    ...PythonError
+  }
+}
