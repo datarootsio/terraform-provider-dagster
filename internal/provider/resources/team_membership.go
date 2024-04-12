@@ -105,15 +105,17 @@ func (r *TeamMembershipResource) Create(ctx context.Context, req resource.Create
 		resp.Diagnostics.AddError("Client error", fmt.Sprintf("Failed to check if user %v is in team %v: %v", userId, teamId, err))
 		return
 	}
-
-	if !in_team {
-		err = r.client.UsersClient.AddUserToTeam(ctx, int(userId), teamId)
-		if err != nil {
-			resp.Diagnostics.AddError("Client error", fmt.Sprintf("Failed to add user %v to team %v: %v", userId, teamId, err))
-			return
-		}
-		tflog.Trace(ctx, fmt.Sprintf("Added user %v to team %s", userId, teamId))
+	if in_team {
+		resp.Diagnostics.AddError("Client error", fmt.Sprintf("User %v is already in team %v", userId, teamId))
+		return
 	}
+
+	err = r.client.UsersClient.AddUserToTeam(ctx, int(userId), teamId)
+	if err != nil {
+		resp.Diagnostics.AddError("Client error", fmt.Sprintf("Failed to add user %v to team %v: %v", userId, teamId, err))
+		return
+	}
+	tflog.Trace(ctx, fmt.Sprintf("Added user %v to team %s", userId, teamId))
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }

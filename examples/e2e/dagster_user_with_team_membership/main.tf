@@ -1,3 +1,15 @@
+variable "organization" {
+  type = string
+}
+
+variable "deployment" {
+  type = string
+}
+
+variable "api_token" {
+  type = string
+}
+
 terraform {
   required_version = ">= 1.3.5"
 
