@@ -253,3 +253,41 @@ func (c *TeamsClient) IsUserInTeam(ctx context.Context, userId int, teamId strin
 
 	return false, nil
 }
+
+func (c *TeamsClient) AddUserToTeam(ctx context.Context, userId int, teamId string) error {
+	resp, err := schema.AddMemberToTeam(ctx, c.client, userId, teamId)
+	if err != nil {
+		return err
+	}
+
+	switch respCast := resp.AddMemberToTeam.(type) {
+	case *schema.AddMemberToTeamAddMemberToTeamAddMemberToTeamSuccess:
+		return nil
+	case *schema.AddMemberToTeamAddMemberToTeamPythonError:
+		return &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
+	case *schema.AddMemberToTeamAddMemberToTeamUnauthorizedError:
+		return &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
+	case *schema.AddMemberToTeamAddMemberToTeamUserLimitError:
+		return &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
+	default:
+		return fmt.Errorf("unexpected type(%T) of result", resp.AddMemberToTeam)
+	}
+}
+
+func (c *TeamsClient) RemoveUserFromTeam(ctx context.Context, userId int, teamId string) error {
+	resp, err := schema.RemoveMemberFromTeam(ctx, c.client, userId, teamId)
+	if err != nil {
+		return err
+	}
+
+	switch respCast := resp.RemoveMemberFromTeam.(type) {
+	case *schema.RemoveMemberFromTeamRemoveMemberFromTeamRemoveMemberFromTeamSuccess:
+		return nil
+	case *schema.RemoveMemberFromTeamRemoveMemberFromTeamPythonError:
+		return &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
+	case *schema.RemoveMemberFromTeamRemoveMemberFromTeamUnauthorizedError:
+		return &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
+	default:
+		return fmt.Errorf("unexpected type(%T) of result", resp.RemoveMemberFromTeam)
+	}
+}

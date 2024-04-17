@@ -110,7 +110,7 @@ func (r *TeamMembershipResource) Create(ctx context.Context, req resource.Create
 		return
 	}
 
-	err = r.client.UsersClient.AddUserToTeam(ctx, int(userId), teamId)
+	err = r.client.TeamsClient.AddUserToTeam(ctx, int(userId), teamId)
 	if err != nil {
 		resp.Diagnostics.AddError("Client error", fmt.Sprintf("Failed to add user %v to team %v: %v", userId, teamId, err))
 		return
@@ -173,7 +173,7 @@ func (r *TeamMembershipResource) Delete(ctx context.Context, req resource.Delete
 		return
 	}
 
-	err = r.client.UsersClient.RemoveUserFromTeam(ctx, int(userId), teamId)
+	err = r.client.TeamsClient.RemoveUserFromTeam(ctx, int(userId), teamId)
 	if err != nil {
 		resp.Diagnostics.AddError("Client error", fmt.Sprintf("Failed to remove user %v from team %v: %v", userId, teamId, err))
 		return
