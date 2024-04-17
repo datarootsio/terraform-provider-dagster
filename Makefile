@@ -4,7 +4,7 @@ BINARY=terraform-provider-${NAME}
 default: clean generate build docs
 .PHONY: default
 
-build: 
+build:
 	mkdir -p build/
 	go build -o build/$(BINARY)
 .PHONY: build

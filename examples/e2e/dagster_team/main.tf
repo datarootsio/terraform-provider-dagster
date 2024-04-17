@@ -57,5 +57,3 @@ output "team" {
 output "team_deployment_grant" {
   value = dagster_team_deployment_grant.example
 }
-
-
