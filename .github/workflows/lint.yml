@@ -9,7 +9,6 @@ on:
 env:
   GO_VERSION: "1.22"
   GOLANGCI_VERSION: "v1.57.2"
-  PRE_COMMIT_VERSION: "v3.0.1"
 
 jobs:
   pre-commit:
@@ -34,4 +33,4 @@ jobs:
           skip-build-cache: true
 
       - name: Run pre-commit
-        uses: "pre-commit/action@${{ env.PRE_COMMIT_VERSION }}"
+        uses: pre-commit/action@v3.0.1
