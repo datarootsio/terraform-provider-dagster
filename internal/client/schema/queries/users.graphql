@@ -81,3 +81,28 @@ mutation RemoveUserPermission(
     ...PythonError
   }
 }
+
+mutation AddMemberToTeam($memberId: Int!, $teamId: String!) {
+  addMemberToTeam(memberId: $memberId, teamId: $teamId) {
+    ... on AddMemberToTeamSuccess {
+      team {
+        id
+      }
+    }
+    ...PythonError
+    ...UnauthorizedError
+    ...UserLimitError
+  }
+}
+
+mutation RemoveMemberFromTeam($memberId: Int!, $teamId: String!) {
+  removeMemberFromTeam(memberId: $memberId, teamId: $teamId) {
+    ... on RemoveMemberFromTeamSuccess {
+      team {
+        id
+      }
+    }
+    ...PythonError
+    ...UnauthorizedError
+  }
+}

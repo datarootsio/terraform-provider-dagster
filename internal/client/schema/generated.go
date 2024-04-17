@@ -10,6 +10,399 @@ import (
 	"github.com/Khan/genqlient/graphql"
 )
 
+// AddMemberToTeamAddMemberToTeamAddMemberToTeamMutationResult includes the requested fields of the GraphQL interface AddMemberToTeamMutationResult.
+//
+// AddMemberToTeamAddMemberToTeamAddMemberToTeamMutationResult is implemented by the following types:
+// AddMemberToTeamAddMemberToTeamAddMemberToTeamSuccess
+// AddMemberToTeamAddMemberToTeamPythonError
+// AddMemberToTeamAddMemberToTeamUnauthorizedError
+// AddMemberToTeamAddMemberToTeamUserLimitError
+type AddMemberToTeamAddMemberToTeamAddMemberToTeamMutationResult interface {
+	implementsGraphQLInterfaceAddMemberToTeamAddMemberToTeamAddMemberToTeamMutationResult()
+	// GetTypename returns the receiver's concrete GraphQL type-name (see interface doc for possible values).
+	GetTypename() string
+}
+
+func (v *AddMemberToTeamAddMemberToTeamAddMemberToTeamSuccess) implementsGraphQLInterfaceAddMemberToTeamAddMemberToTeamAddMemberToTeamMutationResult() {
+}
+func (v *AddMemberToTeamAddMemberToTeamPythonError) implementsGraphQLInterfaceAddMemberToTeamAddMemberToTeamAddMemberToTeamMutationResult() {
+}
+func (v *AddMemberToTeamAddMemberToTeamUnauthorizedError) implementsGraphQLInterfaceAddMemberToTeamAddMemberToTeamAddMemberToTeamMutationResult() {
+}
+func (v *AddMemberToTeamAddMemberToTeamUserLimitError) implementsGraphQLInterfaceAddMemberToTeamAddMemberToTeamAddMemberToTeamMutationResult() {
+}
+
+func __unmarshalAddMemberToTeamAddMemberToTeamAddMemberToTeamMutationResult(b []byte, v *AddMemberToTeamAddMemberToTeamAddMemberToTeamMutationResult) error {
+	if string(b) == "null" {
+		return nil
+	}
+
+	var tn struct {
+		TypeName string `json:"__typename"`
+	}
+	err := json.Unmarshal(b, &tn)
+	if err != nil {
+		return err
+	}
+
+	switch tn.TypeName {
+	case "AddMemberToTeamSuccess":
+		*v = new(AddMemberToTeamAddMemberToTeamAddMemberToTeamSuccess)
+		return json.Unmarshal(b, *v)
+	case "PythonError":
+		*v = new(AddMemberToTeamAddMemberToTeamPythonError)
+		return json.Unmarshal(b, *v)
+	case "UnauthorizedError":
+		*v = new(AddMemberToTeamAddMemberToTeamUnauthorizedError)
+		return json.Unmarshal(b, *v)
+	case "UserLimitError":
+		*v = new(AddMemberToTeamAddMemberToTeamUserLimitError)
+		return json.Unmarshal(b, *v)
+	case "":
+		return fmt.Errorf(
+			"response was missing AddMemberToTeamMutationResult.__typename")
+	default:
+		return fmt.Errorf(
+			`unexpected concrete type for AddMemberToTeamAddMemberToTeamAddMemberToTeamMutationResult: "%v"`, tn.TypeName)
+	}
+}
+
+func __marshalAddMemberToTeamAddMemberToTeamAddMemberToTeamMutationResult(v *AddMemberToTeamAddMemberToTeamAddMemberToTeamMutationResult) ([]byte, error) {
+
+	var typename string
+	switch v := (*v).(type) {
+	case *AddMemberToTeamAddMemberToTeamAddMemberToTeamSuccess:
+		typename = "AddMemberToTeamSuccess"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*AddMemberToTeamAddMemberToTeamAddMemberToTeamSuccess
+		}{typename, v}
+		return json.Marshal(result)
+	case *AddMemberToTeamAddMemberToTeamPythonError:
+		typename = "PythonError"
+
+		premarshaled, err := v.__premarshalJSON()
+		if err != nil {
+			return nil, err
+		}
+		result := struct {
+			TypeName string `json:"__typename"`
+			*__premarshalAddMemberToTeamAddMemberToTeamPythonError
+		}{typename, premarshaled}
+		return json.Marshal(result)
+	case *AddMemberToTeamAddMemberToTeamUnauthorizedError:
+		typename = "UnauthorizedError"
+
+		premarshaled, err := v.__premarshalJSON()
+		if err != nil {
+			return nil, err
+		}
+		result := struct {
+			TypeName string `json:"__typename"`
+			*__premarshalAddMemberToTeamAddMemberToTeamUnauthorizedError
+		}{typename, premarshaled}
+		return json.Marshal(result)
+	case *AddMemberToTeamAddMemberToTeamUserLimitError:
+		typename = "UserLimitError"
+
+		premarshaled, err := v.__premarshalJSON()
+		if err != nil {
+			return nil, err
+		}
+		result := struct {
+			TypeName string `json:"__typename"`
+			*__premarshalAddMemberToTeamAddMemberToTeamUserLimitError
+		}{typename, premarshaled}
+		return json.Marshal(result)
+	case nil:
+		return []byte("null"), nil
+	default:
+		return nil, fmt.Errorf(
+			`unexpected concrete type for AddMemberToTeamAddMemberToTeamAddMemberToTeamMutationResult: "%T"`, v)
+	}
+}
+
+// AddMemberToTeamAddMemberToTeamAddMemberToTeamSuccess includes the requested fields of the GraphQL type AddMemberToTeamSuccess.
+type AddMemberToTeamAddMemberToTeamAddMemberToTeamSuccess struct {
+	Typename string                                                                   `json:"__typename"`
+	Team     AddMemberToTeamAddMemberToTeamAddMemberToTeamSuccessTeamDagsterCloudTeam `json:"team"`
+}
+
+// GetTypename returns AddMemberToTeamAddMemberToTeamAddMemberToTeamSuccess.Typename, and is useful for accessing the field via an interface.
+func (v *AddMemberToTeamAddMemberToTeamAddMemberToTeamSuccess) GetTypename() string {
+	return v.Typename
+}
+
+// GetTeam returns AddMemberToTeamAddMemberToTeamAddMemberToTeamSuccess.Team, and is useful for accessing the field via an interface.
+func (v *AddMemberToTeamAddMemberToTeamAddMemberToTeamSuccess) GetTeam() AddMemberToTeamAddMemberToTeamAddMemberToTeamSuccessTeamDagsterCloudTeam {
+	return v.Team
+}
+
+// AddMemberToTeamAddMemberToTeamAddMemberToTeamSuccessTeamDagsterCloudTeam includes the requested fields of the GraphQL type DagsterCloudTeam.
+type AddMemberToTeamAddMemberToTeamAddMemberToTeamSuccessTeamDagsterCloudTeam struct {
+	Id string `json:"id"`
+}
+
+// GetId returns AddMemberToTeamAddMemberToTeamAddMemberToTeamSuccessTeamDagsterCloudTeam.Id, and is useful for accessing the field via an interface.
+func (v *AddMemberToTeamAddMemberToTeamAddMemberToTeamSuccessTeamDagsterCloudTeam) GetId() string {
+	return v.Id
+}
+
+// AddMemberToTeamAddMemberToTeamPythonError includes the requested fields of the GraphQL type PythonError.
+type AddMemberToTeamAddMemberToTeamPythonError struct {
+	Typename    string `json:"__typename"`
+	PythonError `json:"-"`
+}
+
+// GetTypename returns AddMemberToTeamAddMemberToTeamPythonError.Typename, and is useful for accessing the field via an interface.
+func (v *AddMemberToTeamAddMemberToTeamPythonError) GetTypename() string { return v.Typename }
+
+// GetMessage returns AddMemberToTeamAddMemberToTeamPythonError.Message, and is useful for accessing the field via an interface.
+func (v *AddMemberToTeamAddMemberToTeamPythonError) GetMessage() string { return v.PythonError.Message }
+
+func (v *AddMemberToTeamAddMemberToTeamPythonError) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*AddMemberToTeamAddMemberToTeamPythonError
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.AddMemberToTeamAddMemberToTeamPythonError = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(
+		b, &v.PythonError)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+type __premarshalAddMemberToTeamAddMemberToTeamPythonError struct {
+	Typename string `json:"__typename"`
+
+	Message string `json:"message"`
+}
+
+func (v *AddMemberToTeamAddMemberToTeamPythonError) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *AddMemberToTeamAddMemberToTeamPythonError) __premarshalJSON() (*__premarshalAddMemberToTeamAddMemberToTeamPythonError, error) {
+	var retval __premarshalAddMemberToTeamAddMemberToTeamPythonError
+
+	retval.Typename = v.Typename
+	retval.Message = v.PythonError.Message
+	return &retval, nil
+}
+
+// AddMemberToTeamAddMemberToTeamUnauthorizedError includes the requested fields of the GraphQL type UnauthorizedError.
+type AddMemberToTeamAddMemberToTeamUnauthorizedError struct {
+	Typename          string `json:"__typename"`
+	UnauthorizedError `json:"-"`
+}
+
+// GetTypename returns AddMemberToTeamAddMemberToTeamUnauthorizedError.Typename, and is useful for accessing the field via an interface.
+func (v *AddMemberToTeamAddMemberToTeamUnauthorizedError) GetTypename() string { return v.Typename }
+
+// GetMessage returns AddMemberToTeamAddMemberToTeamUnauthorizedError.Message, and is useful for accessing the field via an interface.
+func (v *AddMemberToTeamAddMemberToTeamUnauthorizedError) GetMessage() string {
+	return v.UnauthorizedError.Message
+}
+
+func (v *AddMemberToTeamAddMemberToTeamUnauthorizedError) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*AddMemberToTeamAddMemberToTeamUnauthorizedError
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.AddMemberToTeamAddMemberToTeamUnauthorizedError = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(
+		b, &v.UnauthorizedError)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+type __premarshalAddMemberToTeamAddMemberToTeamUnauthorizedError struct {
+	Typename string `json:"__typename"`
+
+	Message string `json:"message"`
+}
+
+func (v *AddMemberToTeamAddMemberToTeamUnauthorizedError) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *AddMemberToTeamAddMemberToTeamUnauthorizedError) __premarshalJSON() (*__premarshalAddMemberToTeamAddMemberToTeamUnauthorizedError, error) {
+	var retval __premarshalAddMemberToTeamAddMemberToTeamUnauthorizedError
+
+	retval.Typename = v.Typename
+	retval.Message = v.UnauthorizedError.Message
+	return &retval, nil
+}
+
+// AddMemberToTeamAddMemberToTeamUserLimitError includes the requested fields of the GraphQL type UserLimitError.
+type AddMemberToTeamAddMemberToTeamUserLimitError struct {
+	Typename       string `json:"__typename"`
+	UserLimitError `json:"-"`
+}
+
+// GetTypename returns AddMemberToTeamAddMemberToTeamUserLimitError.Typename, and is useful for accessing the field via an interface.
+func (v *AddMemberToTeamAddMemberToTeamUserLimitError) GetTypename() string { return v.Typename }
+
+// GetMessage returns AddMemberToTeamAddMemberToTeamUserLimitError.Message, and is useful for accessing the field via an interface.
+func (v *AddMemberToTeamAddMemberToTeamUserLimitError) GetMessage() string {
+	return v.UserLimitError.Message
+}
+
+func (v *AddMemberToTeamAddMemberToTeamUserLimitError) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*AddMemberToTeamAddMemberToTeamUserLimitError
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.AddMemberToTeamAddMemberToTeamUserLimitError = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(
+		b, &v.UserLimitError)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+type __premarshalAddMemberToTeamAddMemberToTeamUserLimitError struct {
+	Typename string `json:"__typename"`
+
+	Message string `json:"message"`
+}
+
+func (v *AddMemberToTeamAddMemberToTeamUserLimitError) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *AddMemberToTeamAddMemberToTeamUserLimitError) __premarshalJSON() (*__premarshalAddMemberToTeamAddMemberToTeamUserLimitError, error) {
+	var retval __premarshalAddMemberToTeamAddMemberToTeamUserLimitError
+
+	retval.Typename = v.Typename
+	retval.Message = v.UserLimitError.Message
+	return &retval, nil
+}
+
+// AddMemberToTeamResponse is returned by AddMemberToTeam on success.
+type AddMemberToTeamResponse struct {
+	AddMemberToTeam AddMemberToTeamAddMemberToTeamAddMemberToTeamMutationResult `json:"-"`
+}
+
+// GetAddMemberToTeam returns AddMemberToTeamResponse.AddMemberToTeam, and is useful for accessing the field via an interface.
+func (v *AddMemberToTeamResponse) GetAddMemberToTeam() AddMemberToTeamAddMemberToTeamAddMemberToTeamMutationResult {
+	return v.AddMemberToTeam
+}
+
+func (v *AddMemberToTeamResponse) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*AddMemberToTeamResponse
+		AddMemberToTeam json.RawMessage `json:"addMemberToTeam"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.AddMemberToTeamResponse = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.AddMemberToTeam
+		src := firstPass.AddMemberToTeam
+		if len(src) != 0 && string(src) != "null" {
+			err = __unmarshalAddMemberToTeamAddMemberToTeamAddMemberToTeamMutationResult(
+				src, dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal AddMemberToTeamResponse.AddMemberToTeam: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalAddMemberToTeamResponse struct {
+	AddMemberToTeam json.RawMessage `json:"addMemberToTeam"`
+}
+
+func (v *AddMemberToTeamResponse) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *AddMemberToTeamResponse) __premarshalJSON() (*__premarshalAddMemberToTeamResponse, error) {
+	var retval __premarshalAddMemberToTeamResponse
+
+	{
+
+		dst := &retval.AddMemberToTeam
+		src := v.AddMemberToTeam
+		var err error
+		*dst, err = __marshalAddMemberToTeamAddMemberToTeamAddMemberToTeamMutationResult(
+			&src)
+		if err != nil {
+			return nil, fmt.Errorf(
+				"unable to marshal AddMemberToTeamResponse.AddMemberToTeam: %w", err)
+		}
+	}
+	return &retval, nil
+}
+
 // AddOrUpdateCodeLocationAddOrUpdateLocationAddOrUpdateLocationMutationResult includes the requested fields of the GraphQL interface AddOrUpdateLocationMutationResult.
 //
 // AddOrUpdateCodeLocationAddOrUpdateLocationAddOrUpdateLocationMutationResult is implemented by the following types:
@@ -1485,6 +1878,11 @@ func (v *CreateTeamCreateOrUpdateTeamCreateOrUpdateTeamSuccessTeamDagsterCloudTe
 	return v.Team.Name
 }
 
+// GetMembers returns CreateTeamCreateOrUpdateTeamCreateOrUpdateTeamSuccessTeamDagsterCloudTeam.Members, and is useful for accessing the field via an interface.
+func (v *CreateTeamCreateOrUpdateTeamCreateOrUpdateTeamSuccessTeamDagsterCloudTeam) GetMembers() []TeamMembersDagsterCloudUser {
+	return v.Team.Members
+}
+
 func (v *CreateTeamCreateOrUpdateTeamCreateOrUpdateTeamSuccessTeamDagsterCloudTeam) UnmarshalJSON(b []byte) error {
 
 	if string(b) == "null" {
@@ -1514,6 +1912,8 @@ type __premarshalCreateTeamCreateOrUpdateTeamCreateOrUpdateTeamSuccessTeamDagste
 	Id string `json:"id"`
 
 	Name string `json:"name"`
+
+	Members []TeamMembersDagsterCloudUser `json:"members"`
 }
 
 func (v *CreateTeamCreateOrUpdateTeamCreateOrUpdateTeamSuccessTeamDagsterCloudTeam) MarshalJSON() ([]byte, error) {
@@ -1529,6 +1929,7 @@ func (v *CreateTeamCreateOrUpdateTeamCreateOrUpdateTeamSuccessTeamDagsterCloudTe
 
 	retval.Id = v.Team.Id
 	retval.Name = v.Team.Name
+	retval.Members = v.Team.Members
 	return &retval, nil
 }
 
@@ -3034,6 +3435,11 @@ func (v *ListTeamsTeamPermissionsDagsterCloudTeamPermissionsTeamDagsterCloudTeam
 	return v.Team.Name
 }
 
+// GetMembers returns ListTeamsTeamPermissionsDagsterCloudTeamPermissionsTeamDagsterCloudTeam.Members, and is useful for accessing the field via an interface.
+func (v *ListTeamsTeamPermissionsDagsterCloudTeamPermissionsTeamDagsterCloudTeam) GetMembers() []TeamMembersDagsterCloudUser {
+	return v.Team.Members
+}
+
 func (v *ListTeamsTeamPermissionsDagsterCloudTeamPermissionsTeamDagsterCloudTeam) UnmarshalJSON(b []byte) error {
 
 	if string(b) == "null" {
@@ -3063,6 +3469,8 @@ type __premarshalListTeamsTeamPermissionsDagsterCloudTeamPermissionsTeamDagsterC
 	Id string `json:"id"`
 
 	Name string `json:"name"`
+
+	Members []TeamMembersDagsterCloudUser `json:"members"`
 }
 
 func (v *ListTeamsTeamPermissionsDagsterCloudTeamPermissionsTeamDagsterCloudTeam) MarshalJSON() ([]byte, error) {
@@ -3078,6 +3486,7 @@ func (v *ListTeamsTeamPermissionsDagsterCloudTeamPermissionsTeamDagsterCloudTeam
 
 	retval.Id = v.Team.Id
 	retval.Name = v.Team.Name
+	retval.Members = v.Team.Members
 	return &retval, nil
 }
 
@@ -3129,6 +3538,324 @@ type PythonError struct {
 
 // GetMessage returns PythonError.Message, and is useful for accessing the field via an interface.
 func (v *PythonError) GetMessage() string { return v.Message }
+
+// RemoveMemberFromTeamRemoveMemberFromTeamPythonError includes the requested fields of the GraphQL type PythonError.
+type RemoveMemberFromTeamRemoveMemberFromTeamPythonError struct {
+	Typename    string `json:"__typename"`
+	PythonError `json:"-"`
+}
+
+// GetTypename returns RemoveMemberFromTeamRemoveMemberFromTeamPythonError.Typename, and is useful for accessing the field via an interface.
+func (v *RemoveMemberFromTeamRemoveMemberFromTeamPythonError) GetTypename() string { return v.Typename }
+
+// GetMessage returns RemoveMemberFromTeamRemoveMemberFromTeamPythonError.Message, and is useful for accessing the field via an interface.
+func (v *RemoveMemberFromTeamRemoveMemberFromTeamPythonError) GetMessage() string {
+	return v.PythonError.Message
+}
+
+func (v *RemoveMemberFromTeamRemoveMemberFromTeamPythonError) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*RemoveMemberFromTeamRemoveMemberFromTeamPythonError
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.RemoveMemberFromTeamRemoveMemberFromTeamPythonError = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(
+		b, &v.PythonError)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+type __premarshalRemoveMemberFromTeamRemoveMemberFromTeamPythonError struct {
+	Typename string `json:"__typename"`
+
+	Message string `json:"message"`
+}
+
+func (v *RemoveMemberFromTeamRemoveMemberFromTeamPythonError) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *RemoveMemberFromTeamRemoveMemberFromTeamPythonError) __premarshalJSON() (*__premarshalRemoveMemberFromTeamRemoveMemberFromTeamPythonError, error) {
+	var retval __premarshalRemoveMemberFromTeamRemoveMemberFromTeamPythonError
+
+	retval.Typename = v.Typename
+	retval.Message = v.PythonError.Message
+	return &retval, nil
+}
+
+// RemoveMemberFromTeamRemoveMemberFromTeamRemoveMemberFromTeamMutationResult includes the requested fields of the GraphQL interface RemoveMemberFromTeamMutationResult.
+//
+// RemoveMemberFromTeamRemoveMemberFromTeamRemoveMemberFromTeamMutationResult is implemented by the following types:
+// RemoveMemberFromTeamRemoveMemberFromTeamPythonError
+// RemoveMemberFromTeamRemoveMemberFromTeamRemoveMemberFromTeamSuccess
+// RemoveMemberFromTeamRemoveMemberFromTeamUnauthorizedError
+type RemoveMemberFromTeamRemoveMemberFromTeamRemoveMemberFromTeamMutationResult interface {
+	implementsGraphQLInterfaceRemoveMemberFromTeamRemoveMemberFromTeamRemoveMemberFromTeamMutationResult()
+	// GetTypename returns the receiver's concrete GraphQL type-name (see interface doc for possible values).
+	GetTypename() string
+}
+
+func (v *RemoveMemberFromTeamRemoveMemberFromTeamPythonError) implementsGraphQLInterfaceRemoveMemberFromTeamRemoveMemberFromTeamRemoveMemberFromTeamMutationResult() {
+}
+func (v *RemoveMemberFromTeamRemoveMemberFromTeamRemoveMemberFromTeamSuccess) implementsGraphQLInterfaceRemoveMemberFromTeamRemoveMemberFromTeamRemoveMemberFromTeamMutationResult() {
+}
+func (v *RemoveMemberFromTeamRemoveMemberFromTeamUnauthorizedError) implementsGraphQLInterfaceRemoveMemberFromTeamRemoveMemberFromTeamRemoveMemberFromTeamMutationResult() {
+}
+
+func __unmarshalRemoveMemberFromTeamRemoveMemberFromTeamRemoveMemberFromTeamMutationResult(b []byte, v *RemoveMemberFromTeamRemoveMemberFromTeamRemoveMemberFromTeamMutationResult) error {
+	if string(b) == "null" {
+		return nil
+	}
+
+	var tn struct {
+		TypeName string `json:"__typename"`
+	}
+	err := json.Unmarshal(b, &tn)
+	if err != nil {
+		return err
+	}
+
+	switch tn.TypeName {
+	case "PythonError":
+		*v = new(RemoveMemberFromTeamRemoveMemberFromTeamPythonError)
+		return json.Unmarshal(b, *v)
+	case "RemoveMemberFromTeamSuccess":
+		*v = new(RemoveMemberFromTeamRemoveMemberFromTeamRemoveMemberFromTeamSuccess)
+		return json.Unmarshal(b, *v)
+	case "UnauthorizedError":
+		*v = new(RemoveMemberFromTeamRemoveMemberFromTeamUnauthorizedError)
+		return json.Unmarshal(b, *v)
+	case "":
+		return fmt.Errorf(
+			"response was missing RemoveMemberFromTeamMutationResult.__typename")
+	default:
+		return fmt.Errorf(
+			`unexpected concrete type for RemoveMemberFromTeamRemoveMemberFromTeamRemoveMemberFromTeamMutationResult: "%v"`, tn.TypeName)
+	}
+}
+
+func __marshalRemoveMemberFromTeamRemoveMemberFromTeamRemoveMemberFromTeamMutationResult(v *RemoveMemberFromTeamRemoveMemberFromTeamRemoveMemberFromTeamMutationResult) ([]byte, error) {
+
+	var typename string
+	switch v := (*v).(type) {
+	case *RemoveMemberFromTeamRemoveMemberFromTeamPythonError:
+		typename = "PythonError"
+
+		premarshaled, err := v.__premarshalJSON()
+		if err != nil {
+			return nil, err
+		}
+		result := struct {
+			TypeName string `json:"__typename"`
+			*__premarshalRemoveMemberFromTeamRemoveMemberFromTeamPythonError
+		}{typename, premarshaled}
+		return json.Marshal(result)
+	case *RemoveMemberFromTeamRemoveMemberFromTeamRemoveMemberFromTeamSuccess:
+		typename = "RemoveMemberFromTeamSuccess"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*RemoveMemberFromTeamRemoveMemberFromTeamRemoveMemberFromTeamSuccess
+		}{typename, v}
+		return json.Marshal(result)
+	case *RemoveMemberFromTeamRemoveMemberFromTeamUnauthorizedError:
+		typename = "UnauthorizedError"
+
+		premarshaled, err := v.__premarshalJSON()
+		if err != nil {
+			return nil, err
+		}
+		result := struct {
+			TypeName string `json:"__typename"`
+			*__premarshalRemoveMemberFromTeamRemoveMemberFromTeamUnauthorizedError
+		}{typename, premarshaled}
+		return json.Marshal(result)
+	case nil:
+		return []byte("null"), nil
+	default:
+		return nil, fmt.Errorf(
+			`unexpected concrete type for RemoveMemberFromTeamRemoveMemberFromTeamRemoveMemberFromTeamMutationResult: "%T"`, v)
+	}
+}
+
+// RemoveMemberFromTeamRemoveMemberFromTeamRemoveMemberFromTeamSuccess includes the requested fields of the GraphQL type RemoveMemberFromTeamSuccess.
+type RemoveMemberFromTeamRemoveMemberFromTeamRemoveMemberFromTeamSuccess struct {
+	Typename string                                                                                  `json:"__typename"`
+	Team     RemoveMemberFromTeamRemoveMemberFromTeamRemoveMemberFromTeamSuccessTeamDagsterCloudTeam `json:"team"`
+}
+
+// GetTypename returns RemoveMemberFromTeamRemoveMemberFromTeamRemoveMemberFromTeamSuccess.Typename, and is useful for accessing the field via an interface.
+func (v *RemoveMemberFromTeamRemoveMemberFromTeamRemoveMemberFromTeamSuccess) GetTypename() string {
+	return v.Typename
+}
+
+// GetTeam returns RemoveMemberFromTeamRemoveMemberFromTeamRemoveMemberFromTeamSuccess.Team, and is useful for accessing the field via an interface.
+func (v *RemoveMemberFromTeamRemoveMemberFromTeamRemoveMemberFromTeamSuccess) GetTeam() RemoveMemberFromTeamRemoveMemberFromTeamRemoveMemberFromTeamSuccessTeamDagsterCloudTeam {
+	return v.Team
+}
+
+// RemoveMemberFromTeamRemoveMemberFromTeamRemoveMemberFromTeamSuccessTeamDagsterCloudTeam includes the requested fields of the GraphQL type DagsterCloudTeam.
+type RemoveMemberFromTeamRemoveMemberFromTeamRemoveMemberFromTeamSuccessTeamDagsterCloudTeam struct {
+	Id string `json:"id"`
+}
+
+// GetId returns RemoveMemberFromTeamRemoveMemberFromTeamRemoveMemberFromTeamSuccessTeamDagsterCloudTeam.Id, and is useful for accessing the field via an interface.
+func (v *RemoveMemberFromTeamRemoveMemberFromTeamRemoveMemberFromTeamSuccessTeamDagsterCloudTeam) GetId() string {
+	return v.Id
+}
+
+// RemoveMemberFromTeamRemoveMemberFromTeamUnauthorizedError includes the requested fields of the GraphQL type UnauthorizedError.
+type RemoveMemberFromTeamRemoveMemberFromTeamUnauthorizedError struct {
+	Typename          string `json:"__typename"`
+	UnauthorizedError `json:"-"`
+}
+
+// GetTypename returns RemoveMemberFromTeamRemoveMemberFromTeamUnauthorizedError.Typename, and is useful for accessing the field via an interface.
+func (v *RemoveMemberFromTeamRemoveMemberFromTeamUnauthorizedError) GetTypename() string {
+	return v.Typename
+}
+
+// GetMessage returns RemoveMemberFromTeamRemoveMemberFromTeamUnauthorizedError.Message, and is useful for accessing the field via an interface.
+func (v *RemoveMemberFromTeamRemoveMemberFromTeamUnauthorizedError) GetMessage() string {
+	return v.UnauthorizedError.Message
+}
+
+func (v *RemoveMemberFromTeamRemoveMemberFromTeamUnauthorizedError) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*RemoveMemberFromTeamRemoveMemberFromTeamUnauthorizedError
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.RemoveMemberFromTeamRemoveMemberFromTeamUnauthorizedError = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(
+		b, &v.UnauthorizedError)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+type __premarshalRemoveMemberFromTeamRemoveMemberFromTeamUnauthorizedError struct {
+	Typename string `json:"__typename"`
+
+	Message string `json:"message"`
+}
+
+func (v *RemoveMemberFromTeamRemoveMemberFromTeamUnauthorizedError) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *RemoveMemberFromTeamRemoveMemberFromTeamUnauthorizedError) __premarshalJSON() (*__premarshalRemoveMemberFromTeamRemoveMemberFromTeamUnauthorizedError, error) {
+	var retval __premarshalRemoveMemberFromTeamRemoveMemberFromTeamUnauthorizedError
+
+	retval.Typename = v.Typename
+	retval.Message = v.UnauthorizedError.Message
+	return &retval, nil
+}
+
+// RemoveMemberFromTeamResponse is returned by RemoveMemberFromTeam on success.
+type RemoveMemberFromTeamResponse struct {
+	RemoveMemberFromTeam RemoveMemberFromTeamRemoveMemberFromTeamRemoveMemberFromTeamMutationResult `json:"-"`
+}
+
+// GetRemoveMemberFromTeam returns RemoveMemberFromTeamResponse.RemoveMemberFromTeam, and is useful for accessing the field via an interface.
+func (v *RemoveMemberFromTeamResponse) GetRemoveMemberFromTeam() RemoveMemberFromTeamRemoveMemberFromTeamRemoveMemberFromTeamMutationResult {
+	return v.RemoveMemberFromTeam
+}
+
+func (v *RemoveMemberFromTeamResponse) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*RemoveMemberFromTeamResponse
+		RemoveMemberFromTeam json.RawMessage `json:"removeMemberFromTeam"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.RemoveMemberFromTeamResponse = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.RemoveMemberFromTeam
+		src := firstPass.RemoveMemberFromTeam
+		if len(src) != 0 && string(src) != "null" {
+			err = __unmarshalRemoveMemberFromTeamRemoveMemberFromTeamRemoveMemberFromTeamMutationResult(
+				src, dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal RemoveMemberFromTeamResponse.RemoveMemberFromTeam: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalRemoveMemberFromTeamResponse struct {
+	RemoveMemberFromTeam json.RawMessage `json:"removeMemberFromTeam"`
+}
+
+func (v *RemoveMemberFromTeamResponse) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *RemoveMemberFromTeamResponse) __premarshalJSON() (*__premarshalRemoveMemberFromTeamResponse, error) {
+	var retval __premarshalRemoveMemberFromTeamResponse
+
+	{
+
+		dst := &retval.RemoveMemberFromTeam
+		src := v.RemoveMemberFromTeam
+		var err error
+		*dst, err = __marshalRemoveMemberFromTeamRemoveMemberFromTeamRemoveMemberFromTeamMutationResult(
+			&src)
+		if err != nil {
+			return nil, fmt.Errorf(
+				"unable to marshal RemoveMemberFromTeamResponse.RemoveMemberFromTeam: %w", err)
+		}
+	}
+	return &retval, nil
+}
 
 // RemoveTeamPermissionRemoveTeamPermissionCantRemoveAllAdminsError includes the requested fields of the GraphQL type CantRemoveAllAdminsError.
 type RemoveTeamPermissionRemoveTeamPermissionCantRemoveAllAdminsError struct {
@@ -4562,6 +5289,11 @@ func (v *RenameTeamRenameTeamDagsterCloudTeam) GetId() string { return v.Team.Id
 // GetName returns RenameTeamRenameTeamDagsterCloudTeam.Name, and is useful for accessing the field via an interface.
 func (v *RenameTeamRenameTeamDagsterCloudTeam) GetName() string { return v.Team.Name }
 
+// GetMembers returns RenameTeamRenameTeamDagsterCloudTeam.Members, and is useful for accessing the field via an interface.
+func (v *RenameTeamRenameTeamDagsterCloudTeam) GetMembers() []TeamMembersDagsterCloudUser {
+	return v.Team.Members
+}
+
 func (v *RenameTeamRenameTeamDagsterCloudTeam) UnmarshalJSON(b []byte) error {
 
 	if string(b) == "null" {
@@ -4593,6 +5325,8 @@ type __premarshalRenameTeamRenameTeamDagsterCloudTeam struct {
 	Id string `json:"id"`
 
 	Name string `json:"name"`
+
+	Members []TeamMembersDagsterCloudUser `json:"members"`
 }
 
 func (v *RenameTeamRenameTeamDagsterCloudTeam) MarshalJSON() ([]byte, error) {
@@ -4609,6 +5343,7 @@ func (v *RenameTeamRenameTeamDagsterCloudTeam) __premarshalJSON() (*__premarshal
 	retval.Typename = v.Typename
 	retval.Id = v.Team.Id
 	retval.Name = v.Team.Name
+	retval.Members = v.Team.Members
 	return &retval, nil
 }
 
@@ -5000,8 +5735,9 @@ func (v *ScopedPermissionGrantLocationGrantsLocationScopedGrant) __premarshalJSO
 
 // Team includes the GraphQL fields of DagsterCloudTeam requested by the fragment Team.
 type Team struct {
-	Id   string `json:"id"`
-	Name string `json:"name"`
+	Id      string                        `json:"id"`
+	Name    string                        `json:"name"`
+	Members []TeamMembersDagsterCloudUser `json:"members"`
 }
 
 // GetId returns Team.Id, and is useful for accessing the field via an interface.
@@ -5009,6 +5745,85 @@ func (v *Team) GetId() string { return v.Id }
 
 // GetName returns Team.Name, and is useful for accessing the field via an interface.
 func (v *Team) GetName() string { return v.Name }
+
+// GetMembers returns Team.Members, and is useful for accessing the field via an interface.
+func (v *Team) GetMembers() []TeamMembersDagsterCloudUser { return v.Members }
+
+// TeamMembersDagsterCloudUser includes the requested fields of the GraphQL type DagsterCloudUser.
+type TeamMembersDagsterCloudUser struct {
+	User `json:"-"`
+}
+
+// GetUserId returns TeamMembersDagsterCloudUser.UserId, and is useful for accessing the field via an interface.
+func (v *TeamMembersDagsterCloudUser) GetUserId() int { return v.User.UserId }
+
+// GetEmail returns TeamMembersDagsterCloudUser.Email, and is useful for accessing the field via an interface.
+func (v *TeamMembersDagsterCloudUser) GetEmail() string { return v.User.Email }
+
+// GetName returns TeamMembersDagsterCloudUser.Name, and is useful for accessing the field via an interface.
+func (v *TeamMembersDagsterCloudUser) GetName() string { return v.User.Name }
+
+// GetPicture returns TeamMembersDagsterCloudUser.Picture, and is useful for accessing the field via an interface.
+func (v *TeamMembersDagsterCloudUser) GetPicture() string { return v.User.Picture }
+
+// GetIsScimProvisioned returns TeamMembersDagsterCloudUser.IsScimProvisioned, and is useful for accessing the field via an interface.
+func (v *TeamMembersDagsterCloudUser) GetIsScimProvisioned() bool { return v.User.IsScimProvisioned }
+
+func (v *TeamMembersDagsterCloudUser) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*TeamMembersDagsterCloudUser
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.TeamMembersDagsterCloudUser = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(
+		b, &v.User)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+type __premarshalTeamMembersDagsterCloudUser struct {
+	UserId int `json:"userId"`
+
+	Email string `json:"email"`
+
+	Name string `json:"name"`
+
+	Picture string `json:"picture"`
+
+	IsScimProvisioned bool `json:"isScimProvisioned"`
+}
+
+func (v *TeamMembersDagsterCloudUser) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *TeamMembersDagsterCloudUser) __premarshalJSON() (*__premarshalTeamMembersDagsterCloudUser, error) {
+	var retval __premarshalTeamMembersDagsterCloudUser
+
+	retval.UserId = v.User.UserId
+	retval.Email = v.User.Email
+	retval.Name = v.User.Name
+	retval.Picture = v.User.Picture
+	retval.IsScimProvisioned = v.User.IsScimProvisioned
+	return &retval, nil
+}
 
 // TeamPermission includes the GraphQL fields of DagsterCloudTeamPermissions requested by the fragment TeamPermission.
 type TeamPermission struct {
@@ -5333,6 +6148,11 @@ func (v *TeamPermissionTeamDagsterCloudTeam) GetId() string { return v.Team.Id }
 // GetName returns TeamPermissionTeamDagsterCloudTeam.Name, and is useful for accessing the field via an interface.
 func (v *TeamPermissionTeamDagsterCloudTeam) GetName() string { return v.Team.Name }
 
+// GetMembers returns TeamPermissionTeamDagsterCloudTeam.Members, and is useful for accessing the field via an interface.
+func (v *TeamPermissionTeamDagsterCloudTeam) GetMembers() []TeamMembersDagsterCloudUser {
+	return v.Team.Members
+}
+
 func (v *TeamPermissionTeamDagsterCloudTeam) UnmarshalJSON(b []byte) error {
 
 	if string(b) == "null" {
@@ -5362,6 +6182,8 @@ type __premarshalTeamPermissionTeamDagsterCloudTeam struct {
 	Id string `json:"id"`
 
 	Name string `json:"name"`
+
+	Members []TeamMembersDagsterCloudUser `json:"members"`
 }
 
 func (v *TeamPermissionTeamDagsterCloudTeam) MarshalJSON() ([]byte, error) {
@@ -5377,6 +6199,7 @@ func (v *TeamPermissionTeamDagsterCloudTeam) __premarshalJSON() (*__premarshalTe
 
 	retval.Id = v.Team.Id
 	retval.Name = v.Team.Name
+	retval.Members = v.Team.Members
 	return &retval, nil
 }
 
@@ -5818,6 +6641,18 @@ func (v *UserPermissionUserDagsterCloudUser) __premarshalJSON() (*__premarshalUs
 	return &retval, nil
 }
 
+// __AddMemberToTeamInput is used internally by genqlient
+type __AddMemberToTeamInput struct {
+	MemberId int    `json:"memberId"`
+	TeamId   string `json:"teamId"`
+}
+
+// GetMemberId returns __AddMemberToTeamInput.MemberId, and is useful for accessing the field via an interface.
+func (v *__AddMemberToTeamInput) GetMemberId() int { return v.MemberId }
+
+// GetTeamId returns __AddMemberToTeamInput.TeamId, and is useful for accessing the field via an interface.
+func (v *__AddMemberToTeamInput) GetTeamId() string { return v.TeamId }
+
 // __AddOrUpdateCodeLocationInput is used internally by genqlient
 type __AddOrUpdateCodeLocationInput struct {
 	Name       string `json:"name"`
@@ -5894,6 +6729,18 @@ type __DeleteTeamInput struct {
 // GetTeamId returns __DeleteTeamInput.TeamId, and is useful for accessing the field via an interface.
 func (v *__DeleteTeamInput) GetTeamId() string { return v.TeamId }
 
+// __RemoveMemberFromTeamInput is used internally by genqlient
+type __RemoveMemberFromTeamInput struct {
+	MemberId int    `json:"memberId"`
+	TeamId   string `json:"teamId"`
+}
+
+// GetMemberId returns __RemoveMemberFromTeamInput.MemberId, and is useful for accessing the field via an interface.
+func (v *__RemoveMemberFromTeamInput) GetMemberId() int { return v.MemberId }
+
+// GetTeamId returns __RemoveMemberFromTeamInput.TeamId, and is useful for accessing the field via an interface.
+func (v *__RemoveMemberFromTeamInput) GetTeamId() string { return v.TeamId }
+
 // __RemoveTeamPermissionInput is used internally by genqlient
 type __RemoveTeamPermissionInput struct {
 	DeploymentId    int                       `json:"deploymentId"`
@@ -5949,6 +6796,60 @@ func (v *__RenameTeamInput) GetName() string { return v.Name }
 
 // GetTeamId returns __RenameTeamInput.TeamId, and is useful for accessing the field via an interface.
 func (v *__RenameTeamInput) GetTeamId() string { return v.TeamId }
+
+// The query or mutation executed by AddMemberToTeam.
+const AddMemberToTeam_Operation = `
+mutation AddMemberToTeam ($memberId: Int!, $teamId: String!) {
+	addMemberToTeam(memberId: $memberId, teamId: $teamId) {
+		__typename
+		... on AddMemberToTeamSuccess {
+			team {
+				id
+			}
+		}
+		... PythonError
+		... UnauthorizedError
+		... UserLimitError
+	}
+}
+fragment PythonError on PythonError {
+	message
+}
+fragment UnauthorizedError on UnauthorizedError {
+	message
+}
+fragment UserLimitError on UserLimitError {
+	message
+}
+`
+
+func AddMemberToTeam(
+	ctx_ context.Context,
+	client_ graphql.Client,
+	memberId int,
+	teamId string,
+) (*AddMemberToTeamResponse, error) {
+	req_ := &graphql.Request{
+		OpName: "AddMemberToTeam",
+		Query:  AddMemberToTeam_Operation,
+		Variables: &__AddMemberToTeamInput{
+			MemberId: memberId,
+			TeamId:   teamId,
+		},
+	}
+	var err_ error
+
+	var data_ AddMemberToTeamResponse
+	resp_ := &graphql.Response{Data: &data_}
+
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
+	)
+
+	return &data_, err_
+}
 
 // The query or mutation executed by AddOrUpdateCodeLocation.
 const AddOrUpdateCodeLocation_Operation = `
@@ -6135,6 +7036,9 @@ fragment UserLimitError on UserLimitError {
 fragment Team on DagsterCloudTeam {
 	id
 	name
+	members {
+		... User
+	}
 }
 fragment ScopedPermissionGrant on DagsterCloudScopedPermissionGrant {
 	id
@@ -6145,6 +7049,13 @@ fragment ScopedPermissionGrant on DagsterCloudScopedPermissionGrant {
 		... LocationScopedGrant
 	}
 	deploymentScope
+}
+fragment User on DagsterCloudUser {
+	userId
+	email
+	name
+	picture
+	isScimProvisioned
 }
 fragment LocationScopedGrant on LocationScopedGrant {
 	locationName
@@ -6203,12 +7114,22 @@ mutation CreateTeam ($name: String!) {
 fragment Team on DagsterCloudTeam {
 	id
 	name
+	members {
+		... User
+	}
 }
 fragment UnauthorizedError on UnauthorizedError {
 	message
 }
 fragment PythonError on PythonError {
 	message
+}
+fragment User on DagsterCloudUser {
+	userId
+	email
+	name
+	picture
+	isScimProvisioned
 }
 `
 
@@ -6536,6 +7457,9 @@ fragment TeamPermission on DagsterCloudTeamPermissions {
 fragment Team on DagsterCloudTeam {
 	id
 	name
+	members {
+		... User
+	}
 }
 fragment ScopedPermissionGrant on DagsterCloudScopedPermissionGrant {
 	id
@@ -6546,6 +7470,13 @@ fragment ScopedPermissionGrant on DagsterCloudScopedPermissionGrant {
 		... LocationScopedGrant
 	}
 	deploymentScope
+}
+fragment User on DagsterCloudUser {
+	userId
+	email
+	name
+	picture
+	isScimProvisioned
 }
 fragment LocationScopedGrant on LocationScopedGrant {
 	locationName
@@ -6587,6 +7518,16 @@ query ListTeams {
 fragment Team on DagsterCloudTeam {
 	id
 	name
+	members {
+		... User
+	}
+}
+fragment User on DagsterCloudUser {
+	userId
+	email
+	name
+	picture
+	isScimProvisioned
 }
 `
 
@@ -6601,6 +7542,56 @@ func ListTeams(
 	var err_ error
 
 	var data_ ListTeamsResponse
+	resp_ := &graphql.Response{Data: &data_}
+
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
+	)
+
+	return &data_, err_
+}
+
+// The query or mutation executed by RemoveMemberFromTeam.
+const RemoveMemberFromTeam_Operation = `
+mutation RemoveMemberFromTeam ($memberId: Int!, $teamId: String!) {
+	removeMemberFromTeam(memberId: $memberId, teamId: $teamId) {
+		__typename
+		... on RemoveMemberFromTeamSuccess {
+			team {
+				id
+			}
+		}
+		... PythonError
+		... UnauthorizedError
+	}
+}
+fragment PythonError on PythonError {
+	message
+}
+fragment UnauthorizedError on UnauthorizedError {
+	message
+}
+`
+
+func RemoveMemberFromTeam(
+	ctx_ context.Context,
+	client_ graphql.Client,
+	memberId int,
+	teamId string,
+) (*RemoveMemberFromTeamResponse, error) {
+	req_ := &graphql.Request{
+		OpName: "RemoveMemberFromTeam",
+		Query:  RemoveMemberFromTeam_Operation,
+		Variables: &__RemoveMemberFromTeamInput{
+			MemberId: memberId,
+			TeamId:   teamId,
+		},
+	}
+	var err_ error
+
+	var data_ RemoveMemberFromTeamResponse
 	resp_ := &graphql.Response{Data: &data_}
 
 	err_ = client_.MakeRequest(
@@ -6654,6 +7645,9 @@ fragment CantRemoveAllAdminsError on CantRemoveAllAdminsError {
 fragment Team on DagsterCloudTeam {
 	id
 	name
+	members {
+		... User
+	}
 }
 fragment ScopedPermissionGrant on DagsterCloudScopedPermissionGrant {
 	id
@@ -6664,6 +7658,13 @@ fragment ScopedPermissionGrant on DagsterCloudScopedPermissionGrant {
 		... LocationScopedGrant
 	}
 	deploymentScope
+}
+fragment User on DagsterCloudUser {
+	userId
+	email
+	name
+	picture
+	isScimProvisioned
 }
 fragment LocationScopedGrant on LocationScopedGrant {
 	locationName
@@ -6828,12 +7829,22 @@ mutation RenameTeam ($name: String!, $teamId: String!) {
 fragment Team on DagsterCloudTeam {
 	id
 	name
+	members {
+		... User
+	}
 }
 fragment PythonError on PythonError {
 	message
 }
 fragment UnauthorizedError on UnauthorizedError {
 	message
+}
+fragment User on DagsterCloudUser {
+	userId
+	email
+	name
+	picture
+	isScimProvisioned
 }
 `
 

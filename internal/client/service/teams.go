@@ -234,3 +234,60 @@ func (c *TeamsClient) RemoveTeamDeploymentGrant(ctx context.Context, teamId stri
 		return fmt.Errorf("unexpected type(%T) of result", resp.RemoveTeamPermission)
 	}
 }
+
+func (c *TeamsClient) IsUserInTeam(ctx context.Context, userId int, teamId string) (bool, error) {
+	resp, err := schema.ListTeamPermissions(ctx, c.client)
+	if err != nil {
+		return false, err
+	}
+
+	for _, teamPermission := range resp.TeamPermissions {
+		if teamPermission.Id == teamId {
+			for _, user := range teamPermission.Team.Members {
+				if user.UserId == userId {
+					return true, nil
+				}
+			}
+		}
+	}
+
+	return false, nil
+}
+
+func (c *TeamsClient) AddUserToTeam(ctx context.Context, userId int, teamId string) error {
+	resp, err := schema.AddMemberToTeam(ctx, c.client, userId, teamId)
+	if err != nil {
+		return err
+	}
+
+	switch respCast := resp.AddMemberToTeam.(type) {
+	case *schema.AddMemberToTeamAddMemberToTeamAddMemberToTeamSuccess:
+		return nil
+	case *schema.AddMemberToTeamAddMemberToTeamPythonError:
+		return &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
+	case *schema.AddMemberToTeamAddMemberToTeamUnauthorizedError:
+		return &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
+	case *schema.AddMemberToTeamAddMemberToTeamUserLimitError:
+		return &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
+	default:
+		return fmt.Errorf("unexpected type(%T) of result", resp.AddMemberToTeam)
+	}
+}
+
+func (c *TeamsClient) RemoveUserFromTeam(ctx context.Context, userId int, teamId string) error {
+	resp, err := schema.RemoveMemberFromTeam(ctx, c.client, userId, teamId)
+	if err != nil {
+		return err
+	}
+
+	switch respCast := resp.RemoveMemberFromTeam.(type) {
+	case *schema.RemoveMemberFromTeamRemoveMemberFromTeamRemoveMemberFromTeamSuccess:
+		return nil
+	case *schema.RemoveMemberFromTeamRemoveMemberFromTeamPythonError:
+		return &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
+	case *schema.RemoveMemberFromTeamRemoveMemberFromTeamUnauthorizedError:
+		return &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
+	default:
+		return fmt.Errorf("unexpected type(%T) of result", resp.RemoveMemberFromTeam)
+	}
+}
