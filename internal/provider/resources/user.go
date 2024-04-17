@@ -226,18 +226,14 @@ func removeAllUserPermissions(ctx context.Context, client client.DagsterClient, 
 			clientSchema.PermissionDeploymentScopeDeployment,
 		)
 		if err != nil {
-			return errors.New(
-				fmt.Sprintf("error removing permissions from user %s on deployment %v", email, deploymentId),
-			)
+			return fmt.Errorf("error removing permissions from user %s on deployment %v", email, deploymentId)
 		}
 	}
 
 	// deploymentId does not matter in this call
 	err = client.UsersClient.RemoveUserPermission(ctx, email, 0, clientSchema.PermissionDeploymentScopeAllBranchDeployments)
 	if err != nil {
-		return errors.New(
-			fmt.Sprintf("error removing permissions from user %s on branch deployments", email),
-		)
+		return fmt.Errorf("error removing permissions from user %s on branch deployments", email)
 	}
 	return nil
 }
