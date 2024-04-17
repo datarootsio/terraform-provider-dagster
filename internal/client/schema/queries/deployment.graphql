@@ -8,3 +8,9 @@ query GetCurrentDeployment {
     ...Deployment
   }
 }
+
+query GetAllDeployments {
+  deployments {
+    ...Deployment
+  }
+}

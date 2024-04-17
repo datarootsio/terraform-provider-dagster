@@ -25,3 +25,17 @@ func (c DeploymentClient) GetCurrentDeployment(ctx context.Context) (schema.Depl
 
 	return resp.CurrentDeployment.Deployment, nil
 }
+
+func (c DeploymentClient) GetAllDeployments(ctx context.Context) ([]schema.Deployment, error) {
+	resp, err := schema.GetAllDeployments(ctx, c.client)
+	if err != nil {
+		return []schema.Deployment{}, err
+	}
+
+	deployments := make([]schema.Deployment, 0, len(resp.Deployments))
+	for _, deployment := range resp.Deployments {
+		deployments = append(deployments, deployment.Deployment)
+	}
+
+	return deployments, nil
+}

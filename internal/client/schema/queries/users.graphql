@@ -59,6 +59,29 @@ mutation AddUser($email: String!) {
   }
 }
 
+mutation RemoveUserPermission(
+  $email: String!
+  $deploymentId: Int
+  $deploymentScope: PermissionDeploymentScope!
+) {
+  removeUserPermissions(
+    userPermission: {
+      email: $email
+      deploymentId: $deploymentId
+      deploymentScope: $deploymentScope
+    }
+  ) {
+    ... on DagsterCloudUserWithScopedPermissionGrants {
+      id
+    }
+    ...CantRemoveAllAdminsError
+    ...UserNotFoundError
+    ...UnauthorizedError
+    ...UserLimitError
+    ...PythonError
+  }
+}
+
 mutation AddMemberToTeam($memberId: Int!, $teamId: String!) {
   addMemberToTeam(memberId: $memberId, teamId: $teamId) {
     ... on AddMemberToTeamSuccess {

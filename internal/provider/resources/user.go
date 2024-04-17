@@ -11,6 +11,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
@@ -27,10 +30,11 @@ type UserResource struct {
 }
 
 type UserResourceModel struct {
-	Id      types.Int64  `tfsdk:"id"`
-	Name    types.String `tfsdk:"name"`
-	Email   types.String `tfsdk:"email"`
-	Picture types.String `tfsdk:"picture"`
+	Id                       types.Int64  `tfsdk:"id"`
+	Name                     types.String `tfsdk:"name"`
+	Email                    types.String `tfsdk:"email"`
+	Picture                  types.String `tfsdk:"picture"`
+	RemoveDefaultPermissions types.Bool   `tfsdk:"remove_default_permissions"`
 }
 
 func (r *UserResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -53,6 +57,17 @@ func (r *UserResource) Schema(ctx context.Context, req resource.SchemaRequest, r
 				Required:    true,
 				Computed:    false,
 				Description: "Email address used to register the Dagster Cloud user",
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
+			},
+			"remove_default_permissions": schema.BoolAttribute{
+				Required:    true,
+				Computed:    false,
+				Description: "Remove the default Viewer permissions on creation",
+				PlanModifiers: []planmodifier.Bool{
+					boolplanmodifier.RequiresReplace(),
+				},
 			},
 			"picture": schema.StringAttribute{
 				Computed:    true,
@@ -84,15 +99,31 @@ func (r *UserResource) Create(ctx context.Context, req resource.CreateRequest, r
 	var data UserResourceModel
 
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
-
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	user, err := r.client.UsersClient.AddUser(ctx, data.Email.ValueString())
+	// Check if user exists already
+	email := data.Email.ValueString()
+	user, err := r.client.UsersClient.GetUserByEmail(ctx, email)
+	if err == nil { // Exists
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("User with email %s is already registered", email))
+		return
+	}
+
+	user, err = r.client.UsersClient.AddUser(ctx, email)
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create user, got error: %s", err))
 		return
+	}
+
+	// Remove the default "Viewer" permission on all deployments and codelocations
+	if data.RemoveDefaultPermissions.ValueBool() {
+		err = removeAllUserPermissions(ctx, r.client, email)
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("%s", err))
+			return
+		}
 	}
 
 	data.Id = types.Int64Value(int64(user.UserId))
@@ -176,4 +207,37 @@ func (r *UserResource) Delete(ctx context.Context, req resource.DeleteRequest, r
 
 func (r *UserResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	resource.ImportStatePassthroughID(ctx, path.Root("email"), req, resp)
+}
+
+// removeAllUserPermissions removes the default "Viewer" permission on all (normal and branch) deployments
+func removeAllUserPermissions(ctx context.Context, client client.DagsterClient, email string) error {
+	deployments, err := client.DeploymentClient.GetAllDeployments(ctx)
+	if err != nil {
+		return errors.New("Erorr getting a list of deployments")
+	}
+
+	var deploymentId int
+	for _, deployment := range deployments {
+		deploymentId = deployment.DeploymentId
+		err := client.UsersClient.RemoveUserPermission(
+			ctx,
+			email,
+			deploymentId,
+			clientSchema.PermissionDeploymentScopeDeployment,
+		)
+		if err != nil {
+			return errors.New(
+				fmt.Sprintf("error removing permissions from user %s on deployment %v", email, deploymentId),
+			)
+		}
+	}
+
+	// deploymentId does not matter in this call
+	err = client.UsersClient.RemoveUserPermission(ctx, email, 0, clientSchema.PermissionDeploymentScopeAllBranchDeployments)
+	if err != nil {
+		return errors.New(
+			fmt.Sprintf("error removing permissions from user %s on branch deployments", email),
+		)
+	}
+	return nil
 }
