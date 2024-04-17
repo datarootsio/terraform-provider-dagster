@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"fmt"
+	"strconv"
 
 	"github.com/Khan/genqlient/graphql"
 	"github.com/datarootsio/terraform-provider-dagster/internal/client/schema"
@@ -34,6 +35,23 @@ func (c UsersClient) GetUserByEmail(ctx context.Context, email string) (schema.U
 	}
 
 	return schema.User{}, &types.ErrNotFound{What: "User", Key: "email", Value: email}
+}
+
+// GetUserById looks up a user by id and returns it
+func (c UsersClient) GetUserById(ctx context.Context, id int64) (schema.User, error) {
+	result, err := schema.GetUsers(ctx, c.client)
+	if err != nil {
+		return schema.User{}, err
+	}
+
+	users := result.UsersOrError.(*schema.GetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrants).Users
+	for _, user := range users {
+		if int64(user.User.UserId) == id {
+			return user.User.User, nil
+		}
+	}
+
+	return schema.User{}, &types.ErrNotFound{What: "User", Key: "id", Value: strconv.FormatInt(id, 10)}
 }
 
 // AddUser adds a user (identified by an email address) and returns the new user
