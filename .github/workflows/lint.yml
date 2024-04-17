@@ -16,10 +16,13 @@ jobs:
 
       - name: Install dependencies
         run: |
-          # Install any dependencies required to run pre-commit
+          # golangci-lint
+          curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.57.2
+          golangci-lint --version
+          # pre-commit
           pip install pre-commit
+          pre-commit --version
 
       - name: Run pre-commit
         run: |
-          # Run pre-commit on all files
           pre-commit run --all-files
