@@ -8,9 +8,10 @@ import (
 )
 
 type DagsterClient struct {
-	DeploymentClient service.DeploymentClient
-	UsersClient      service.UsersClient
-	TeamsClient      service.TeamsClient
+	DeploymentClient    service.DeploymentClient
+	UsersClient         service.UsersClient
+	TeamsClient         service.TeamsClient
+	CodeLocationsClient service.CodeLocationsClient
 }
 
 func NewDagsterClient(organization, deployment, apiToken string) (DagsterClient, error) {
@@ -25,8 +26,9 @@ func NewDagsterClient(organization, deployment, apiToken string) (DagsterClient,
 	})
 
 	return DagsterClient{
-		DeploymentClient: service.NewDeploymentClient(gqlClient),
-		UsersClient:      service.NewUsersClient(gqlClient),
-		TeamsClient:      service.NewTeamsClient(gqlClient),
+		DeploymentClient:    service.NewDeploymentClient(gqlClient),
+		UsersClient:         service.NewUsersClient(gqlClient),
+		TeamsClient:         service.NewTeamsClient(gqlClient),
+		CodeLocationsClient: service.NewCodeLocationsClient(gqlClient),
 	}, nil
 }

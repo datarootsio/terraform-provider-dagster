@@ -13,3 +13,7 @@ fragment UserLimitError on UserLimitError {
 fragment CantRemoveAllAdminsError on CantRemoveAllAdminsError {
   message
 }
+
+fragment InvalidLocationError on InvalidLocationError {
+  message
+}

@@ -180,7 +180,7 @@ func (r *TeamResource) Delete(ctx context.Context, req resource.DeleteRequest, r
 		return
 	}
 
-	teamId, err := r.client.TeamsClient.DeleteTeam(ctx, data.Id.ValueString())
+	err := r.client.TeamsClient.DeleteTeam(ctx, data.Id.ValueString())
 	if err != nil {
 		var errComp *clientTypes.ErrNotFound
 		if errors.As(err, &errComp) {
@@ -192,7 +192,7 @@ func (r *TeamResource) Delete(ctx context.Context, req resource.DeleteRequest, r
 		return
 	}
 
-	tflog.Trace(ctx, fmt.Sprintf("deleted team resource with id: %s", teamId))
+	tflog.Trace(ctx, fmt.Sprintf("deleted team resource with id: %s", data.Id.ValueString()))
 }
 
 func (r *TeamResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
