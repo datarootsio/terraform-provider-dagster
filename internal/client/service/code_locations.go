@@ -51,61 +51,61 @@ func (c *CodeLocationsClient) GetCodeLocationByName(ctx context.Context, name st
 // TODO: this is a "simple implementation" of managing code locations.
 // Adding k8s args, ect is not supported with this "simple implementation".
 // For full implementation use addOrUpdateLocationFromDocument (from gql api)
-func (c *CodeLocationsClient) AddCodeLocation(ctx context.Context, codeLocation types.CodeLocation) (types.CodeLocation, error) {
+func (c *CodeLocationsClient) AddCodeLocation(ctx context.Context, codeLocation types.CodeLocation) error {
 	_, err := c.GetCodeLocationByName(ctx, codeLocation.Name)
 
 	if err == nil {
-		return types.CodeLocation{}, &types.ErrAlreadyExists{What: "CodeLocation", Key: "name", Value: codeLocation.Name}
+		return &types.ErrAlreadyExists{What: "CodeLocation", Key: "name", Value: codeLocation.Name}
 	}
 
 	var errComp *types.ErrNotFound
 	if !errors.As(err, &errComp) {
-		return types.CodeLocation{}, err
+		return err
 	}
 
 	resp, err := schema.AddOrUpdateCodeLocation(ctx, c.client, codeLocation.Name, codeLocation.Image, codeLocation.CodeSource.PythonFile)
 
 	if err != nil {
-		return types.CodeLocation{}, err
+		return err
 	}
 
 	switch respCast := resp.AddOrUpdateLocation.(type) {
 	case *schema.AddOrUpdateCodeLocationAddOrUpdateLocationWorkspaceEntry:
-		return codeLocation, nil
+		return nil
 	case *schema.AddOrUpdateCodeLocationAddOrUpdateLocationInvalidLocationError:
-		return types.CodeLocation{}, &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
+		return &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
 	case *schema.AddOrUpdateCodeLocationAddOrUpdateLocationPythonError:
-		return types.CodeLocation{}, &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
+		return &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
 	case *schema.AddOrUpdateCodeLocationAddOrUpdateLocationUnauthorizedError:
-		return types.CodeLocation{}, &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
+		return &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
 	default:
-		return types.CodeLocation{}, fmt.Errorf("unexpected type(%T) of result", resp.AddOrUpdateLocation)
+		return fmt.Errorf("unexpected type(%T) of result", resp.AddOrUpdateLocation)
 	}
 }
 
-func (c *CodeLocationsClient) UpdateCodeLocation(ctx context.Context, codeLocation types.CodeLocation) (types.CodeLocation, error) {
+func (c *CodeLocationsClient) UpdateCodeLocation(ctx context.Context, codeLocation types.CodeLocation) error {
 	_, err := c.GetCodeLocationByName(ctx, codeLocation.Name)
 	if err != nil {
-		return types.CodeLocation{}, err
+		return err
 	}
 
 	resp, err := schema.AddOrUpdateCodeLocation(ctx, c.client, codeLocation.Name, codeLocation.Image, codeLocation.CodeSource.PythonFile)
 
 	if err != nil {
-		return types.CodeLocation{}, err
+		return err
 	}
 
 	switch respCast := resp.AddOrUpdateLocation.(type) {
 	case *schema.AddOrUpdateCodeLocationAddOrUpdateLocationWorkspaceEntry:
-		return codeLocation, nil
+		return nil
 	case *schema.AddOrUpdateCodeLocationAddOrUpdateLocationInvalidLocationError:
-		return types.CodeLocation{}, &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
+		return &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
 	case *schema.AddOrUpdateCodeLocationAddOrUpdateLocationPythonError:
-		return types.CodeLocation{}, &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
+		return &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
 	case *schema.AddOrUpdateCodeLocationAddOrUpdateLocationUnauthorizedError:
-		return types.CodeLocation{}, &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
+		return &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
 	default:
-		return types.CodeLocation{}, fmt.Errorf("unexpected type(%T) of result", resp.AddOrUpdateLocation)
+		return fmt.Errorf("unexpected type(%T) of result", resp.AddOrUpdateLocation)
 	}
 }
 

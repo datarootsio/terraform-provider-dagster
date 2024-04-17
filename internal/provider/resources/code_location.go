@@ -88,7 +88,7 @@ func (r *CodeLocationResource) Create(ctx context.Context, req resource.CreateRe
 		return
 	}
 
-	_, err := r.client.CodeLocationsClient.AddCodeLocation(
+	err := r.client.CodeLocationsClient.AddCodeLocation(
 		ctx,
 		clientTypes.CodeLocation{
 			Name:  data.Name.ValueString(),
@@ -158,7 +158,7 @@ func (r *CodeLocationResource) Update(ctx context.Context, req resource.UpdateRe
 		return
 	}
 
-	_, err := r.client.CodeLocationsClient.UpdateCodeLocation(
+	err := r.client.CodeLocationsClient.UpdateCodeLocation(
 		ctx,
 		clientTypes.CodeLocation{
 			Name:  data.Name.ValueString(),
