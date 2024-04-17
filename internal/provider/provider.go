@@ -140,5 +140,6 @@ func (p *DagsterProvider) Resources(_ context.Context) []func() resource.Resourc
 		resources.NewTeamResource,
 		resources.NewTeamDeploymentGrantResource,
 		resources.NewTeamMembershipResource,
+		resources.NewCodeLocationResource,
 	}
 }

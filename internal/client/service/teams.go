@@ -97,26 +97,26 @@ func (c *TeamsClient) CreateTeam(ctx context.Context, name string) (schema.Team,
 	}
 }
 
-func (c *TeamsClient) DeleteTeam(ctx context.Context, id string) (string, error) {
+func (c *TeamsClient) DeleteTeam(ctx context.Context, id string) error {
 	_, err := c.GetTeamById(ctx, id)
 	if err != nil {
-		return "", err
+		return err
 	}
 
 	resp, err := schema.DeleteTeam(ctx, c.client, id)
 	if err != nil {
-		return "", err
+		return err
 	}
 
 	switch respCast := resp.DeleteTeam.(type) {
 	case *schema.DeleteTeamDeleteTeamDeleteTeamSuccess:
-		return respCast.TeamId, nil
+		return nil
 	case *schema.DeleteTeamDeleteTeamPythonError:
-		return "", &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
+		return &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
 	case *schema.DeleteTeamDeleteTeamUnauthorizedError:
-		return "", &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
+		return &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
 	default:
-		return "", fmt.Errorf("unexpected type(%T) of result", resp.DeleteTeam)
+		return fmt.Errorf("unexpected type(%T) of result", resp.DeleteTeam)
 	}
 }
 
