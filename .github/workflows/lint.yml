@@ -14,20 +14,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Setup Go 1.22
-        uses: actions/setup-go@v4
+      - uses: actions/setup-go@v5
         with:
           go-version: "1.22"
+          cache: false
 
-      - name: Install dependencies
-        run: |
-          # golangci-lint
-          curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.57.2
-          golangci-lint --version
-          # pre-commit
-          pip install pre-commit
-          pre-commit --version
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v4
+        with:
+          version: v1.57.2
 
       - name: Run pre-commit
-        run: |
-          pre-commit run --all-files
+        uses: pre-commit/action@v3.0.1
