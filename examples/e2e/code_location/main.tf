@@ -41,5 +41,3 @@ resource "dagster_code_location" "example" {
 output "code_location" {
   value = dagster_code_location.example
 }
-
-
