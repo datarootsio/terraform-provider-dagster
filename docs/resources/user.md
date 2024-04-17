@@ -32,3 +32,12 @@ resource "dagster_user" "test" {
 - `id` (Number) User id
 - `name` (String) Name the Dagster Cloud user
 - `picture` (String) URL to user's profile picture
+
+## Import
+
+Import is supported using the following syntax:
+
+```shell
+# Dagster Users can be imported by specifying their email address
+terraform import dagster_user.this "foo.bar@dataroots.io"
+```

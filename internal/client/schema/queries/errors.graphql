@@ -16,4 +16,8 @@ fragment CantRemoveAllAdminsError on CantRemoveAllAdminsError {
 
 fragment UserNotFoundError on UserNotFoundError {
   message
+ }
+
+fragment InvalidLocationError on InvalidLocationError {
+  message
 }
