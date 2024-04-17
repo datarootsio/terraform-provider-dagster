@@ -34,4 +34,4 @@ jobs:
           skip-build-cache: true
 
       - name: Run pre-commit
-        uses: pre-commit/action@${{ env.PRE_COMMIT_VERSION }}
+        uses: "pre-commit/action@${{ env.PRE_COMMIT_VERSION }}"
