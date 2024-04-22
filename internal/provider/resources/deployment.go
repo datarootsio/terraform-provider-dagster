@@ -72,7 +72,7 @@ func (r *DeploymentResource) Schema(ctx context.Context, req resource.SchemaRequ
 				Required:            true,
 				Computed:            false,
 				Optional:            false,
-				MarkdownDescription: "Deployment settings as a YAML document",
+				MarkdownDescription: "Deployment settings as a JSON document",
 			},
 		},
 	}
@@ -112,16 +112,13 @@ func (r *DeploymentResource) Create(ctx context.Context, req resource.CreateRequ
 		)
 	}
 
-	var settings map[string]interface{}
-	err = json.Unmarshal([]byte(data.Settings.ValueString()), &settings)
-	settingsStr, _ := json.Marshal(settings)
-	r.client.DeploymentClient.SetDeploymentSettings(ctx, deployment.DeploymentId, json.RawMessage(settingsStr))
+	_ = r.client.DeploymentClient.SetDeploymentSettings(ctx, deployment.DeploymentId, json.RawMessage(data.Settings.ValueString()))
 
 	data.Name = types.StringValue(deployment.DeploymentName)
 	data.Id = types.Int64Value(int64(deployment.DeploymentId))
 	data.Status = types.StringValue(string(deployment.DeploymentStatus))
 	data.Type = types.StringValue(string(deployment.DeploymentType))
-	data.Settings = types.StringValue(string(settingsStr))
+	data.Settings = types.StringValue(data.Settings.ValueString())
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -149,16 +146,13 @@ func (r *DeploymentResource) Read(ctx context.Context, req resource.ReadRequest,
 		return
 	}
 
-	var settings map[string]interface{}
-	err = json.Unmarshal([]byte(data.Settings.ValueString()), &settings)
-	settingsStr, _ := json.Marshal(settings)
-	r.client.DeploymentClient.SetDeploymentSettings(ctx, deployment.DeploymentId, json.RawMessage(settingsStr))
+	_ = r.client.DeploymentClient.SetDeploymentSettings(ctx, deployment.DeploymentId, json.RawMessage(data.Settings.ValueString()))
 
 	data.Name = types.StringValue(deployment.DeploymentName)
 	data.Id = types.Int64Value(int64(deployment.DeploymentId))
 	data.Status = types.StringValue(string(deployment.DeploymentStatus))
 	data.Type = types.StringValue(string(deployment.DeploymentType))
-	data.Settings = types.StringValue(string(settingsStr))
+	// data.Settings = types.StringValue(string(settingsStr))
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 

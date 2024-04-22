@@ -32,10 +32,10 @@ provider "dagster" {
 
 resource "dagster_deployment" "test" {
   name              = "test-quinten"
-  settings_document = <<JSON
+  settings_document = <<TEXT
 {
   "run_queue": {
-    "max_concurrent_runs": 11,
+    "max_concurrent_runs": 17,
     "tag_concurrency_limits": []
   },
   "run_monitoring": {
@@ -57,7 +57,7 @@ resource "dagster_deployment" "test" {
     "use_sensors": false
   }
 }
-JSON
+TEXT
 }
 
 # run_queue:
