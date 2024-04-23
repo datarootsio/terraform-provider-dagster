@@ -25,7 +25,7 @@ func TestDagsterClient_TeamsClient_BasicCRUD(t *testing.T) {
 	teamName := "testing/my_team"
 	teamNameRenamed := "testing/my_team_renamed"
 
-	// Ensure not teams with the test names exist
+	// Ensure no teams with the test names exist
 	_, err = teamsClient.GetTeamByName(ctx, teamName)
 	assert.ErrorAs(t, err, &errNotFound)
 
