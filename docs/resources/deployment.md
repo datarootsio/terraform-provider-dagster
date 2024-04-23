@@ -54,7 +54,7 @@ TEXT
 
 ### Optional
 
-- `settings_document` (String) Deployment settings as a JSON document. We recommend using a `dagster_deployment_settings_document` to generate this instead of composing a JSON document yourself
+- `settings_document` (String) Deployment settings as a JSON document. We recommend using a `dagster_deployment_settings_document` to generate this instead of composing a JSON document yourself. Leaving this attribute empty or partially filled in, will result in Dagster (partially) applying default settings to your deployment. This leads to perpetual changes in this resource.
 
 ### Read-Only
 
