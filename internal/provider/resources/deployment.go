@@ -76,10 +76,19 @@ func (r *DeploymentResource) Schema(ctx context.Context, req resource.SchemaRequ
 				MarkdownDescription: "Deployment type (`PRODUCTION`, `DEV` or `BRANCH`)",
 			},
 			"settings_document": schema.StringAttribute{
-				Required:            false,
-				Computed:            true,
-				Optional:            true,
-				MarkdownDescription: "Deployment settings as a JSON document",
+				Required: false,
+				Computed: true,
+				Optional: true,
+				MarkdownDescription: `
+Deployment settings as a JSON document. 
+
+**Note:** this JSON document has to be identical to the one Dagster Cloud stores: please refer to the examples for the correct formatting. If you see perpetual changes or unexpected errors, try to adapt your JSON by reordering keys and using 2 spaces for indentation everywhere.
+
+**Note:** Dagster cloud does not give an error when you provide invalid settings: it just merges
+your document with the current configuration and ignores unknown values. We recommend to always
+specify the deployment settings in full, and use the YAML editor in the Dagster Cloud UI as a 
+starting point. 
+`,
 			},
 		},
 	}
