@@ -80,14 +80,14 @@ func (r *DeploymentResource) Schema(ctx context.Context, req resource.SchemaRequ
 				Computed: true,
 				Optional: true,
 				MarkdownDescription: `
-Deployment settings as a JSON document. 
+Deployment settings as a JSON document.
 
 **Note:** this JSON document has to be identical to the one Dagster Cloud stores: please refer to the examples for the correct formatting. If you see perpetual changes or unexpected errors, try to adapt your JSON by reordering keys and using 2 spaces for indentation everywhere.
 
 **Note:** Dagster cloud does not give an error when you provide invalid settings: it just merges
 your document with the current configuration and ignores unknown values. We recommend to always
-specify the deployment settings in full, and use the YAML editor in the Dagster Cloud UI as a 
-starting point. 
+specify the deployment settings in full, and use the YAML editor in the Dagster Cloud UI as a
+starting point.
 `,
 			},
 		},
@@ -221,7 +221,7 @@ func (r *DeploymentResource) Update(ctx context.Context, req resource.UpdateRequ
 
 	// Set new settings
 	tflog.Trace(ctx, fmt.Sprintf("Applying settings to deployment %v: %v", deploymentName, string(deploymentSettings)))
-	settings, err := r.client.DeploymentClient.SetDeploymentSettings(ctx, int(deploy.DeploymentId), deploymentSettings)
+	settings, err := r.client.DeploymentClient.SetDeploymentSettings(ctx, deploy.DeploymentId, deploymentSettings)
 	if err != nil {
 		tflog.Trace(ctx, fmt.Sprintf("Unable to set deployment settings: %s", err.Error()))
 	}
