@@ -9,6 +9,7 @@ import (
 	"github.com/Khan/genqlient/graphql"
 	"github.com/datarootsio/terraform-provider-dagster/internal/client/schema"
 	"github.com/datarootsio/terraform-provider-dagster/internal/client/types"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
 type DeploymentClient struct {
@@ -121,29 +122,30 @@ func (c DeploymentClient) DeleteDeployment(ctx context.Context, id int) error {
 	}
 }
 
-func (c DeploymentClient) SetDeploymentSettings(ctx context.Context, deploymentId int, settings json.RawMessage) error {
+func (c DeploymentClient) SetDeploymentSettings(ctx context.Context, deploymentId int, settings json.RawMessage) (json.RawMessage, error) {
 	settingsInput := schema.DeploymentSettingsInput{
 		Settings: settings,
 	}
-	resp, err := schema.SetDeploymentSettings(context.Background(), c.client, deploymentId, settingsInput)
+	resp, err := schema.SetDeploymentSettings(ctx, c.client, deploymentId, settingsInput)
 	if err != nil {
-		return fmt.Errorf("Unable to set deployment settings: %w", err)
+		tflog.Trace(ctx, fmt.Sprintf("Unable to set deployment settings: %v", err.Error()))
+		return nil, fmt.Errorf("Unable to set deployment settings: %w", err)
 	}
 
 	switch respCast := resp.SetDeploymentSettings.(type) {
 	case *schema.SetDeploymentSettingsSetDeploymentSettings:
-		return nil
+		return respCast.Settings, nil
 	case *schema.SetDeploymentSettingsSetDeploymentSettingsDeleteFinalDeploymentError:
-		return &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
+		return nil, &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
 	case *schema.SetDeploymentSettingsSetDeploymentSettingsDeploymentNotFoundError:
-		return &types.ErrNotFound{What: "deployment", Key: "id", Value: strconv.Itoa(deploymentId)}
+		return nil, &types.ErrNotFound{What: "deployment", Key: "id", Value: strconv.Itoa(deploymentId)}
 	case *schema.SetDeploymentSettingsSetDeploymentSettingsDuplicateDeploymentError:
-		return &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
+		return nil, &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
 	case *schema.SetDeploymentSettingsSetDeploymentSettingsPythonError:
-		return &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
+		return nil, &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
 	case *schema.SetDeploymentSettingsSetDeploymentSettingsUnauthorizedError:
-		return &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
+		return nil, &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
 	default:
-		return fmt.Errorf("unexpected type(%T) of result", resp.SetDeploymentSettings)
+		return nil, fmt.Errorf("unexpected type(%T) of result", resp.SetDeploymentSettings)
 	}
 }
