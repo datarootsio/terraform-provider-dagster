@@ -9,6 +9,7 @@ import (
 
 	"github.com/datarootsio/terraform-provider-dagster/internal/client"
 	clientTypes "github.com/datarootsio/terraform-provider-dagster/internal/client/types"
+	"github.com/datarootsio/terraform-provider-dagster/internal/utils"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -158,21 +159,19 @@ func (r *DeploymentResource) Create(ctx context.Context, req resource.CreateRequ
 	}
 
 	// Unmarshal+Marshal settings result to make sure it's uniform
-	var settingsJSON map[string]interface{}
-	err = json.Unmarshal(settings, &settingsJSON)
+	settingsStr, err := utils.MakeJSONStringUniform(settings)
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Error unpacking Dagster settings response",
-			fmt.Sprintf("Got: %s", string(settings)),
+			"JSON Format error",
+			fmt.Sprintf("Trying to parse JSON: %s: %s", settings, err.Error()),
 		)
 	}
-	settingsStr, _ := json.Marshal(settingsJSON)
 
 	data.Name = types.StringValue(deployment.DeploymentName)
 	data.Id = types.Int64Value(int64(deployment.DeploymentId))
 	data.Status = types.StringValue(string(deployment.DeploymentStatus))
 	data.Type = types.StringValue(string(deployment.DeploymentType))
-	data.Settings = types.StringValue(string(settingsStr))
+	data.Settings = types.StringValue(settingsStr)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -200,19 +199,15 @@ func (r *DeploymentResource) Read(ctx context.Context, req resource.ReadRequest,
 		return
 	}
 
-	// Unmarshal+Marshal settings result to make sure it's uniform
-	remoteSettings := deployment.DeploymentSettings.Settings
-	var settingsJSON map[string]interface{}
-	err = json.Unmarshal(remoteSettings, &settingsJSON)
+	settings, err := utils.MakeJSONStringUniform(deployment.DeploymentSettings.Settings)
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Error unpacking Dagster settings response",
-			fmt.Sprintf("Got: %s", string(remoteSettings)),
+			"JSON Format error",
+			fmt.Sprintf("Trying to parse JSON: %s: %s", settings, err.Error()),
 		)
 	}
-	settingsStr, _ := json.Marshal(settingsJSON)
 
-	data.Settings = types.StringValue(string(settingsStr))
+	data.Settings = types.StringValue(settings)
 	data.Name = types.StringValue(deployment.DeploymentName)
 	data.Id = types.Int64Value(int64(deployment.DeploymentId))
 	data.Status = types.StringValue(string(deployment.DeploymentStatus))
@@ -246,22 +241,19 @@ func (r *DeploymentResource) Update(ctx context.Context, req resource.UpdateRequ
 		tflog.Trace(ctx, fmt.Sprintf("Unable to set deployment settings: %s", err.Error()))
 	}
 
-	// Unmarshal+Marshal settings result to make sure it's uniform
-	var settingsJSON map[string]interface{}
-	err = json.Unmarshal(settings, &settingsJSON)
+	settingsStr, err := utils.MakeJSONStringUniform(settings)
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Error unpacking Dagster settings response",
-			fmt.Sprintf("Got: %s", string(settings)),
+			"JSON Format error",
+			fmt.Sprintf("Trying to parse JSON: %s: %s", settings, err.Error()),
 		)
 	}
-	settingsStr, _ := json.Marshal(settingsJSON)
 
 	plan.Id = types.Int64Value(int64(deploy.DeploymentId))
 	plan.Status = types.StringValue(string(deploy.DeploymentStatus))
 	plan.Name = types.StringValue(deploy.DeploymentName)
 	plan.Type = types.StringValue(string(deploy.DeploymentType))
-	plan.Settings = types.StringValue(string(settingsStr))
+	plan.Settings = types.StringValue(settingsStr)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &plan)...)
 }
