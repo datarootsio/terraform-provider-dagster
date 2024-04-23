@@ -130,6 +130,7 @@ func (p *DagsterProvider) DataSources(_ context.Context) []func() datasource.Dat
 	return []func() datasource.DataSource{
 		datasources.NewCurrentDeploymentDataSource,
 		datasources.NewUserDataSource,
+		datasources.NewDeploymentSettingsDataSource,
 	}
 }
 
@@ -141,5 +142,6 @@ func (p *DagsterProvider) Resources(_ context.Context) []func() resource.Resourc
 		resources.NewTeamDeploymentGrantResource,
 		resources.NewTeamMembershipResource,
 		resources.NewCodeLocationResource,
+		resources.NewDeploymentResource,
 	}
 }

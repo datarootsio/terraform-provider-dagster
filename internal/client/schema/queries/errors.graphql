@@ -16,8 +16,24 @@ fragment CantRemoveAllAdminsError on CantRemoveAllAdminsError {
 
 fragment UserNotFoundError on UserNotFoundError {
   message
- }
+}
 
 fragment InvalidLocationError on InvalidLocationError {
+  message
+}
+
+fragment DeploymentNotFoundError on DeploymentNotFoundError {
+  message
+}
+
+fragment DuplicateDeploymentError on DuplicateDeploymentError {
+  message
+}
+
+fragment DeploymentLimitError on DeploymentLimitError {
+  message
+}
+
+fragment DeleteFinalDeploymentError on DeleteFinalDeploymentError {
   message
 }
