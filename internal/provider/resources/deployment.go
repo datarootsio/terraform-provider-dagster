@@ -6,7 +6,6 @@ import (
 	"errors"
 	"fmt"
 	"regexp"
-	"strings"
 
 	"github.com/datarootsio/terraform-provider-dagster/internal/client"
 	clientTypes "github.com/datarootsio/terraform-provider-dagster/internal/client/types"
@@ -14,6 +13,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
@@ -23,7 +23,6 @@ import (
 
 var _ resource.Resource = &DeploymentResource{}
 var _ resource.ResourceWithImportState = &DeploymentResource{}
-var _ resource.ResourceWithValidateConfig = &DeploymentResource{}
 
 func NewDeploymentResource() resource.Resource {
 	return &DeploymentResource{}
@@ -66,29 +65,29 @@ func (r *DeploymentResource) Schema(ctx context.Context, req resource.SchemaRequ
 			"id": schema.Int64Attribute{
 				Computed:            true,
 				MarkdownDescription: "Deployment id",
+				PlanModifiers: []planmodifier.Int64{
+					int64planmodifier.UseStateForUnknown(),
+				},
 			},
 			"status": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Deployment status (`ACTIVE` or `PENDNG_DELETION`)",
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 			},
 			"type": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Deployment type (`PRODUCTION`, `DEV` or `BRANCH`)",
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 			},
 			"settings_document": schema.StringAttribute{
-				Required: false,
-				Computed: true,
-				Optional: true,
-				MarkdownDescription: `
-Deployment settings as a JSON document.
-
-**Note:** this JSON document has to be identical to the one Dagster Cloud stores: please refer to the examples for the correct formatting. If you see perpetual changes or unexpected errors, try to adapt your JSON by reordering keys and using 2 spaces for indentation everywhere.
-
-**Note:** Dagster cloud does not give an error when you provide invalid settings: it just merges
-your document with the current configuration and ignores unknown values. We recommend to always
-specify the deployment settings in full, and use the YAML editor in the Dagster Cloud UI as a
-starting point.
-`,
+				Required:            false,
+				Computed:            true,
+				Optional:            true,
+				MarkdownDescription: "Deployment settings as a JSON document. We recommend using a `dagster_deployment_settings_document` to generate this instead of composing a JSON document yourself",
 			},
 		},
 	}
@@ -155,7 +154,17 @@ func (r *DeploymentResource) Create(ctx context.Context, req resource.CreateRequ
 			err.Error(),
 		)
 	}
-	settingsStr, _ := json.MarshalIndent(settings, "", "  ")
+
+	// Unmarshal+Marshal settings result to make sure it's uniform
+	var settingsJSON map[string]interface{}
+	err = json.Unmarshal(settings, &settingsJSON)
+	if err != nil {
+		resp.Diagnostics.AddError(
+			"Error unpacking Dagster settings response",
+			fmt.Sprintf("Got: %s", string(settings)),
+		)
+	}
+	settingsStr, _ := json.Marshal(settingsJSON)
 
 	data.Name = types.StringValue(deployment.DeploymentName)
 	data.Id = types.Int64Value(int64(deployment.DeploymentId))
@@ -189,8 +198,17 @@ func (r *DeploymentResource) Read(ctx context.Context, req resource.ReadRequest,
 		return
 	}
 
-	// Update state with new values
-	settingsStr, _ := json.MarshalIndent(deployment.DeploymentSettings.Settings, "", "  ")
+	// Unmarshal+Marshal settings result to make sure it's uniform
+	remoteSettings := deployment.DeploymentSettings.Settings
+	var settingsJSON map[string]interface{}
+	err = json.Unmarshal(remoteSettings, &settingsJSON)
+	if err != nil {
+		resp.Diagnostics.AddError(
+			"Error unpacking Dagster settings response",
+			fmt.Sprintf("Got: %s", string(remoteSettings)),
+		)
+	}
+	settingsStr, _ := json.Marshal(settingsJSON)
 
 	data.Settings = types.StringValue(string(settingsStr))
 	data.Name = types.StringValue(deployment.DeploymentName)
@@ -226,13 +244,16 @@ func (r *DeploymentResource) Update(ctx context.Context, req resource.UpdateRequ
 		tflog.Trace(ctx, fmt.Sprintf("Unable to set deployment settings: %s", err.Error()))
 	}
 
-	// Store everything in state
-	settingsStr, err := json.MarshalIndent(settings, "", "  ")
+	// Unmarshal+Marshal settings result to make sure it's uniform
+	var settingsJSON map[string]interface{}
+	err = json.Unmarshal(settings, &settingsJSON)
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Client error", fmt.Sprintf("Unable to marshal new settings: %v", string(settings)),
+			"Error unpacking Dagster settings response",
+			fmt.Sprintf("Got: %s", string(settings)),
 		)
 	}
+	settingsStr, _ := json.Marshal(settingsJSON)
 
 	plan.Id = types.Int64Value(int64(deploy.DeploymentId))
 	plan.Status = types.StringValue(string(deploy.DeploymentStatus))
@@ -264,45 +285,6 @@ func (r *DeploymentResource) Delete(ctx context.Context, req resource.DeleteRequ
 	}
 
 	tflog.Trace(ctx, fmt.Sprintf("deleted deployment %s with id: %v", data.Name.ValueString(), data.Id.ValueInt64()))
-}
-
-func (r *DeploymentResource) ValidateConfig(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
-	var data DeploymentResourceModel
-
-	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
-
-	if resp.Diagnostics.HasError() {
-		return
-	}
-
-	// Check whether JSON is correct formatted
-	settings := data.Settings.ValueString()
-
-	if strings.TrimSpace(settings) != settings {
-		resp.Diagnostics.AddAttributeError(
-			path.Root("settings_document"),
-			"Validation error",
-			"settings_document has leading or trailing whitespace. Use trimspace() to remove it.",
-		)
-	}
-	var settingsJSON map[string]interface{}
-	err := json.Unmarshal([]byte(settings), &settingsJSON)
-	if err != nil {
-		resp.Diagnostics.AddAttributeError(
-			path.Root("settings_document"),
-			"Validation error",
-			"Unable to marshal settings_document. Make sure it is valid JSON",
-		)
-	}
-
-	_, err = json.MarshalIndent(settingsJSON, "", "  ")
-	if err != nil {
-		resp.Diagnostics.AddAttributeError(
-			path.Root("settings_document"),
-			"Validation error",
-			"Unable to check formatting. Make sure it is valid JSON.",
-		)
-	}
 }
 
 func (r *DeploymentResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
