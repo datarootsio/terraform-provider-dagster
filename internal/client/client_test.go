@@ -54,4 +54,11 @@ func TestDagsterClient_TeamsClient_BasicCRUD(t *testing.T) {
 
 	err = teamsClient.DeleteTeam(ctx, teamCreated.Id)
 	assert.NoError(t, err)
+
+	// Ensure everything is cleaned up
+	_, err = teamsClient.GetTeamByName(ctx, teamName)
+	assert.ErrorAs(t, err, &errNotFound)
+
+	_, err = teamsClient.GetTeamByName(ctx, teamNameRenamed)
+	assert.ErrorAs(t, err, &errNotFound)
 }
