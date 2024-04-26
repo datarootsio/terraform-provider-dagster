@@ -3,7 +3,7 @@ Terraform provider to manage Dagster Cloud resources.
 
 > **Warning**
 > Unofficial Dagster Cloud Terraform provider
-> 
+>
 > This is a very early version: it implements just what we needed to manage our Dagster organization with Terraform.
 
 ## Coverage
