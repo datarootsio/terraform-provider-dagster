@@ -1275,6 +1275,640 @@ type CantRemoveAllAdminsError struct {
 // GetMessage returns CantRemoveAllAdminsError.Message, and is useful for accessing the field via an interface.
 func (v *CantRemoveAllAdminsError) GetMessage() string { return v.Message }
 
+// CreateHybridDeploymentCreateDeploymentCreateDeploymentResult includes the requested fields of the GraphQL interface CreateDeploymentResult.
+//
+// CreateHybridDeploymentCreateDeploymentCreateDeploymentResult is implemented by the following types:
+// CreateHybridDeploymentCreateDeploymentDagsterCloudDeployment
+// CreateHybridDeploymentCreateDeploymentDeploymentLimitError
+// CreateHybridDeploymentCreateDeploymentDeploymentNotFoundError
+// CreateHybridDeploymentCreateDeploymentDuplicateDeploymentError
+// CreateHybridDeploymentCreateDeploymentPythonError
+// CreateHybridDeploymentCreateDeploymentUnauthorizedError
+type CreateHybridDeploymentCreateDeploymentCreateDeploymentResult interface {
+	implementsGraphQLInterfaceCreateHybridDeploymentCreateDeploymentCreateDeploymentResult()
+	// GetTypename returns the receiver's concrete GraphQL type-name (see interface doc for possible values).
+	GetTypename() string
+}
+
+func (v *CreateHybridDeploymentCreateDeploymentDagsterCloudDeployment) implementsGraphQLInterfaceCreateHybridDeploymentCreateDeploymentCreateDeploymentResult() {
+}
+func (v *CreateHybridDeploymentCreateDeploymentDeploymentLimitError) implementsGraphQLInterfaceCreateHybridDeploymentCreateDeploymentCreateDeploymentResult() {
+}
+func (v *CreateHybridDeploymentCreateDeploymentDeploymentNotFoundError) implementsGraphQLInterfaceCreateHybridDeploymentCreateDeploymentCreateDeploymentResult() {
+}
+func (v *CreateHybridDeploymentCreateDeploymentDuplicateDeploymentError) implementsGraphQLInterfaceCreateHybridDeploymentCreateDeploymentCreateDeploymentResult() {
+}
+func (v *CreateHybridDeploymentCreateDeploymentPythonError) implementsGraphQLInterfaceCreateHybridDeploymentCreateDeploymentCreateDeploymentResult() {
+}
+func (v *CreateHybridDeploymentCreateDeploymentUnauthorizedError) implementsGraphQLInterfaceCreateHybridDeploymentCreateDeploymentCreateDeploymentResult() {
+}
+
+func __unmarshalCreateHybridDeploymentCreateDeploymentCreateDeploymentResult(b []byte, v *CreateHybridDeploymentCreateDeploymentCreateDeploymentResult) error {
+	if string(b) == "null" {
+		return nil
+	}
+
+	var tn struct {
+		TypeName string `json:"__typename"`
+	}
+	err := json.Unmarshal(b, &tn)
+	if err != nil {
+		return err
+	}
+
+	switch tn.TypeName {
+	case "DagsterCloudDeployment":
+		*v = new(CreateHybridDeploymentCreateDeploymentDagsterCloudDeployment)
+		return json.Unmarshal(b, *v)
+	case "DeploymentLimitError":
+		*v = new(CreateHybridDeploymentCreateDeploymentDeploymentLimitError)
+		return json.Unmarshal(b, *v)
+	case "DeploymentNotFoundError":
+		*v = new(CreateHybridDeploymentCreateDeploymentDeploymentNotFoundError)
+		return json.Unmarshal(b, *v)
+	case "DuplicateDeploymentError":
+		*v = new(CreateHybridDeploymentCreateDeploymentDuplicateDeploymentError)
+		return json.Unmarshal(b, *v)
+	case "PythonError":
+		*v = new(CreateHybridDeploymentCreateDeploymentPythonError)
+		return json.Unmarshal(b, *v)
+	case "UnauthorizedError":
+		*v = new(CreateHybridDeploymentCreateDeploymentUnauthorizedError)
+		return json.Unmarshal(b, *v)
+	case "":
+		return fmt.Errorf(
+			"response was missing CreateDeploymentResult.__typename")
+	default:
+		return fmt.Errorf(
+			`unexpected concrete type for CreateHybridDeploymentCreateDeploymentCreateDeploymentResult: "%v"`, tn.TypeName)
+	}
+}
+
+func __marshalCreateHybridDeploymentCreateDeploymentCreateDeploymentResult(v *CreateHybridDeploymentCreateDeploymentCreateDeploymentResult) ([]byte, error) {
+
+	var typename string
+	switch v := (*v).(type) {
+	case *CreateHybridDeploymentCreateDeploymentDagsterCloudDeployment:
+		typename = "DagsterCloudDeployment"
+
+		premarshaled, err := v.__premarshalJSON()
+		if err != nil {
+			return nil, err
+		}
+		result := struct {
+			TypeName string `json:"__typename"`
+			*__premarshalCreateHybridDeploymentCreateDeploymentDagsterCloudDeployment
+		}{typename, premarshaled}
+		return json.Marshal(result)
+	case *CreateHybridDeploymentCreateDeploymentDeploymentLimitError:
+		typename = "DeploymentLimitError"
+
+		premarshaled, err := v.__premarshalJSON()
+		if err != nil {
+			return nil, err
+		}
+		result := struct {
+			TypeName string `json:"__typename"`
+			*__premarshalCreateHybridDeploymentCreateDeploymentDeploymentLimitError
+		}{typename, premarshaled}
+		return json.Marshal(result)
+	case *CreateHybridDeploymentCreateDeploymentDeploymentNotFoundError:
+		typename = "DeploymentNotFoundError"
+
+		premarshaled, err := v.__premarshalJSON()
+		if err != nil {
+			return nil, err
+		}
+		result := struct {
+			TypeName string `json:"__typename"`
+			*__premarshalCreateHybridDeploymentCreateDeploymentDeploymentNotFoundError
+		}{typename, premarshaled}
+		return json.Marshal(result)
+	case *CreateHybridDeploymentCreateDeploymentDuplicateDeploymentError:
+		typename = "DuplicateDeploymentError"
+
+		premarshaled, err := v.__premarshalJSON()
+		if err != nil {
+			return nil, err
+		}
+		result := struct {
+			TypeName string `json:"__typename"`
+			*__premarshalCreateHybridDeploymentCreateDeploymentDuplicateDeploymentError
+		}{typename, premarshaled}
+		return json.Marshal(result)
+	case *CreateHybridDeploymentCreateDeploymentPythonError:
+		typename = "PythonError"
+
+		premarshaled, err := v.__premarshalJSON()
+		if err != nil {
+			return nil, err
+		}
+		result := struct {
+			TypeName string `json:"__typename"`
+			*__premarshalCreateHybridDeploymentCreateDeploymentPythonError
+		}{typename, premarshaled}
+		return json.Marshal(result)
+	case *CreateHybridDeploymentCreateDeploymentUnauthorizedError:
+		typename = "UnauthorizedError"
+
+		premarshaled, err := v.__premarshalJSON()
+		if err != nil {
+			return nil, err
+		}
+		result := struct {
+			TypeName string `json:"__typename"`
+			*__premarshalCreateHybridDeploymentCreateDeploymentUnauthorizedError
+		}{typename, premarshaled}
+		return json.Marshal(result)
+	case nil:
+		return []byte("null"), nil
+	default:
+		return nil, fmt.Errorf(
+			`unexpected concrete type for CreateHybridDeploymentCreateDeploymentCreateDeploymentResult: "%T"`, v)
+	}
+}
+
+// CreateHybridDeploymentCreateDeploymentDagsterCloudDeployment includes the requested fields of the GraphQL type DagsterCloudDeployment.
+type CreateHybridDeploymentCreateDeploymentDagsterCloudDeployment struct {
+	Typename   string `json:"__typename"`
+	Deployment `json:"-"`
+}
+
+// GetTypename returns CreateHybridDeploymentCreateDeploymentDagsterCloudDeployment.Typename, and is useful for accessing the field via an interface.
+func (v *CreateHybridDeploymentCreateDeploymentDagsterCloudDeployment) GetTypename() string {
+	return v.Typename
+}
+
+// GetDeploymentName returns CreateHybridDeploymentCreateDeploymentDagsterCloudDeployment.DeploymentName, and is useful for accessing the field via an interface.
+func (v *CreateHybridDeploymentCreateDeploymentDagsterCloudDeployment) GetDeploymentName() string {
+	return v.Deployment.DeploymentName
+}
+
+// GetDeploymentId returns CreateHybridDeploymentCreateDeploymentDagsterCloudDeployment.DeploymentId, and is useful for accessing the field via an interface.
+func (v *CreateHybridDeploymentCreateDeploymentDagsterCloudDeployment) GetDeploymentId() int {
+	return v.Deployment.DeploymentId
+}
+
+// GetDeploymentStatus returns CreateHybridDeploymentCreateDeploymentDagsterCloudDeployment.DeploymentStatus, and is useful for accessing the field via an interface.
+func (v *CreateHybridDeploymentCreateDeploymentDagsterCloudDeployment) GetDeploymentStatus() DeploymentStatus {
+	return v.Deployment.DeploymentStatus
+}
+
+// GetDeploymentType returns CreateHybridDeploymentCreateDeploymentDagsterCloudDeployment.DeploymentType, and is useful for accessing the field via an interface.
+func (v *CreateHybridDeploymentCreateDeploymentDagsterCloudDeployment) GetDeploymentType() DagsterCloudDeploymentType {
+	return v.Deployment.DeploymentType
+}
+
+// GetDeploymentSettings returns CreateHybridDeploymentCreateDeploymentDagsterCloudDeployment.DeploymentSettings, and is useful for accessing the field via an interface.
+func (v *CreateHybridDeploymentCreateDeploymentDagsterCloudDeployment) GetDeploymentSettings() DeploymentDeploymentSettings {
+	return v.Deployment.DeploymentSettings
+}
+
+func (v *CreateHybridDeploymentCreateDeploymentDagsterCloudDeployment) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*CreateHybridDeploymentCreateDeploymentDagsterCloudDeployment
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.CreateHybridDeploymentCreateDeploymentDagsterCloudDeployment = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(
+		b, &v.Deployment)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+type __premarshalCreateHybridDeploymentCreateDeploymentDagsterCloudDeployment struct {
+	Typename string `json:"__typename"`
+
+	DeploymentName string `json:"deploymentName"`
+
+	DeploymentId int `json:"deploymentId"`
+
+	DeploymentStatus DeploymentStatus `json:"deploymentStatus"`
+
+	DeploymentType DagsterCloudDeploymentType `json:"deploymentType"`
+
+	DeploymentSettings DeploymentDeploymentSettings `json:"deploymentSettings"`
+}
+
+func (v *CreateHybridDeploymentCreateDeploymentDagsterCloudDeployment) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *CreateHybridDeploymentCreateDeploymentDagsterCloudDeployment) __premarshalJSON() (*__premarshalCreateHybridDeploymentCreateDeploymentDagsterCloudDeployment, error) {
+	var retval __premarshalCreateHybridDeploymentCreateDeploymentDagsterCloudDeployment
+
+	retval.Typename = v.Typename
+	retval.DeploymentName = v.Deployment.DeploymentName
+	retval.DeploymentId = v.Deployment.DeploymentId
+	retval.DeploymentStatus = v.Deployment.DeploymentStatus
+	retval.DeploymentType = v.Deployment.DeploymentType
+	retval.DeploymentSettings = v.Deployment.DeploymentSettings
+	return &retval, nil
+}
+
+// CreateHybridDeploymentCreateDeploymentDeploymentLimitError includes the requested fields of the GraphQL type DeploymentLimitError.
+type CreateHybridDeploymentCreateDeploymentDeploymentLimitError struct {
+	Typename             string `json:"__typename"`
+	DeploymentLimitError `json:"-"`
+}
+
+// GetTypename returns CreateHybridDeploymentCreateDeploymentDeploymentLimitError.Typename, and is useful for accessing the field via an interface.
+func (v *CreateHybridDeploymentCreateDeploymentDeploymentLimitError) GetTypename() string {
+	return v.Typename
+}
+
+// GetMessage returns CreateHybridDeploymentCreateDeploymentDeploymentLimitError.Message, and is useful for accessing the field via an interface.
+func (v *CreateHybridDeploymentCreateDeploymentDeploymentLimitError) GetMessage() string {
+	return v.DeploymentLimitError.Message
+}
+
+func (v *CreateHybridDeploymentCreateDeploymentDeploymentLimitError) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*CreateHybridDeploymentCreateDeploymentDeploymentLimitError
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.CreateHybridDeploymentCreateDeploymentDeploymentLimitError = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(
+		b, &v.DeploymentLimitError)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+type __premarshalCreateHybridDeploymentCreateDeploymentDeploymentLimitError struct {
+	Typename string `json:"__typename"`
+
+	Message string `json:"message"`
+}
+
+func (v *CreateHybridDeploymentCreateDeploymentDeploymentLimitError) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *CreateHybridDeploymentCreateDeploymentDeploymentLimitError) __premarshalJSON() (*__premarshalCreateHybridDeploymentCreateDeploymentDeploymentLimitError, error) {
+	var retval __premarshalCreateHybridDeploymentCreateDeploymentDeploymentLimitError
+
+	retval.Typename = v.Typename
+	retval.Message = v.DeploymentLimitError.Message
+	return &retval, nil
+}
+
+// CreateHybridDeploymentCreateDeploymentDeploymentNotFoundError includes the requested fields of the GraphQL type DeploymentNotFoundError.
+type CreateHybridDeploymentCreateDeploymentDeploymentNotFoundError struct {
+	Typename                string `json:"__typename"`
+	DeploymentNotFoundError `json:"-"`
+}
+
+// GetTypename returns CreateHybridDeploymentCreateDeploymentDeploymentNotFoundError.Typename, and is useful for accessing the field via an interface.
+func (v *CreateHybridDeploymentCreateDeploymentDeploymentNotFoundError) GetTypename() string {
+	return v.Typename
+}
+
+// GetMessage returns CreateHybridDeploymentCreateDeploymentDeploymentNotFoundError.Message, and is useful for accessing the field via an interface.
+func (v *CreateHybridDeploymentCreateDeploymentDeploymentNotFoundError) GetMessage() string {
+	return v.DeploymentNotFoundError.Message
+}
+
+func (v *CreateHybridDeploymentCreateDeploymentDeploymentNotFoundError) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*CreateHybridDeploymentCreateDeploymentDeploymentNotFoundError
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.CreateHybridDeploymentCreateDeploymentDeploymentNotFoundError = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(
+		b, &v.DeploymentNotFoundError)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+type __premarshalCreateHybridDeploymentCreateDeploymentDeploymentNotFoundError struct {
+	Typename string `json:"__typename"`
+
+	Message string `json:"message"`
+}
+
+func (v *CreateHybridDeploymentCreateDeploymentDeploymentNotFoundError) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *CreateHybridDeploymentCreateDeploymentDeploymentNotFoundError) __premarshalJSON() (*__premarshalCreateHybridDeploymentCreateDeploymentDeploymentNotFoundError, error) {
+	var retval __premarshalCreateHybridDeploymentCreateDeploymentDeploymentNotFoundError
+
+	retval.Typename = v.Typename
+	retval.Message = v.DeploymentNotFoundError.Message
+	return &retval, nil
+}
+
+// CreateHybridDeploymentCreateDeploymentDuplicateDeploymentError includes the requested fields of the GraphQL type DuplicateDeploymentError.
+type CreateHybridDeploymentCreateDeploymentDuplicateDeploymentError struct {
+	Typename                 string `json:"__typename"`
+	DuplicateDeploymentError `json:"-"`
+}
+
+// GetTypename returns CreateHybridDeploymentCreateDeploymentDuplicateDeploymentError.Typename, and is useful for accessing the field via an interface.
+func (v *CreateHybridDeploymentCreateDeploymentDuplicateDeploymentError) GetTypename() string {
+	return v.Typename
+}
+
+// GetMessage returns CreateHybridDeploymentCreateDeploymentDuplicateDeploymentError.Message, and is useful for accessing the field via an interface.
+func (v *CreateHybridDeploymentCreateDeploymentDuplicateDeploymentError) GetMessage() string {
+	return v.DuplicateDeploymentError.Message
+}
+
+func (v *CreateHybridDeploymentCreateDeploymentDuplicateDeploymentError) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*CreateHybridDeploymentCreateDeploymentDuplicateDeploymentError
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.CreateHybridDeploymentCreateDeploymentDuplicateDeploymentError = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(
+		b, &v.DuplicateDeploymentError)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+type __premarshalCreateHybridDeploymentCreateDeploymentDuplicateDeploymentError struct {
+	Typename string `json:"__typename"`
+
+	Message string `json:"message"`
+}
+
+func (v *CreateHybridDeploymentCreateDeploymentDuplicateDeploymentError) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *CreateHybridDeploymentCreateDeploymentDuplicateDeploymentError) __premarshalJSON() (*__premarshalCreateHybridDeploymentCreateDeploymentDuplicateDeploymentError, error) {
+	var retval __premarshalCreateHybridDeploymentCreateDeploymentDuplicateDeploymentError
+
+	retval.Typename = v.Typename
+	retval.Message = v.DuplicateDeploymentError.Message
+	return &retval, nil
+}
+
+// CreateHybridDeploymentCreateDeploymentPythonError includes the requested fields of the GraphQL type PythonError.
+type CreateHybridDeploymentCreateDeploymentPythonError struct {
+	Typename    string `json:"__typename"`
+	PythonError `json:"-"`
+}
+
+// GetTypename returns CreateHybridDeploymentCreateDeploymentPythonError.Typename, and is useful for accessing the field via an interface.
+func (v *CreateHybridDeploymentCreateDeploymentPythonError) GetTypename() string { return v.Typename }
+
+// GetMessage returns CreateHybridDeploymentCreateDeploymentPythonError.Message, and is useful for accessing the field via an interface.
+func (v *CreateHybridDeploymentCreateDeploymentPythonError) GetMessage() string {
+	return v.PythonError.Message
+}
+
+func (v *CreateHybridDeploymentCreateDeploymentPythonError) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*CreateHybridDeploymentCreateDeploymentPythonError
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.CreateHybridDeploymentCreateDeploymentPythonError = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(
+		b, &v.PythonError)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+type __premarshalCreateHybridDeploymentCreateDeploymentPythonError struct {
+	Typename string `json:"__typename"`
+
+	Message string `json:"message"`
+}
+
+func (v *CreateHybridDeploymentCreateDeploymentPythonError) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *CreateHybridDeploymentCreateDeploymentPythonError) __premarshalJSON() (*__premarshalCreateHybridDeploymentCreateDeploymentPythonError, error) {
+	var retval __premarshalCreateHybridDeploymentCreateDeploymentPythonError
+
+	retval.Typename = v.Typename
+	retval.Message = v.PythonError.Message
+	return &retval, nil
+}
+
+// CreateHybridDeploymentCreateDeploymentUnauthorizedError includes the requested fields of the GraphQL type UnauthorizedError.
+type CreateHybridDeploymentCreateDeploymentUnauthorizedError struct {
+	Typename          string `json:"__typename"`
+	UnauthorizedError `json:"-"`
+}
+
+// GetTypename returns CreateHybridDeploymentCreateDeploymentUnauthorizedError.Typename, and is useful for accessing the field via an interface.
+func (v *CreateHybridDeploymentCreateDeploymentUnauthorizedError) GetTypename() string {
+	return v.Typename
+}
+
+// GetMessage returns CreateHybridDeploymentCreateDeploymentUnauthorizedError.Message, and is useful for accessing the field via an interface.
+func (v *CreateHybridDeploymentCreateDeploymentUnauthorizedError) GetMessage() string {
+	return v.UnauthorizedError.Message
+}
+
+func (v *CreateHybridDeploymentCreateDeploymentUnauthorizedError) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*CreateHybridDeploymentCreateDeploymentUnauthorizedError
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.CreateHybridDeploymentCreateDeploymentUnauthorizedError = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(
+		b, &v.UnauthorizedError)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+type __premarshalCreateHybridDeploymentCreateDeploymentUnauthorizedError struct {
+	Typename string `json:"__typename"`
+
+	Message string `json:"message"`
+}
+
+func (v *CreateHybridDeploymentCreateDeploymentUnauthorizedError) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *CreateHybridDeploymentCreateDeploymentUnauthorizedError) __premarshalJSON() (*__premarshalCreateHybridDeploymentCreateDeploymentUnauthorizedError, error) {
+	var retval __premarshalCreateHybridDeploymentCreateDeploymentUnauthorizedError
+
+	retval.Typename = v.Typename
+	retval.Message = v.UnauthorizedError.Message
+	return &retval, nil
+}
+
+// CreateHybridDeploymentResponse is returned by CreateHybridDeployment on success.
+type CreateHybridDeploymentResponse struct {
+	CreateDeployment CreateHybridDeploymentCreateDeploymentCreateDeploymentResult `json:"-"`
+}
+
+// GetCreateDeployment returns CreateHybridDeploymentResponse.CreateDeployment, and is useful for accessing the field via an interface.
+func (v *CreateHybridDeploymentResponse) GetCreateDeployment() CreateHybridDeploymentCreateDeploymentCreateDeploymentResult {
+	return v.CreateDeployment
+}
+
+func (v *CreateHybridDeploymentResponse) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*CreateHybridDeploymentResponse
+		CreateDeployment json.RawMessage `json:"createDeployment"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.CreateHybridDeploymentResponse = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.CreateDeployment
+		src := firstPass.CreateDeployment
+		if len(src) != 0 && string(src) != "null" {
+			err = __unmarshalCreateHybridDeploymentCreateDeploymentCreateDeploymentResult(
+				src, dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal CreateHybridDeploymentResponse.CreateDeployment: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalCreateHybridDeploymentResponse struct {
+	CreateDeployment json.RawMessage `json:"createDeployment"`
+}
+
+func (v *CreateHybridDeploymentResponse) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *CreateHybridDeploymentResponse) __premarshalJSON() (*__premarshalCreateHybridDeploymentResponse, error) {
+	var retval __premarshalCreateHybridDeploymentResponse
+
+	{
+
+		dst := &retval.CreateDeployment
+		src := v.CreateDeployment
+		var err error
+		*dst, err = __marshalCreateHybridDeploymentCreateDeploymentCreateDeploymentResult(
+			&src)
+		if err != nil {
+			return nil, fmt.Errorf(
+				"unable to marshal CreateHybridDeploymentResponse.CreateDeployment: %w", err)
+		}
+	}
+	return &retval, nil
+}
+
 // CreateOrUpdateTeamPermissionCreateOrUpdateTeamPermissionCreateOrUpdateTeamPermissionMutationResult includes the requested fields of the GraphQL interface CreateOrUpdateTeamPermissionMutationResult.
 //
 // CreateOrUpdateTeamPermissionCreateOrUpdateTeamPermissionCreateOrUpdateTeamPermissionMutationResult is implemented by the following types:
@@ -2126,6 +2760,14 @@ func (v *CreateTeamResponse) __premarshalJSON() (*__premarshalCreateTeamResponse
 	return &retval, nil
 }
 
+type DagsterCloudDeploymentType string
+
+const (
+	DagsterCloudDeploymentTypeProduction DagsterCloudDeploymentType = "PRODUCTION"
+	DagsterCloudDeploymentTypeDev        DagsterCloudDeploymentType = "DEV"
+	DagsterCloudDeploymentTypeBranch     DagsterCloudDeploymentType = "BRANCH"
+)
+
 // DeleteCodeLocationDeleteLocationDeleteLocationMutationResult includes the requested fields of the GraphQL interface DeleteLocationMutationResult.
 //
 // DeleteCodeLocationDeleteLocationDeleteLocationMutationResult is implemented by the following types:
@@ -2432,6 +3074,482 @@ func (v *DeleteCodeLocationResponse) __premarshalJSON() (*__premarshalDeleteCode
 	return &retval, nil
 }
 
+// DeleteDeploymentDeleteDeploymentDagsterCloudDeployment includes the requested fields of the GraphQL type DagsterCloudDeployment.
+type DeleteDeploymentDeleteDeploymentDagsterCloudDeployment struct {
+	Typename     string `json:"__typename"`
+	DeploymentId int    `json:"deploymentId"`
+}
+
+// GetTypename returns DeleteDeploymentDeleteDeploymentDagsterCloudDeployment.Typename, and is useful for accessing the field via an interface.
+func (v *DeleteDeploymentDeleteDeploymentDagsterCloudDeployment) GetTypename() string {
+	return v.Typename
+}
+
+// GetDeploymentId returns DeleteDeploymentDeleteDeploymentDagsterCloudDeployment.DeploymentId, and is useful for accessing the field via an interface.
+func (v *DeleteDeploymentDeleteDeploymentDagsterCloudDeployment) GetDeploymentId() int {
+	return v.DeploymentId
+}
+
+// DeleteDeploymentDeleteDeploymentDeleteDeploymentResult includes the requested fields of the GraphQL interface DeleteDeploymentResult.
+//
+// DeleteDeploymentDeleteDeploymentDeleteDeploymentResult is implemented by the following types:
+// DeleteDeploymentDeleteDeploymentDagsterCloudDeployment
+// DeleteDeploymentDeleteDeploymentDeleteFinalDeploymentError
+// DeleteDeploymentDeleteDeploymentDeploymentNotFoundError
+// DeleteDeploymentDeleteDeploymentPythonError
+// DeleteDeploymentDeleteDeploymentUnauthorizedError
+type DeleteDeploymentDeleteDeploymentDeleteDeploymentResult interface {
+	implementsGraphQLInterfaceDeleteDeploymentDeleteDeploymentDeleteDeploymentResult()
+	// GetTypename returns the receiver's concrete GraphQL type-name (see interface doc for possible values).
+	GetTypename() string
+}
+
+func (v *DeleteDeploymentDeleteDeploymentDagsterCloudDeployment) implementsGraphQLInterfaceDeleteDeploymentDeleteDeploymentDeleteDeploymentResult() {
+}
+func (v *DeleteDeploymentDeleteDeploymentDeleteFinalDeploymentError) implementsGraphQLInterfaceDeleteDeploymentDeleteDeploymentDeleteDeploymentResult() {
+}
+func (v *DeleteDeploymentDeleteDeploymentDeploymentNotFoundError) implementsGraphQLInterfaceDeleteDeploymentDeleteDeploymentDeleteDeploymentResult() {
+}
+func (v *DeleteDeploymentDeleteDeploymentPythonError) implementsGraphQLInterfaceDeleteDeploymentDeleteDeploymentDeleteDeploymentResult() {
+}
+func (v *DeleteDeploymentDeleteDeploymentUnauthorizedError) implementsGraphQLInterfaceDeleteDeploymentDeleteDeploymentDeleteDeploymentResult() {
+}
+
+func __unmarshalDeleteDeploymentDeleteDeploymentDeleteDeploymentResult(b []byte, v *DeleteDeploymentDeleteDeploymentDeleteDeploymentResult) error {
+	if string(b) == "null" {
+		return nil
+	}
+
+	var tn struct {
+		TypeName string `json:"__typename"`
+	}
+	err := json.Unmarshal(b, &tn)
+	if err != nil {
+		return err
+	}
+
+	switch tn.TypeName {
+	case "DagsterCloudDeployment":
+		*v = new(DeleteDeploymentDeleteDeploymentDagsterCloudDeployment)
+		return json.Unmarshal(b, *v)
+	case "DeleteFinalDeploymentError":
+		*v = new(DeleteDeploymentDeleteDeploymentDeleteFinalDeploymentError)
+		return json.Unmarshal(b, *v)
+	case "DeploymentNotFoundError":
+		*v = new(DeleteDeploymentDeleteDeploymentDeploymentNotFoundError)
+		return json.Unmarshal(b, *v)
+	case "PythonError":
+		*v = new(DeleteDeploymentDeleteDeploymentPythonError)
+		return json.Unmarshal(b, *v)
+	case "UnauthorizedError":
+		*v = new(DeleteDeploymentDeleteDeploymentUnauthorizedError)
+		return json.Unmarshal(b, *v)
+	case "":
+		return fmt.Errorf(
+			"response was missing DeleteDeploymentResult.__typename")
+	default:
+		return fmt.Errorf(
+			`unexpected concrete type for DeleteDeploymentDeleteDeploymentDeleteDeploymentResult: "%v"`, tn.TypeName)
+	}
+}
+
+func __marshalDeleteDeploymentDeleteDeploymentDeleteDeploymentResult(v *DeleteDeploymentDeleteDeploymentDeleteDeploymentResult) ([]byte, error) {
+
+	var typename string
+	switch v := (*v).(type) {
+	case *DeleteDeploymentDeleteDeploymentDagsterCloudDeployment:
+		typename = "DagsterCloudDeployment"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*DeleteDeploymentDeleteDeploymentDagsterCloudDeployment
+		}{typename, v}
+		return json.Marshal(result)
+	case *DeleteDeploymentDeleteDeploymentDeleteFinalDeploymentError:
+		typename = "DeleteFinalDeploymentError"
+
+		premarshaled, err := v.__premarshalJSON()
+		if err != nil {
+			return nil, err
+		}
+		result := struct {
+			TypeName string `json:"__typename"`
+			*__premarshalDeleteDeploymentDeleteDeploymentDeleteFinalDeploymentError
+		}{typename, premarshaled}
+		return json.Marshal(result)
+	case *DeleteDeploymentDeleteDeploymentDeploymentNotFoundError:
+		typename = "DeploymentNotFoundError"
+
+		premarshaled, err := v.__premarshalJSON()
+		if err != nil {
+			return nil, err
+		}
+		result := struct {
+			TypeName string `json:"__typename"`
+			*__premarshalDeleteDeploymentDeleteDeploymentDeploymentNotFoundError
+		}{typename, premarshaled}
+		return json.Marshal(result)
+	case *DeleteDeploymentDeleteDeploymentPythonError:
+		typename = "PythonError"
+
+		premarshaled, err := v.__premarshalJSON()
+		if err != nil {
+			return nil, err
+		}
+		result := struct {
+			TypeName string `json:"__typename"`
+			*__premarshalDeleteDeploymentDeleteDeploymentPythonError
+		}{typename, premarshaled}
+		return json.Marshal(result)
+	case *DeleteDeploymentDeleteDeploymentUnauthorizedError:
+		typename = "UnauthorizedError"
+
+		premarshaled, err := v.__premarshalJSON()
+		if err != nil {
+			return nil, err
+		}
+		result := struct {
+			TypeName string `json:"__typename"`
+			*__premarshalDeleteDeploymentDeleteDeploymentUnauthorizedError
+		}{typename, premarshaled}
+		return json.Marshal(result)
+	case nil:
+		return []byte("null"), nil
+	default:
+		return nil, fmt.Errorf(
+			`unexpected concrete type for DeleteDeploymentDeleteDeploymentDeleteDeploymentResult: "%T"`, v)
+	}
+}
+
+// DeleteDeploymentDeleteDeploymentDeleteFinalDeploymentError includes the requested fields of the GraphQL type DeleteFinalDeploymentError.
+type DeleteDeploymentDeleteDeploymentDeleteFinalDeploymentError struct {
+	Typename                   string `json:"__typename"`
+	DeleteFinalDeploymentError `json:"-"`
+}
+
+// GetTypename returns DeleteDeploymentDeleteDeploymentDeleteFinalDeploymentError.Typename, and is useful for accessing the field via an interface.
+func (v *DeleteDeploymentDeleteDeploymentDeleteFinalDeploymentError) GetTypename() string {
+	return v.Typename
+}
+
+// GetMessage returns DeleteDeploymentDeleteDeploymentDeleteFinalDeploymentError.Message, and is useful for accessing the field via an interface.
+func (v *DeleteDeploymentDeleteDeploymentDeleteFinalDeploymentError) GetMessage() string {
+	return v.DeleteFinalDeploymentError.Message
+}
+
+func (v *DeleteDeploymentDeleteDeploymentDeleteFinalDeploymentError) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*DeleteDeploymentDeleteDeploymentDeleteFinalDeploymentError
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.DeleteDeploymentDeleteDeploymentDeleteFinalDeploymentError = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(
+		b, &v.DeleteFinalDeploymentError)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+type __premarshalDeleteDeploymentDeleteDeploymentDeleteFinalDeploymentError struct {
+	Typename string `json:"__typename"`
+
+	Message string `json:"message"`
+}
+
+func (v *DeleteDeploymentDeleteDeploymentDeleteFinalDeploymentError) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *DeleteDeploymentDeleteDeploymentDeleteFinalDeploymentError) __premarshalJSON() (*__premarshalDeleteDeploymentDeleteDeploymentDeleteFinalDeploymentError, error) {
+	var retval __premarshalDeleteDeploymentDeleteDeploymentDeleteFinalDeploymentError
+
+	retval.Typename = v.Typename
+	retval.Message = v.DeleteFinalDeploymentError.Message
+	return &retval, nil
+}
+
+// DeleteDeploymentDeleteDeploymentDeploymentNotFoundError includes the requested fields of the GraphQL type DeploymentNotFoundError.
+type DeleteDeploymentDeleteDeploymentDeploymentNotFoundError struct {
+	Typename                string `json:"__typename"`
+	DeploymentNotFoundError `json:"-"`
+}
+
+// GetTypename returns DeleteDeploymentDeleteDeploymentDeploymentNotFoundError.Typename, and is useful for accessing the field via an interface.
+func (v *DeleteDeploymentDeleteDeploymentDeploymentNotFoundError) GetTypename() string {
+	return v.Typename
+}
+
+// GetMessage returns DeleteDeploymentDeleteDeploymentDeploymentNotFoundError.Message, and is useful for accessing the field via an interface.
+func (v *DeleteDeploymentDeleteDeploymentDeploymentNotFoundError) GetMessage() string {
+	return v.DeploymentNotFoundError.Message
+}
+
+func (v *DeleteDeploymentDeleteDeploymentDeploymentNotFoundError) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*DeleteDeploymentDeleteDeploymentDeploymentNotFoundError
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.DeleteDeploymentDeleteDeploymentDeploymentNotFoundError = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(
+		b, &v.DeploymentNotFoundError)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+type __premarshalDeleteDeploymentDeleteDeploymentDeploymentNotFoundError struct {
+	Typename string `json:"__typename"`
+
+	Message string `json:"message"`
+}
+
+func (v *DeleteDeploymentDeleteDeploymentDeploymentNotFoundError) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *DeleteDeploymentDeleteDeploymentDeploymentNotFoundError) __premarshalJSON() (*__premarshalDeleteDeploymentDeleteDeploymentDeploymentNotFoundError, error) {
+	var retval __premarshalDeleteDeploymentDeleteDeploymentDeploymentNotFoundError
+
+	retval.Typename = v.Typename
+	retval.Message = v.DeploymentNotFoundError.Message
+	return &retval, nil
+}
+
+// DeleteDeploymentDeleteDeploymentPythonError includes the requested fields of the GraphQL type PythonError.
+type DeleteDeploymentDeleteDeploymentPythonError struct {
+	Typename    string `json:"__typename"`
+	PythonError `json:"-"`
+}
+
+// GetTypename returns DeleteDeploymentDeleteDeploymentPythonError.Typename, and is useful for accessing the field via an interface.
+func (v *DeleteDeploymentDeleteDeploymentPythonError) GetTypename() string { return v.Typename }
+
+// GetMessage returns DeleteDeploymentDeleteDeploymentPythonError.Message, and is useful for accessing the field via an interface.
+func (v *DeleteDeploymentDeleteDeploymentPythonError) GetMessage() string {
+	return v.PythonError.Message
+}
+
+func (v *DeleteDeploymentDeleteDeploymentPythonError) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*DeleteDeploymentDeleteDeploymentPythonError
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.DeleteDeploymentDeleteDeploymentPythonError = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(
+		b, &v.PythonError)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+type __premarshalDeleteDeploymentDeleteDeploymentPythonError struct {
+	Typename string `json:"__typename"`
+
+	Message string `json:"message"`
+}
+
+func (v *DeleteDeploymentDeleteDeploymentPythonError) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *DeleteDeploymentDeleteDeploymentPythonError) __premarshalJSON() (*__premarshalDeleteDeploymentDeleteDeploymentPythonError, error) {
+	var retval __premarshalDeleteDeploymentDeleteDeploymentPythonError
+
+	retval.Typename = v.Typename
+	retval.Message = v.PythonError.Message
+	return &retval, nil
+}
+
+// DeleteDeploymentDeleteDeploymentUnauthorizedError includes the requested fields of the GraphQL type UnauthorizedError.
+type DeleteDeploymentDeleteDeploymentUnauthorizedError struct {
+	Typename          string `json:"__typename"`
+	UnauthorizedError `json:"-"`
+}
+
+// GetTypename returns DeleteDeploymentDeleteDeploymentUnauthorizedError.Typename, and is useful for accessing the field via an interface.
+func (v *DeleteDeploymentDeleteDeploymentUnauthorizedError) GetTypename() string { return v.Typename }
+
+// GetMessage returns DeleteDeploymentDeleteDeploymentUnauthorizedError.Message, and is useful for accessing the field via an interface.
+func (v *DeleteDeploymentDeleteDeploymentUnauthorizedError) GetMessage() string {
+	return v.UnauthorizedError.Message
+}
+
+func (v *DeleteDeploymentDeleteDeploymentUnauthorizedError) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*DeleteDeploymentDeleteDeploymentUnauthorizedError
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.DeleteDeploymentDeleteDeploymentUnauthorizedError = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(
+		b, &v.UnauthorizedError)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+type __premarshalDeleteDeploymentDeleteDeploymentUnauthorizedError struct {
+	Typename string `json:"__typename"`
+
+	Message string `json:"message"`
+}
+
+func (v *DeleteDeploymentDeleteDeploymentUnauthorizedError) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *DeleteDeploymentDeleteDeploymentUnauthorizedError) __premarshalJSON() (*__premarshalDeleteDeploymentDeleteDeploymentUnauthorizedError, error) {
+	var retval __premarshalDeleteDeploymentDeleteDeploymentUnauthorizedError
+
+	retval.Typename = v.Typename
+	retval.Message = v.UnauthorizedError.Message
+	return &retval, nil
+}
+
+// DeleteDeploymentResponse is returned by DeleteDeployment on success.
+type DeleteDeploymentResponse struct {
+	DeleteDeployment DeleteDeploymentDeleteDeploymentDeleteDeploymentResult `json:"-"`
+}
+
+// GetDeleteDeployment returns DeleteDeploymentResponse.DeleteDeployment, and is useful for accessing the field via an interface.
+func (v *DeleteDeploymentResponse) GetDeleteDeployment() DeleteDeploymentDeleteDeploymentDeleteDeploymentResult {
+	return v.DeleteDeployment
+}
+
+func (v *DeleteDeploymentResponse) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*DeleteDeploymentResponse
+		DeleteDeployment json.RawMessage `json:"deleteDeployment"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.DeleteDeploymentResponse = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.DeleteDeployment
+		src := firstPass.DeleteDeployment
+		if len(src) != 0 && string(src) != "null" {
+			err = __unmarshalDeleteDeploymentDeleteDeploymentDeleteDeploymentResult(
+				src, dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal DeleteDeploymentResponse.DeleteDeployment: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalDeleteDeploymentResponse struct {
+	DeleteDeployment json.RawMessage `json:"deleteDeployment"`
+}
+
+func (v *DeleteDeploymentResponse) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *DeleteDeploymentResponse) __premarshalJSON() (*__premarshalDeleteDeploymentResponse, error) {
+	var retval __premarshalDeleteDeploymentResponse
+
+	{
+
+		dst := &retval.DeleteDeployment
+		src := v.DeleteDeployment
+		var err error
+		*dst, err = __marshalDeleteDeploymentDeleteDeploymentDeleteDeploymentResult(
+			&src)
+		if err != nil {
+			return nil, fmt.Errorf(
+				"unable to marshal DeleteDeploymentResponse.DeleteDeployment: %w", err)
+		}
+	}
+	return &retval, nil
+}
+
+// DeleteFinalDeploymentError includes the GraphQL fields of DeleteFinalDeploymentError requested by the fragment DeleteFinalDeploymentError.
+type DeleteFinalDeploymentError struct {
+	Message string `json:"message"`
+}
+
+// GetMessage returns DeleteFinalDeploymentError.Message, and is useful for accessing the field via an interface.
+func (v *DeleteFinalDeploymentError) GetMessage() string { return v.Message }
+
 // DeleteTeamDeleteTeamDeleteTeamMutationResult includes the requested fields of the GraphQL interface DeleteTeamMutationResult.
 //
 // DeleteTeamDeleteTeamDeleteTeamMutationResult is implemented by the following types:
@@ -2734,8 +3852,11 @@ func (v *DeleteTeamResponse) __premarshalJSON() (*__premarshalDeleteTeamResponse
 
 // Deployment includes the GraphQL fields of DagsterCloudDeployment requested by the fragment Deployment.
 type Deployment struct {
-	DeploymentName string `json:"deploymentName"`
-	DeploymentId   int    `json:"deploymentId"`
+	DeploymentName     string                       `json:"deploymentName"`
+	DeploymentId       int                          `json:"deploymentId"`
+	DeploymentStatus   DeploymentStatus             `json:"deploymentStatus"`
+	DeploymentType     DagsterCloudDeploymentType   `json:"deploymentType"`
+	DeploymentSettings DeploymentDeploymentSettings `json:"deploymentSettings"`
 }
 
 // GetDeploymentName returns Deployment.DeploymentName, and is useful for accessing the field via an interface.
@@ -2743,6 +3864,63 @@ func (v *Deployment) GetDeploymentName() string { return v.DeploymentName }
 
 // GetDeploymentId returns Deployment.DeploymentId, and is useful for accessing the field via an interface.
 func (v *Deployment) GetDeploymentId() int { return v.DeploymentId }
+
+// GetDeploymentStatus returns Deployment.DeploymentStatus, and is useful for accessing the field via an interface.
+func (v *Deployment) GetDeploymentStatus() DeploymentStatus { return v.DeploymentStatus }
+
+// GetDeploymentType returns Deployment.DeploymentType, and is useful for accessing the field via an interface.
+func (v *Deployment) GetDeploymentType() DagsterCloudDeploymentType { return v.DeploymentType }
+
+// GetDeploymentSettings returns Deployment.DeploymentSettings, and is useful for accessing the field via an interface.
+func (v *Deployment) GetDeploymentSettings() DeploymentDeploymentSettings {
+	return v.DeploymentSettings
+}
+
+// DeploymentDeploymentSettings includes the requested fields of the GraphQL type DeploymentSettings.
+type DeploymentDeploymentSettings struct {
+	Settings json.RawMessage `json:"settings"`
+}
+
+// GetSettings returns DeploymentDeploymentSettings.Settings, and is useful for accessing the field via an interface.
+func (v *DeploymentDeploymentSettings) GetSettings() json.RawMessage { return v.Settings }
+
+// DeploymentLimitError includes the GraphQL fields of DeploymentLimitError requested by the fragment DeploymentLimitError.
+type DeploymentLimitError struct {
+	Message string `json:"message"`
+}
+
+// GetMessage returns DeploymentLimitError.Message, and is useful for accessing the field via an interface.
+func (v *DeploymentLimitError) GetMessage() string { return v.Message }
+
+// DeploymentNotFoundError includes the GraphQL fields of DeploymentNotFoundError requested by the fragment DeploymentNotFoundError.
+type DeploymentNotFoundError struct {
+	Message string `json:"message"`
+}
+
+// GetMessage returns DeploymentNotFoundError.Message, and is useful for accessing the field via an interface.
+func (v *DeploymentNotFoundError) GetMessage() string { return v.Message }
+
+type DeploymentSettingsInput struct {
+	Settings json.RawMessage `json:"settings"`
+}
+
+// GetSettings returns DeploymentSettingsInput.Settings, and is useful for accessing the field via an interface.
+func (v *DeploymentSettingsInput) GetSettings() json.RawMessage { return v.Settings }
+
+type DeploymentStatus string
+
+const (
+	DeploymentStatusActive          DeploymentStatus = "ACTIVE"
+	DeploymentStatusPendingDeletion DeploymentStatus = "PENDING_DELETION"
+)
+
+// DuplicateDeploymentError includes the GraphQL fields of DuplicateDeploymentError requested by the fragment DuplicateDeploymentError.
+type DuplicateDeploymentError struct {
+	Message string `json:"message"`
+}
+
+// GetMessage returns DuplicateDeploymentError.Message, and is useful for accessing the field via an interface.
+func (v *DuplicateDeploymentError) GetMessage() string { return v.Message }
 
 // GetAllDeploymentsDeploymentsDagsterCloudDeployment includes the requested fields of the GraphQL type DagsterCloudDeployment.
 type GetAllDeploymentsDeploymentsDagsterCloudDeployment struct {
@@ -2757,6 +3935,21 @@ func (v *GetAllDeploymentsDeploymentsDagsterCloudDeployment) GetDeploymentName()
 // GetDeploymentId returns GetAllDeploymentsDeploymentsDagsterCloudDeployment.DeploymentId, and is useful for accessing the field via an interface.
 func (v *GetAllDeploymentsDeploymentsDagsterCloudDeployment) GetDeploymentId() int {
 	return v.Deployment.DeploymentId
+}
+
+// GetDeploymentStatus returns GetAllDeploymentsDeploymentsDagsterCloudDeployment.DeploymentStatus, and is useful for accessing the field via an interface.
+func (v *GetAllDeploymentsDeploymentsDagsterCloudDeployment) GetDeploymentStatus() DeploymentStatus {
+	return v.Deployment.DeploymentStatus
+}
+
+// GetDeploymentType returns GetAllDeploymentsDeploymentsDagsterCloudDeployment.DeploymentType, and is useful for accessing the field via an interface.
+func (v *GetAllDeploymentsDeploymentsDagsterCloudDeployment) GetDeploymentType() DagsterCloudDeploymentType {
+	return v.Deployment.DeploymentType
+}
+
+// GetDeploymentSettings returns GetAllDeploymentsDeploymentsDagsterCloudDeployment.DeploymentSettings, and is useful for accessing the field via an interface.
+func (v *GetAllDeploymentsDeploymentsDagsterCloudDeployment) GetDeploymentSettings() DeploymentDeploymentSettings {
+	return v.Deployment.DeploymentSettings
 }
 
 func (v *GetAllDeploymentsDeploymentsDagsterCloudDeployment) UnmarshalJSON(b []byte) error {
@@ -2788,6 +3981,12 @@ type __premarshalGetAllDeploymentsDeploymentsDagsterCloudDeployment struct {
 	DeploymentName string `json:"deploymentName"`
 
 	DeploymentId int `json:"deploymentId"`
+
+	DeploymentStatus DeploymentStatus `json:"deploymentStatus"`
+
+	DeploymentType DagsterCloudDeploymentType `json:"deploymentType"`
+
+	DeploymentSettings DeploymentDeploymentSettings `json:"deploymentSettings"`
 }
 
 func (v *GetAllDeploymentsDeploymentsDagsterCloudDeployment) MarshalJSON() ([]byte, error) {
@@ -2803,6 +4002,9 @@ func (v *GetAllDeploymentsDeploymentsDagsterCloudDeployment) __premarshalJSON() 
 
 	retval.DeploymentName = v.Deployment.DeploymentName
 	retval.DeploymentId = v.Deployment.DeploymentId
+	retval.DeploymentStatus = v.Deployment.DeploymentStatus
+	retval.DeploymentType = v.Deployment.DeploymentType
+	retval.DeploymentSettings = v.Deployment.DeploymentSettings
 	return &retval, nil
 }
 
@@ -2829,6 +4031,21 @@ func (v *GetCurrentDeploymentCurrentDeploymentDagsterCloudDeployment) GetDeploym
 // GetDeploymentId returns GetCurrentDeploymentCurrentDeploymentDagsterCloudDeployment.DeploymentId, and is useful for accessing the field via an interface.
 func (v *GetCurrentDeploymentCurrentDeploymentDagsterCloudDeployment) GetDeploymentId() int {
 	return v.Deployment.DeploymentId
+}
+
+// GetDeploymentStatus returns GetCurrentDeploymentCurrentDeploymentDagsterCloudDeployment.DeploymentStatus, and is useful for accessing the field via an interface.
+func (v *GetCurrentDeploymentCurrentDeploymentDagsterCloudDeployment) GetDeploymentStatus() DeploymentStatus {
+	return v.Deployment.DeploymentStatus
+}
+
+// GetDeploymentType returns GetCurrentDeploymentCurrentDeploymentDagsterCloudDeployment.DeploymentType, and is useful for accessing the field via an interface.
+func (v *GetCurrentDeploymentCurrentDeploymentDagsterCloudDeployment) GetDeploymentType() DagsterCloudDeploymentType {
+	return v.Deployment.DeploymentType
+}
+
+// GetDeploymentSettings returns GetCurrentDeploymentCurrentDeploymentDagsterCloudDeployment.DeploymentSettings, and is useful for accessing the field via an interface.
+func (v *GetCurrentDeploymentCurrentDeploymentDagsterCloudDeployment) GetDeploymentSettings() DeploymentDeploymentSettings {
+	return v.Deployment.DeploymentSettings
 }
 
 func (v *GetCurrentDeploymentCurrentDeploymentDagsterCloudDeployment) UnmarshalJSON(b []byte) error {
@@ -2860,6 +4077,12 @@ type __premarshalGetCurrentDeploymentCurrentDeploymentDagsterCloudDeployment str
 	DeploymentName string `json:"deploymentName"`
 
 	DeploymentId int `json:"deploymentId"`
+
+	DeploymentStatus DeploymentStatus `json:"deploymentStatus"`
+
+	DeploymentType DagsterCloudDeploymentType `json:"deploymentType"`
+
+	DeploymentSettings DeploymentDeploymentSettings `json:"deploymentSettings"`
 }
 
 func (v *GetCurrentDeploymentCurrentDeploymentDagsterCloudDeployment) MarshalJSON() ([]byte, error) {
@@ -2875,6 +4098,9 @@ func (v *GetCurrentDeploymentCurrentDeploymentDagsterCloudDeployment) __premarsh
 
 	retval.DeploymentName = v.Deployment.DeploymentName
 	retval.DeploymentId = v.Deployment.DeploymentId
+	retval.DeploymentStatus = v.Deployment.DeploymentStatus
+	retval.DeploymentType = v.Deployment.DeploymentType
+	retval.DeploymentSettings = v.Deployment.DeploymentSettings
 	return &retval, nil
 }
 
@@ -5733,6 +6959,555 @@ func (v *ScopedPermissionGrantLocationGrantsLocationScopedGrant) __premarshalJSO
 	return &retval, nil
 }
 
+// SetDeploymentSettingsResponse is returned by SetDeploymentSettings on success.
+type SetDeploymentSettingsResponse struct {
+	SetDeploymentSettings SetDeploymentSettingsSetDeploymentSettingsSetDeploymentSettingsResult `json:"-"`
+}
+
+// GetSetDeploymentSettings returns SetDeploymentSettingsResponse.SetDeploymentSettings, and is useful for accessing the field via an interface.
+func (v *SetDeploymentSettingsResponse) GetSetDeploymentSettings() SetDeploymentSettingsSetDeploymentSettingsSetDeploymentSettingsResult {
+	return v.SetDeploymentSettings
+}
+
+func (v *SetDeploymentSettingsResponse) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*SetDeploymentSettingsResponse
+		SetDeploymentSettings json.RawMessage `json:"setDeploymentSettings"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.SetDeploymentSettingsResponse = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.SetDeploymentSettings
+		src := firstPass.SetDeploymentSettings
+		if len(src) != 0 && string(src) != "null" {
+			err = __unmarshalSetDeploymentSettingsSetDeploymentSettingsSetDeploymentSettingsResult(
+				src, dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal SetDeploymentSettingsResponse.SetDeploymentSettings: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalSetDeploymentSettingsResponse struct {
+	SetDeploymentSettings json.RawMessage `json:"setDeploymentSettings"`
+}
+
+func (v *SetDeploymentSettingsResponse) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *SetDeploymentSettingsResponse) __premarshalJSON() (*__premarshalSetDeploymentSettingsResponse, error) {
+	var retval __premarshalSetDeploymentSettingsResponse
+
+	{
+
+		dst := &retval.SetDeploymentSettings
+		src := v.SetDeploymentSettings
+		var err error
+		*dst, err = __marshalSetDeploymentSettingsSetDeploymentSettingsSetDeploymentSettingsResult(
+			&src)
+		if err != nil {
+			return nil, fmt.Errorf(
+				"unable to marshal SetDeploymentSettingsResponse.SetDeploymentSettings: %w", err)
+		}
+	}
+	return &retval, nil
+}
+
+// SetDeploymentSettingsSetDeploymentSettings includes the requested fields of the GraphQL type DeploymentSettings.
+type SetDeploymentSettingsSetDeploymentSettings struct {
+	Typename string          `json:"__typename"`
+	Settings json.RawMessage `json:"settings"`
+}
+
+// GetTypename returns SetDeploymentSettingsSetDeploymentSettings.Typename, and is useful for accessing the field via an interface.
+func (v *SetDeploymentSettingsSetDeploymentSettings) GetTypename() string { return v.Typename }
+
+// GetSettings returns SetDeploymentSettingsSetDeploymentSettings.Settings, and is useful for accessing the field via an interface.
+func (v *SetDeploymentSettingsSetDeploymentSettings) GetSettings() json.RawMessage { return v.Settings }
+
+// SetDeploymentSettingsSetDeploymentSettingsDeleteFinalDeploymentError includes the requested fields of the GraphQL type DeleteFinalDeploymentError.
+type SetDeploymentSettingsSetDeploymentSettingsDeleteFinalDeploymentError struct {
+	Typename                   string `json:"__typename"`
+	DeleteFinalDeploymentError `json:"-"`
+}
+
+// GetTypename returns SetDeploymentSettingsSetDeploymentSettingsDeleteFinalDeploymentError.Typename, and is useful for accessing the field via an interface.
+func (v *SetDeploymentSettingsSetDeploymentSettingsDeleteFinalDeploymentError) GetTypename() string {
+	return v.Typename
+}
+
+// GetMessage returns SetDeploymentSettingsSetDeploymentSettingsDeleteFinalDeploymentError.Message, and is useful for accessing the field via an interface.
+func (v *SetDeploymentSettingsSetDeploymentSettingsDeleteFinalDeploymentError) GetMessage() string {
+	return v.DeleteFinalDeploymentError.Message
+}
+
+func (v *SetDeploymentSettingsSetDeploymentSettingsDeleteFinalDeploymentError) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*SetDeploymentSettingsSetDeploymentSettingsDeleteFinalDeploymentError
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.SetDeploymentSettingsSetDeploymentSettingsDeleteFinalDeploymentError = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(
+		b, &v.DeleteFinalDeploymentError)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+type __premarshalSetDeploymentSettingsSetDeploymentSettingsDeleteFinalDeploymentError struct {
+	Typename string `json:"__typename"`
+
+	Message string `json:"message"`
+}
+
+func (v *SetDeploymentSettingsSetDeploymentSettingsDeleteFinalDeploymentError) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *SetDeploymentSettingsSetDeploymentSettingsDeleteFinalDeploymentError) __premarshalJSON() (*__premarshalSetDeploymentSettingsSetDeploymentSettingsDeleteFinalDeploymentError, error) {
+	var retval __premarshalSetDeploymentSettingsSetDeploymentSettingsDeleteFinalDeploymentError
+
+	retval.Typename = v.Typename
+	retval.Message = v.DeleteFinalDeploymentError.Message
+	return &retval, nil
+}
+
+// SetDeploymentSettingsSetDeploymentSettingsDeploymentNotFoundError includes the requested fields of the GraphQL type DeploymentNotFoundError.
+type SetDeploymentSettingsSetDeploymentSettingsDeploymentNotFoundError struct {
+	Typename                string `json:"__typename"`
+	DeploymentNotFoundError `json:"-"`
+}
+
+// GetTypename returns SetDeploymentSettingsSetDeploymentSettingsDeploymentNotFoundError.Typename, and is useful for accessing the field via an interface.
+func (v *SetDeploymentSettingsSetDeploymentSettingsDeploymentNotFoundError) GetTypename() string {
+	return v.Typename
+}
+
+// GetMessage returns SetDeploymentSettingsSetDeploymentSettingsDeploymentNotFoundError.Message, and is useful for accessing the field via an interface.
+func (v *SetDeploymentSettingsSetDeploymentSettingsDeploymentNotFoundError) GetMessage() string {
+	return v.DeploymentNotFoundError.Message
+}
+
+func (v *SetDeploymentSettingsSetDeploymentSettingsDeploymentNotFoundError) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*SetDeploymentSettingsSetDeploymentSettingsDeploymentNotFoundError
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.SetDeploymentSettingsSetDeploymentSettingsDeploymentNotFoundError = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(
+		b, &v.DeploymentNotFoundError)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+type __premarshalSetDeploymentSettingsSetDeploymentSettingsDeploymentNotFoundError struct {
+	Typename string `json:"__typename"`
+
+	Message string `json:"message"`
+}
+
+func (v *SetDeploymentSettingsSetDeploymentSettingsDeploymentNotFoundError) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *SetDeploymentSettingsSetDeploymentSettingsDeploymentNotFoundError) __premarshalJSON() (*__premarshalSetDeploymentSettingsSetDeploymentSettingsDeploymentNotFoundError, error) {
+	var retval __premarshalSetDeploymentSettingsSetDeploymentSettingsDeploymentNotFoundError
+
+	retval.Typename = v.Typename
+	retval.Message = v.DeploymentNotFoundError.Message
+	return &retval, nil
+}
+
+// SetDeploymentSettingsSetDeploymentSettingsDuplicateDeploymentError includes the requested fields of the GraphQL type DuplicateDeploymentError.
+type SetDeploymentSettingsSetDeploymentSettingsDuplicateDeploymentError struct {
+	Typename                 string `json:"__typename"`
+	DuplicateDeploymentError `json:"-"`
+}
+
+// GetTypename returns SetDeploymentSettingsSetDeploymentSettingsDuplicateDeploymentError.Typename, and is useful for accessing the field via an interface.
+func (v *SetDeploymentSettingsSetDeploymentSettingsDuplicateDeploymentError) GetTypename() string {
+	return v.Typename
+}
+
+// GetMessage returns SetDeploymentSettingsSetDeploymentSettingsDuplicateDeploymentError.Message, and is useful for accessing the field via an interface.
+func (v *SetDeploymentSettingsSetDeploymentSettingsDuplicateDeploymentError) GetMessage() string {
+	return v.DuplicateDeploymentError.Message
+}
+
+func (v *SetDeploymentSettingsSetDeploymentSettingsDuplicateDeploymentError) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*SetDeploymentSettingsSetDeploymentSettingsDuplicateDeploymentError
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.SetDeploymentSettingsSetDeploymentSettingsDuplicateDeploymentError = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(
+		b, &v.DuplicateDeploymentError)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+type __premarshalSetDeploymentSettingsSetDeploymentSettingsDuplicateDeploymentError struct {
+	Typename string `json:"__typename"`
+
+	Message string `json:"message"`
+}
+
+func (v *SetDeploymentSettingsSetDeploymentSettingsDuplicateDeploymentError) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *SetDeploymentSettingsSetDeploymentSettingsDuplicateDeploymentError) __premarshalJSON() (*__premarshalSetDeploymentSettingsSetDeploymentSettingsDuplicateDeploymentError, error) {
+	var retval __premarshalSetDeploymentSettingsSetDeploymentSettingsDuplicateDeploymentError
+
+	retval.Typename = v.Typename
+	retval.Message = v.DuplicateDeploymentError.Message
+	return &retval, nil
+}
+
+// SetDeploymentSettingsSetDeploymentSettingsPythonError includes the requested fields of the GraphQL type PythonError.
+type SetDeploymentSettingsSetDeploymentSettingsPythonError struct {
+	Typename    string `json:"__typename"`
+	PythonError `json:"-"`
+}
+
+// GetTypename returns SetDeploymentSettingsSetDeploymentSettingsPythonError.Typename, and is useful for accessing the field via an interface.
+func (v *SetDeploymentSettingsSetDeploymentSettingsPythonError) GetTypename() string {
+	return v.Typename
+}
+
+// GetMessage returns SetDeploymentSettingsSetDeploymentSettingsPythonError.Message, and is useful for accessing the field via an interface.
+func (v *SetDeploymentSettingsSetDeploymentSettingsPythonError) GetMessage() string {
+	return v.PythonError.Message
+}
+
+func (v *SetDeploymentSettingsSetDeploymentSettingsPythonError) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*SetDeploymentSettingsSetDeploymentSettingsPythonError
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.SetDeploymentSettingsSetDeploymentSettingsPythonError = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(
+		b, &v.PythonError)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+type __premarshalSetDeploymentSettingsSetDeploymentSettingsPythonError struct {
+	Typename string `json:"__typename"`
+
+	Message string `json:"message"`
+}
+
+func (v *SetDeploymentSettingsSetDeploymentSettingsPythonError) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *SetDeploymentSettingsSetDeploymentSettingsPythonError) __premarshalJSON() (*__premarshalSetDeploymentSettingsSetDeploymentSettingsPythonError, error) {
+	var retval __premarshalSetDeploymentSettingsSetDeploymentSettingsPythonError
+
+	retval.Typename = v.Typename
+	retval.Message = v.PythonError.Message
+	return &retval, nil
+}
+
+// SetDeploymentSettingsSetDeploymentSettingsSetDeploymentSettingsResult includes the requested fields of the GraphQL interface SetDeploymentSettingsResult.
+//
+// SetDeploymentSettingsSetDeploymentSettingsSetDeploymentSettingsResult is implemented by the following types:
+// SetDeploymentSettingsSetDeploymentSettingsDeleteFinalDeploymentError
+// SetDeploymentSettingsSetDeploymentSettingsDeploymentNotFoundError
+// SetDeploymentSettingsSetDeploymentSettings
+// SetDeploymentSettingsSetDeploymentSettingsDuplicateDeploymentError
+// SetDeploymentSettingsSetDeploymentSettingsPythonError
+// SetDeploymentSettingsSetDeploymentSettingsUnauthorizedError
+type SetDeploymentSettingsSetDeploymentSettingsSetDeploymentSettingsResult interface {
+	implementsGraphQLInterfaceSetDeploymentSettingsSetDeploymentSettingsSetDeploymentSettingsResult()
+	// GetTypename returns the receiver's concrete GraphQL type-name (see interface doc for possible values).
+	GetTypename() string
+}
+
+func (v *SetDeploymentSettingsSetDeploymentSettingsDeleteFinalDeploymentError) implementsGraphQLInterfaceSetDeploymentSettingsSetDeploymentSettingsSetDeploymentSettingsResult() {
+}
+func (v *SetDeploymentSettingsSetDeploymentSettingsDeploymentNotFoundError) implementsGraphQLInterfaceSetDeploymentSettingsSetDeploymentSettingsSetDeploymentSettingsResult() {
+}
+func (v *SetDeploymentSettingsSetDeploymentSettings) implementsGraphQLInterfaceSetDeploymentSettingsSetDeploymentSettingsSetDeploymentSettingsResult() {
+}
+func (v *SetDeploymentSettingsSetDeploymentSettingsDuplicateDeploymentError) implementsGraphQLInterfaceSetDeploymentSettingsSetDeploymentSettingsSetDeploymentSettingsResult() {
+}
+func (v *SetDeploymentSettingsSetDeploymentSettingsPythonError) implementsGraphQLInterfaceSetDeploymentSettingsSetDeploymentSettingsSetDeploymentSettingsResult() {
+}
+func (v *SetDeploymentSettingsSetDeploymentSettingsUnauthorizedError) implementsGraphQLInterfaceSetDeploymentSettingsSetDeploymentSettingsSetDeploymentSettingsResult() {
+}
+
+func __unmarshalSetDeploymentSettingsSetDeploymentSettingsSetDeploymentSettingsResult(b []byte, v *SetDeploymentSettingsSetDeploymentSettingsSetDeploymentSettingsResult) error {
+	if string(b) == "null" {
+		return nil
+	}
+
+	var tn struct {
+		TypeName string `json:"__typename"`
+	}
+	err := json.Unmarshal(b, &tn)
+	if err != nil {
+		return err
+	}
+
+	switch tn.TypeName {
+	case "DeleteFinalDeploymentError":
+		*v = new(SetDeploymentSettingsSetDeploymentSettingsDeleteFinalDeploymentError)
+		return json.Unmarshal(b, *v)
+	case "DeploymentNotFoundError":
+		*v = new(SetDeploymentSettingsSetDeploymentSettingsDeploymentNotFoundError)
+		return json.Unmarshal(b, *v)
+	case "DeploymentSettings":
+		*v = new(SetDeploymentSettingsSetDeploymentSettings)
+		return json.Unmarshal(b, *v)
+	case "DuplicateDeploymentError":
+		*v = new(SetDeploymentSettingsSetDeploymentSettingsDuplicateDeploymentError)
+		return json.Unmarshal(b, *v)
+	case "PythonError":
+		*v = new(SetDeploymentSettingsSetDeploymentSettingsPythonError)
+		return json.Unmarshal(b, *v)
+	case "UnauthorizedError":
+		*v = new(SetDeploymentSettingsSetDeploymentSettingsUnauthorizedError)
+		return json.Unmarshal(b, *v)
+	case "":
+		return fmt.Errorf(
+			"response was missing SetDeploymentSettingsResult.__typename")
+	default:
+		return fmt.Errorf(
+			`unexpected concrete type for SetDeploymentSettingsSetDeploymentSettingsSetDeploymentSettingsResult: "%v"`, tn.TypeName)
+	}
+}
+
+func __marshalSetDeploymentSettingsSetDeploymentSettingsSetDeploymentSettingsResult(v *SetDeploymentSettingsSetDeploymentSettingsSetDeploymentSettingsResult) ([]byte, error) {
+
+	var typename string
+	switch v := (*v).(type) {
+	case *SetDeploymentSettingsSetDeploymentSettingsDeleteFinalDeploymentError:
+		typename = "DeleteFinalDeploymentError"
+
+		premarshaled, err := v.__premarshalJSON()
+		if err != nil {
+			return nil, err
+		}
+		result := struct {
+			TypeName string `json:"__typename"`
+			*__premarshalSetDeploymentSettingsSetDeploymentSettingsDeleteFinalDeploymentError
+		}{typename, premarshaled}
+		return json.Marshal(result)
+	case *SetDeploymentSettingsSetDeploymentSettingsDeploymentNotFoundError:
+		typename = "DeploymentNotFoundError"
+
+		premarshaled, err := v.__premarshalJSON()
+		if err != nil {
+			return nil, err
+		}
+		result := struct {
+			TypeName string `json:"__typename"`
+			*__premarshalSetDeploymentSettingsSetDeploymentSettingsDeploymentNotFoundError
+		}{typename, premarshaled}
+		return json.Marshal(result)
+	case *SetDeploymentSettingsSetDeploymentSettings:
+		typename = "DeploymentSettings"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*SetDeploymentSettingsSetDeploymentSettings
+		}{typename, v}
+		return json.Marshal(result)
+	case *SetDeploymentSettingsSetDeploymentSettingsDuplicateDeploymentError:
+		typename = "DuplicateDeploymentError"
+
+		premarshaled, err := v.__premarshalJSON()
+		if err != nil {
+			return nil, err
+		}
+		result := struct {
+			TypeName string `json:"__typename"`
+			*__premarshalSetDeploymentSettingsSetDeploymentSettingsDuplicateDeploymentError
+		}{typename, premarshaled}
+		return json.Marshal(result)
+	case *SetDeploymentSettingsSetDeploymentSettingsPythonError:
+		typename = "PythonError"
+
+		premarshaled, err := v.__premarshalJSON()
+		if err != nil {
+			return nil, err
+		}
+		result := struct {
+			TypeName string `json:"__typename"`
+			*__premarshalSetDeploymentSettingsSetDeploymentSettingsPythonError
+		}{typename, premarshaled}
+		return json.Marshal(result)
+	case *SetDeploymentSettingsSetDeploymentSettingsUnauthorizedError:
+		typename = "UnauthorizedError"
+
+		premarshaled, err := v.__premarshalJSON()
+		if err != nil {
+			return nil, err
+		}
+		result := struct {
+			TypeName string `json:"__typename"`
+			*__premarshalSetDeploymentSettingsSetDeploymentSettingsUnauthorizedError
+		}{typename, premarshaled}
+		return json.Marshal(result)
+	case nil:
+		return []byte("null"), nil
+	default:
+		return nil, fmt.Errorf(
+			`unexpected concrete type for SetDeploymentSettingsSetDeploymentSettingsSetDeploymentSettingsResult: "%T"`, v)
+	}
+}
+
+// SetDeploymentSettingsSetDeploymentSettingsUnauthorizedError includes the requested fields of the GraphQL type UnauthorizedError.
+type SetDeploymentSettingsSetDeploymentSettingsUnauthorizedError struct {
+	Typename          string `json:"__typename"`
+	UnauthorizedError `json:"-"`
+}
+
+// GetTypename returns SetDeploymentSettingsSetDeploymentSettingsUnauthorizedError.Typename, and is useful for accessing the field via an interface.
+func (v *SetDeploymentSettingsSetDeploymentSettingsUnauthorizedError) GetTypename() string {
+	return v.Typename
+}
+
+// GetMessage returns SetDeploymentSettingsSetDeploymentSettingsUnauthorizedError.Message, and is useful for accessing the field via an interface.
+func (v *SetDeploymentSettingsSetDeploymentSettingsUnauthorizedError) GetMessage() string {
+	return v.UnauthorizedError.Message
+}
+
+func (v *SetDeploymentSettingsSetDeploymentSettingsUnauthorizedError) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*SetDeploymentSettingsSetDeploymentSettingsUnauthorizedError
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.SetDeploymentSettingsSetDeploymentSettingsUnauthorizedError = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(
+		b, &v.UnauthorizedError)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+type __premarshalSetDeploymentSettingsSetDeploymentSettingsUnauthorizedError struct {
+	Typename string `json:"__typename"`
+
+	Message string `json:"message"`
+}
+
+func (v *SetDeploymentSettingsSetDeploymentSettingsUnauthorizedError) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *SetDeploymentSettingsSetDeploymentSettingsUnauthorizedError) __premarshalJSON() (*__premarshalSetDeploymentSettingsSetDeploymentSettingsUnauthorizedError, error) {
+	var retval __premarshalSetDeploymentSettingsSetDeploymentSettingsUnauthorizedError
+
+	retval.Typename = v.Typename
+	retval.Message = v.UnauthorizedError.Message
+	return &retval, nil
+}
+
 // Team includes the GraphQL fields of DagsterCloudTeam requested by the fragment Team.
 type Team struct {
 	Id      string                        `json:"id"`
@@ -6677,6 +8452,14 @@ type __AddUserInput struct {
 // GetEmail returns __AddUserInput.Email, and is useful for accessing the field via an interface.
 func (v *__AddUserInput) GetEmail() string { return v.Email }
 
+// __CreateHybridDeploymentInput is used internally by genqlient
+type __CreateHybridDeploymentInput struct {
+	Name string `json:"name"`
+}
+
+// GetName returns __CreateHybridDeploymentInput.Name, and is useful for accessing the field via an interface.
+func (v *__CreateHybridDeploymentInput) GetName() string { return v.Name }
+
 // __CreateOrUpdateTeamPermissionInput is used internally by genqlient
 type __CreateOrUpdateTeamPermissionInput struct {
 	DeploymentId    int                        `json:"deploymentId"`
@@ -6720,6 +8503,14 @@ type __DeleteCodeLocationInput struct {
 
 // GetName returns __DeleteCodeLocationInput.Name, and is useful for accessing the field via an interface.
 func (v *__DeleteCodeLocationInput) GetName() string { return v.Name }
+
+// __DeleteDeploymentInput is used internally by genqlient
+type __DeleteDeploymentInput struct {
+	Id int `json:"id"`
+}
+
+// GetId returns __DeleteDeploymentInput.Id, and is useful for accessing the field via an interface.
+func (v *__DeleteDeploymentInput) GetId() int { return v.Id }
 
 // __DeleteTeamInput is used internally by genqlient
 type __DeleteTeamInput struct {
@@ -6796,6 +8587,18 @@ func (v *__RenameTeamInput) GetName() string { return v.Name }
 
 // GetTeamId returns __RenameTeamInput.TeamId, and is useful for accessing the field via an interface.
 func (v *__RenameTeamInput) GetTeamId() string { return v.TeamId }
+
+// __SetDeploymentSettingsInput is used internally by genqlient
+type __SetDeploymentSettingsInput struct {
+	Id       int                     `json:"id"`
+	Settings DeploymentSettingsInput `json:"settings"`
+}
+
+// GetId returns __SetDeploymentSettingsInput.Id, and is useful for accessing the field via an interface.
+func (v *__SetDeploymentSettingsInput) GetId() int { return v.Id }
+
+// GetSettings returns __SetDeploymentSettingsInput.Settings, and is useful for accessing the field via an interface.
+func (v *__SetDeploymentSettingsInput) GetSettings() DeploymentSettingsInput { return v.Settings }
 
 // The query or mutation executed by AddMemberToTeam.
 const AddMemberToTeam_Operation = `
@@ -6983,6 +8786,71 @@ func AddUser(
 	var err_ error
 
 	var data_ AddUserResponse
+	resp_ := &graphql.Response{Data: &data_}
+
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
+	)
+
+	return &data_, err_
+}
+
+// The query or mutation executed by CreateHybridDeployment.
+const CreateHybridDeployment_Operation = `
+mutation CreateHybridDeployment ($name: String!) {
+	createDeployment(deploymentAgentType: HYBRID, deploymentName: $name, inheritPermsDeploymentId: 0) {
+		__typename
+		... Deployment
+		... UnauthorizedError
+		... PythonError
+		... DuplicateDeploymentError
+		... DeploymentLimitError
+		... DeploymentNotFoundError
+	}
+}
+fragment Deployment on DagsterCloudDeployment {
+	deploymentName
+	deploymentId
+	deploymentStatus
+	deploymentType
+	deploymentSettings {
+		settings
+	}
+}
+fragment UnauthorizedError on UnauthorizedError {
+	message
+}
+fragment PythonError on PythonError {
+	message
+}
+fragment DuplicateDeploymentError on DuplicateDeploymentError {
+	message
+}
+fragment DeploymentLimitError on DeploymentLimitError {
+	message
+}
+fragment DeploymentNotFoundError on DeploymentNotFoundError {
+	message
+}
+`
+
+func CreateHybridDeployment(
+	ctx_ context.Context,
+	client_ graphql.Client,
+	name string,
+) (*CreateHybridDeploymentResponse, error) {
+	req_ := &graphql.Request{
+		OpName: "CreateHybridDeployment",
+		Query:  CreateHybridDeployment_Operation,
+		Variables: &__CreateHybridDeploymentInput{
+			Name: name,
+		},
+	}
+	var err_ error
+
+	var data_ CreateHybridDeploymentResponse
 	resp_ := &graphql.Response{Data: &data_}
 
 	err_ = client_.MakeRequest(
@@ -7205,6 +9073,60 @@ func DeleteCodeLocation(
 	return &data_, err_
 }
 
+// The query or mutation executed by DeleteDeployment.
+const DeleteDeployment_Operation = `
+mutation DeleteDeployment ($id: Int!) {
+	deleteDeployment(deploymentId: $id) {
+		__typename
+		... on DagsterCloudDeployment {
+			deploymentId
+		}
+		... PythonError
+		... UnauthorizedError
+		... DeploymentNotFoundError
+		... DeleteFinalDeploymentError
+	}
+}
+fragment PythonError on PythonError {
+	message
+}
+fragment UnauthorizedError on UnauthorizedError {
+	message
+}
+fragment DeploymentNotFoundError on DeploymentNotFoundError {
+	message
+}
+fragment DeleteFinalDeploymentError on DeleteFinalDeploymentError {
+	message
+}
+`
+
+func DeleteDeployment(
+	ctx_ context.Context,
+	client_ graphql.Client,
+	id int,
+) (*DeleteDeploymentResponse, error) {
+	req_ := &graphql.Request{
+		OpName: "DeleteDeployment",
+		Query:  DeleteDeployment_Operation,
+		Variables: &__DeleteDeploymentInput{
+			Id: id,
+		},
+	}
+	var err_ error
+
+	var data_ DeleteDeploymentResponse
+	resp_ := &graphql.Response{Data: &data_}
+
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
+	)
+
+	return &data_, err_
+}
+
 // The query or mutation executed by DeleteTeam.
 const DeleteTeam_Operation = `
 mutation DeleteTeam ($teamId: String!) {
@@ -7261,6 +9183,11 @@ query GetAllDeployments {
 fragment Deployment on DagsterCloudDeployment {
 	deploymentName
 	deploymentId
+	deploymentStatus
+	deploymentType
+	deploymentSettings {
+		settings
+	}
 }
 `
 
@@ -7296,6 +9223,11 @@ query GetCurrentDeployment {
 fragment Deployment on DagsterCloudDeployment {
 	deploymentName
 	deploymentId
+	deploymentStatus
+	deploymentType
+	deploymentSettings {
+		settings
+	}
 }
 `
 
@@ -7865,6 +9797,66 @@ func RenameTeam(
 	var err_ error
 
 	var data_ RenameTeamResponse
+	resp_ := &graphql.Response{Data: &data_}
+
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
+	)
+
+	return &data_, err_
+}
+
+// The query or mutation executed by SetDeploymentSettings.
+const SetDeploymentSettings_Operation = `
+mutation SetDeploymentSettings ($id: Int, $settings: DeploymentSettingsInput!) {
+	setDeploymentSettings(deploymentId: $id, deploymentSettings: $settings) {
+		__typename
+		... on DeploymentSettings {
+			settings
+		}
+		... DeploymentNotFoundError
+		... DuplicateDeploymentError
+		... DeleteFinalDeploymentError
+		... UnauthorizedError
+		... PythonError
+	}
+}
+fragment DeploymentNotFoundError on DeploymentNotFoundError {
+	message
+}
+fragment DuplicateDeploymentError on DuplicateDeploymentError {
+	message
+}
+fragment DeleteFinalDeploymentError on DeleteFinalDeploymentError {
+	message
+}
+fragment UnauthorizedError on UnauthorizedError {
+	message
+}
+fragment PythonError on PythonError {
+	message
+}
+`
+
+func SetDeploymentSettings(
+	ctx_ context.Context,
+	client_ graphql.Client,
+	id int,
+	settings DeploymentSettingsInput,
+) (*SetDeploymentSettingsResponse, error) {
+	req_ := &graphql.Request{
+		OpName: "SetDeploymentSettings",
+		Query:  SetDeploymentSettings_Operation,
+		Variables: &__SetDeploymentSettingsInput{
+			Id:       id,
+			Settings: settings,
+		},
+	}
+	var err_ error
+
+	var data_ SetDeploymentSettingsResponse
 	resp_ := &graphql.Response{Data: &data_}
 
 	err_ = client_.MakeRequest(

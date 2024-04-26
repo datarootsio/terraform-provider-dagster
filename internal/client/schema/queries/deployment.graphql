@@ -1,6 +1,11 @@
 fragment Deployment on DagsterCloudDeployment {
   deploymentName
   deploymentId
+  deploymentStatus
+  deploymentType
+  deploymentSettings {
+    settings
+  }
 }
 
 query GetCurrentDeployment {
@@ -12,5 +17,45 @@ query GetCurrentDeployment {
 query GetAllDeployments {
   deployments {
     ...Deployment
+  }
+}
+
+mutation CreateHybridDeployment($name: String!) {
+  createDeployment(
+    deploymentAgentType: HYBRID
+    deploymentName: $name
+    inheritPermsDeploymentId: 0
+  ) {
+    ...Deployment
+    ...UnauthorizedError
+    ...PythonError
+    ...DuplicateDeploymentError
+    ...DeploymentLimitError
+    ...DeploymentNotFoundError
+  }
+}
+
+mutation DeleteDeployment($id: Int!) {
+  deleteDeployment(deploymentId: $id) {
+    ... on DagsterCloudDeployment {
+      deploymentId
+    }
+    ...PythonError
+    ...UnauthorizedError
+    ...DeploymentNotFoundError
+    ...DeleteFinalDeploymentError
+  }
+}
+
+mutation SetDeploymentSettings($id: Int, $settings: DeploymentSettingsInput!) {
+  setDeploymentSettings(deploymentId: $id, deploymentSettings: $settings) {
+    ... on DeploymentSettings {
+      settings
+    }
+    ...DeploymentNotFoundError
+    ...DuplicateDeploymentError
+    ...DeleteFinalDeploymentError
+    ...UnauthorizedError
+    ...PythonError
   }
 }
