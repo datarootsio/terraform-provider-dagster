@@ -1,9 +1,9 @@
 resource "dagster_deployment" "this" {
   name              = "test-deploy"
-  settings_document = data.dagster_deployment_settings_document.this.json
+  settings_document = data.dagster_configuration_document.this.json
 }
 
-data "dagster_deployment_settings_document" "this" {
+data "dagster_configuration_document" "this" {
   yaml_body = <<YAML
 run_queue:
   max_concurrent_runs: 30
