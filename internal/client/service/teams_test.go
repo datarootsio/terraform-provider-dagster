@@ -1,22 +1,23 @@
-package client
+package service_test
 
 import (
 	"context"
 	"os"
 	"testing"
 
+	"github.com/datarootsio/terraform-provider-dagster/internal/client"
 	"github.com/datarootsio/terraform-provider-dagster/internal/client/types"
 	"github.com/stretchr/testify/assert"
 )
 
-func TestDagsterClient_TeamsClient_BasicCRUD(t *testing.T) {
-	organization := os.Getenv("TERRAFORM_PROVIDER_DAGSTER_TESTING_ORGANIZATION")
-	deployment := os.Getenv("TERRAFORM_PROVIDER_DAGSTER_TESTING_DEPLOYMENT")
-	apiToken := os.Getenv("TERRAFORM_PROVIDER_DAGSTER_TESTING_API_TOKEN")
+func TestTeamsService_BasicCRUD(t *testing.T) {
+	organization := os.Getenv("TF_VAR_tf_provider_testing_organization")
+	deployment := os.Getenv("TF_VAR_tf_provider_testing_deployment")
+	apiToken := os.Getenv("TF_VAR_tf_provider_testing_api_token")
 
 	ctx := context.Background()
 
-	client, err := NewDagsterClient(organization, deployment, apiToken)
+	client, err := client.NewDagsterClient(organization, deployment, apiToken)
 	assert.NoError(t, err)
 
 	teamsClient := client.TeamsClient

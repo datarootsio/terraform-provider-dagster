@@ -30,5 +30,5 @@ reflex:
 .PHONY: reflex
 
 test:
-	go test -count=1 ./...
+	TF_ACC=1 go test -count=1 ./...
 .PHONY: test
