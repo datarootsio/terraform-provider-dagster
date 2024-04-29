@@ -1,4 +1,4 @@
-data "dagster_config_document" "defaults" {
+data "dagster_configuration_document" "defaults" {
   yaml_body = <<YAML
 run_queue:
   max_concurrent_runs: 30

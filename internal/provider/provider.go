@@ -130,7 +130,7 @@ func (p *DagsterProvider) DataSources(_ context.Context) []func() datasource.Dat
 	return []func() datasource.DataSource{
 		datasources.NewCurrentDeploymentDataSource,
 		datasources.NewUserDataSource,
-		datasources.NewConfigDocumentDataSource,
+		datasources.NewConfigurationDocumentDataSource,
 	}
 }
 

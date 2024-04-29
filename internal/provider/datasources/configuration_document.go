@@ -13,31 +13,31 @@ import (
 
 // Ensure the implementation satisfies the expected interfaces.
 var (
-	_ datasource.DataSource              = &ConfigDocumentDataSource{}
-	_ datasource.DataSourceWithConfigure = &ConfigDocumentDataSource{}
+	_ datasource.DataSource              = &ConfigurationDocumentDataSource{}
+	_ datasource.DataSourceWithConfigure = &ConfigurationDocumentDataSource{}
 )
 
-type ConfigDocumentDataSource struct {
+type ConfigurationDocumentDataSource struct {
 	client client.DagsterClient
 }
 
-type ConfigDocumentDataSourceModel struct {
+type ConfigurationDocumentDataSourceModel struct {
 	YAMLBody types.String `tfsdk:"yaml_body"`
 	JSONBody types.String `tfsdk:"json"`
 }
 
-func NewConfigDocumentDataSource() datasource.DataSource {
-	return &ConfigDocumentDataSource{}
+func NewConfigurationDocumentDataSource() datasource.DataSource {
+	return &ConfigurationDocumentDataSource{}
 }
 
-func (d *ConfigDocumentDataSource) Metadata(_ context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
+func (d *ConfigurationDocumentDataSource) Metadata(_ context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_config_document"
 }
 
 // Schema defines the schema for the data source.
-func (d *ConfigDocumentDataSource) Schema(_ context.Context, _ datasource.SchemaRequest, resp *datasource.SchemaResponse) {
+func (d *ConfigurationDocumentDataSource) Schema(_ context.Context, _ datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		Description: `Translates a YAML config document to a JSON document for the Dagster API.`,
+		Description: `Translates a YAML configuration document to a JSON document for the Dagster API.`,
 		Attributes: map[string]schema.Attribute{
 			"yaml_body": schema.StringAttribute{
 				Required:    true,
@@ -53,7 +53,7 @@ func (d *ConfigDocumentDataSource) Schema(_ context.Context, _ datasource.Schema
 }
 
 // Configure adds the provider-configured client to the data source.
-func (d *ConfigDocumentDataSource) Configure(_ context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
+func (d *ConfigurationDocumentDataSource) Configure(_ context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
 	}
@@ -69,8 +69,8 @@ func (d *ConfigDocumentDataSource) Configure(_ context.Context, req datasource.C
 	d.client = client
 }
 
-func (d *ConfigDocumentDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var data ConfigDocumentDataSourceModel
+func (d *ConfigurationDocumentDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
+	var data ConfigurationDocumentDataSourceModel
 
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 	if resp.Diagnostics.HasError() {
