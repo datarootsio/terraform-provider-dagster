@@ -13,47 +13,47 @@ import (
 
 // Ensure the implementation satisfies the expected interfaces.
 var (
-	_ datasource.DataSource              = &DeploymentSettingsDataSource{}
-	_ datasource.DataSourceWithConfigure = &DeploymentSettingsDataSource{}
+	_ datasource.DataSource              = &ConfigDocumentDataSource{}
+	_ datasource.DataSourceWithConfigure = &ConfigDocumentDataSource{}
 )
 
-type DeploymentSettingsDataSource struct {
+type ConfigDocumentDataSource struct {
 	client client.DagsterClient
 }
 
-type DeploymentSettingsDataSourceModel struct {
+type ConfigDocumentDataSourceModel struct {
 	YAMLBody types.String `tfsdk:"yaml_body"`
 	JSONBody types.String `tfsdk:"json"`
 }
 
-func NewDeploymentSettingsDataSource() datasource.DataSource {
-	return &DeploymentSettingsDataSource{}
+func NewConfigDocumentDataSource() datasource.DataSource {
+	return &ConfigDocumentDataSource{}
 }
 
-func (d *DeploymentSettingsDataSource) Metadata(_ context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_deployment_settings_document"
+func (d *ConfigDocumentDataSource) Metadata(_ context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_config_document"
 }
 
 // Schema defines the schema for the data source.
-func (d *DeploymentSettingsDataSource) Schema(_ context.Context, _ datasource.SchemaRequest, resp *datasource.SchemaResponse) {
+func (d *ConfigDocumentDataSource) Schema(_ context.Context, _ datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		Description: `Stores deployment settings`,
+		Description: `Translates a YAML config document to a JSON document for the Dagster API.`,
 		Attributes: map[string]schema.Attribute{
 			"yaml_body": schema.StringAttribute{
 				Required:    true,
 				Computed:    false,
-				Description: "Deployment settings as YAML document",
+				Description: "Settings document as YAML document",
 			},
 			"json": schema.StringAttribute{
 				Computed:    true,
-				Description: "Deployment settings as JSON document",
+				Description: "Settings document as JSON document",
 			},
 		},
 	}
 }
 
 // Configure adds the provider-configured client to the data source.
-func (d *DeploymentSettingsDataSource) Configure(_ context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
+func (d *ConfigDocumentDataSource) Configure(_ context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
 	}
@@ -69,8 +69,8 @@ func (d *DeploymentSettingsDataSource) Configure(_ context.Context, req datasour
 	d.client = client
 }
 
-func (d *DeploymentSettingsDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var data DeploymentSettingsDataSourceModel
+func (d *ConfigDocumentDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
+	var data ConfigDocumentDataSourceModel
 
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 	if resp.Diagnostics.HasError() {
