@@ -31,7 +31,7 @@ func NewConfigurationDocumentDataSource() datasource.DataSource {
 }
 
 func (d *ConfigurationDocumentDataSource) Metadata(_ context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_config_document"
+	resp.TypeName = req.ProviderTypeName + "_configuration_document"
 }
 
 // Schema defines the schema for the data source.
