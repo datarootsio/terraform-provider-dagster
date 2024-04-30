@@ -28,3 +28,7 @@ reflex:
 	@go install github.com/cespare/reflex@latest
 	reflex -r "\.graphql$$" -s -- sh -c "make"
 .PHONY: reflex
+
+test:
+	TF_ACC=1 go test ./...
+.PHONY: test
