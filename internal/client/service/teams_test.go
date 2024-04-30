@@ -11,9 +11,9 @@ import (
 )
 
 func TestTeamsService_BasicCRUD(t *testing.T) {
-	organization := os.Getenv("TF_VAR_tf_provider_testing_organization")
-	deployment := os.Getenv("TF_VAR_tf_provider_testing_deployment")
-	apiToken := os.Getenv("TF_VAR_tf_provider_testing_api_token")
+	organization := os.Getenv("TF_VAR_testing_dagster_organization")
+	deployment := os.Getenv("TF_VAR_testing_dagster_deployment")
+	apiToken := os.Getenv("TF_VAR_testing_dagster_api_token")
 
 	ctx := context.Background()
 

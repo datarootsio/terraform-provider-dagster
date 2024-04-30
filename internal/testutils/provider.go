@@ -30,9 +30,9 @@ func AccTestPreCheck(t *testing.T) {
 	// Use TF_VARs so that we don't clash with possible
 	// real dagster cloud CLI env vars that have been set
 	requiredEnvVars := []string{
-		"TF_VAR_tf_provider_testing_organization",
-		"TF_VAR_tf_provider_testing_deployment",
-		"TF_VAR_tf_provider_testing_api_token",
+		"TF_VAR_testing_dagster_organization",
+		"TF_VAR_testing_dagster_deployment",
+		"TF_VAR_testing_dagster_api_token",
 	}
 
 	for _, envVar := range requiredEnvVars {
@@ -43,13 +43,13 @@ func AccTestPreCheck(t *testing.T) {
 }
 
 const ProviderConfig = `
-variable "tf_provider_testing_organization" {}
-variable "tf_provider_testing_deployment" {}
-variable "tf_provider_testing_api_token" {}
+variable "testing_dagster_organization" {}
+variable "testing_dagster_deployment" {}
+variable "testing_dagster_api_token" {}
 
 provider "dagster" {
-	organization = var.tf_provider_testing_organization
-	deployment   = var.tf_provider_testing_deployment
-	api_token    = var.tf_provider_testing_api_token
+	organization = var.testing_dagster_organization
+	deployment   = var.testing_dagster_deployment
+	api_token    = var.testing_dagster_api_token
 }
 `

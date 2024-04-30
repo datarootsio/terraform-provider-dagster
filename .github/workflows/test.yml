@@ -1,0 +1,32 @@
+name: test
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [opened, synchronize]
+
+env:
+  GO_VERSION: "1.22"
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GO_VERSION }}
+          cache: false
+
+      - name: Run tests
+        env:
+          TF_VAR_testing_dagster_organization: ${{ secrets.TESTING_DAGSTER_ORGANIZATION }}
+          TF_VAR_testing_dagster_deployment: ${{ secrets.TESTING_DAGSTER_DEPLOYMENT }}
+          TF_VAR_testing_dagster_api_token: ${{ secrets.TESTING_DAGSTER_API_TOKEN }}
+        run: |
+          make test
