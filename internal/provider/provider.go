@@ -3,6 +3,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	"os"
 
 	"github.com/datarootsio/terraform-provider-dagster/internal/client"
 	"github.com/datarootsio/terraform-provider-dagster/internal/provider/datasources"
@@ -46,16 +47,19 @@ func (p *DagsterProvider) Schema(_ context.Context, _ provider.SchemaRequest, re
 		Attributes: map[string]schema.Attribute{
 			"organization": schema.StringAttribute{
 				Description: "Dagster Organization. Can also be set via the `DAGSTER_CLOUD_ORGANIZATION` environment variable. Defaults to `https://api.dagster.cloud`",
-				Required:    true,
+				Required:    false,
+				Optional:    true,
 			},
 			"deployment": schema.StringAttribute{
 				Description: "Dagster Deployment. Can also be set via the `DAGSTER_CLOUD_DEPLOYMENT` environment variable. Defaults to `https://api.dagster.cloud`",
-				Required:    true,
+				Required:    false,
+				Optional:    true,
 			},
 			"api_token": schema.StringAttribute{
 				Description: "Dagster Cloud API Token. Can also be set via the `DAGSTER_CLOUD_API_TOKEN` environment variable.",
 				Sensitive:   true,
-				Required:    true,
+				Required:    false,
+				Optional:    true,
 			},
 		},
 	}
@@ -71,9 +75,30 @@ func (p *DagsterProvider) Configure(ctx context.Context, req provider.ConfigureR
 		return
 	}
 
+	var organization string
+	if !config.Organization.IsNull() {
+		organization = config.Organization.ValueString()
+	} else if envVarVal, ok := os.LookupEnv("DAGSTER_CLOUD_ORGANIZATION"); ok {
+		organization = envVarVal
+	}
+
+	var deployment string
+	if !config.Deployment.IsNull() {
+		deployment = config.Deployment.ValueString()
+	} else if envVarVal, ok := os.LookupEnv("DAGSTER_CLOUD_DEPLOYMENT"); ok {
+		deployment = envVarVal
+	}
+
+	var apiToken string
+	if !config.APIToken.IsNull() {
+		apiToken = config.APIToken.ValueString()
+	} else if envVarVal, ok := os.LookupEnv("DAGSTER_CLOUD_API_TOKEN"); ok {
+		apiToken = envVarVal
+	}
+
 	// Ensure that all configuration values passed in to provider are known
 	// https://developer.hashicorp.com/terraform/plugin/framework/handling-data/terraform-concepts#unknown-values
-	if config.Organization.IsUnknown() {
+	if organization == "" {
 		resp.Diagnostics.AddAttributeError(
 			path.Root("organization"),
 			"Unknown Dagster Organization",
@@ -82,7 +107,7 @@ func (p *DagsterProvider) Configure(ctx context.Context, req provider.ConfigureR
 		)
 	}
 
-	if config.Deployment.IsUnknown() {
+	if deployment == "" {
 		resp.Diagnostics.AddAttributeError(
 			path.Root("deployment"),
 			"Unknown Dagster Deployment",
@@ -91,7 +116,7 @@ func (p *DagsterProvider) Configure(ctx context.Context, req provider.ConfigureR
 		)
 	}
 
-	if config.APIToken.IsUnknown() {
+	if apiToken == "" {
 		resp.Diagnostics.AddAttributeError(
 			path.Root("api_token"),
 			"Unknown Dagster API Token",
@@ -105,9 +130,9 @@ func (p *DagsterProvider) Configure(ctx context.Context, req provider.ConfigureR
 	}
 
 	dagsterClient, err := client.NewDagsterClient(
-		config.Organization.ValueString(),
-		config.Deployment.ValueString(),
-		config.APIToken.ValueString(),
+		organization,
+		deployment,
+		apiToken,
 	)
 	if err != nil {
 		resp.Diagnostics.AddError(

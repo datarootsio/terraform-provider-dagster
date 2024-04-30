@@ -32,3 +32,8 @@ reflex:
 test:
 	TF_ACC=1 go test ./...
 .PHONY: test
+
+
+test-no-cache:
+	TF_ACC=1 go test -count=1 ./...
+.PHONY: test-no-cache
