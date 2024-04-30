@@ -7,8 +7,15 @@ import (
 	"github.com/datarootsio/terraform-provider-dagster/internal/testutils"
 	"github.com/hashicorp/terraform-plugin-testing/helper/acctest"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
-	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
+
+func testAccResourceTeamConfig(teamName string) string {
+	return fmt.Sprintf(testutils.ProviderConfig+`
+resource "dagster_team" "test" {
+	name = "%s"
+}
+`, teamName)
+}
 
 func TestAccResource_team_basic(t *testing.T) {
 	teamName := "tar-team-basic/" + acctest.RandStringFromCharSet(5, acctest.CharSetAlphaNum)
@@ -25,7 +32,7 @@ func TestAccResource_team_basic(t *testing.T) {
 				Config: testAccResourceTeamConfig(teamName),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr("dagster_team.test", "name", teamName),
-					fetchTeamId("dagster_team.test", &teamId),
+					testutils.FetchValueFromState("dagster_team.test", "id", &teamId),
 				),
 			},
 			//Rename team, should have same id as initial create
@@ -38,30 +45,4 @@ func TestAccResource_team_basic(t *testing.T) {
 			},
 		},
 	})
-}
-
-func testAccResourceTeamConfig(teamName string) string {
-	return fmt.Sprintf(testutils.ProviderConfig+`
-resource "dagster_team" "test" {
-	name = "%s"
-}
-`, teamName)
-}
-
-func fetchTeamId(resourceName string, teamId *string) resource.TestCheckFunc {
-	return func(s *terraform.State) error {
-		rs, ok := s.RootModule().Resources[resourceName]
-		if !ok {
-			return fmt.Errorf("Team resource (%s) not found in state", resourceName)
-		}
-
-		val, ok := rs.Primary.Attributes["id"]
-		if !ok {
-			return fmt.Errorf("Error fetching id from team resource (%s)", resourceName)
-		}
-
-		*teamId = val
-
-		return nil
-	}
 }
