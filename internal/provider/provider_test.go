@@ -11,6 +11,7 @@ import (
 )
 
 func TestAccProvider_configViaEnvVars(t *testing.T) {
+	// Using an arbitrary resource to test the provider
 	t.Setenv("DAGSTER_CLOUD_ORGANIZATION", os.Getenv("TF_VAR_testing_dagster_organization"))
 	t.Setenv("DAGSTER_CLOUD_DEPLOYMENT", os.Getenv("TF_VAR_testing_dagster_deployment"))
 	t.Setenv("DAGSTER_CLOUD_API_TOKEN", os.Getenv("TF_VAR_testing_dagster_api_token"))
