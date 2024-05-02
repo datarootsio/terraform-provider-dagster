@@ -32,3 +32,8 @@ reflex:
 test:
 	TF_ACC=1 go test ./...
 .PHONY: test
+
+test-cover:
+	TF_ACC=1 go test ./... -coverprofile=cover.out
+	go tool cover -html=cover.out
+	rm cover.out
