@@ -29,7 +29,7 @@ func TestDeploymentService_BasicCRUD(t *testing.T) {
 	assert.Equal(t, deploymentName, deploymentCreated.DeploymentName, "Expected deployment names to be the same.")
 
 	t.Cleanup(func() {
-		deploymentClient.DeleteDeployment(ctx, deploymentCreated.DeploymentId)
+		_ = deploymentClient.DeleteDeployment(ctx, deploymentCreated.DeploymentId)
 	})
 
 	// Read deployment by id and name
@@ -70,7 +70,7 @@ func TestDeploymentSettingsCRUD(t *testing.T) {
 	settingsAtCreation := deployment.DeploymentSettings
 
 	t.Cleanup(func() {
-		deploymentClient.DeleteDeployment(ctx, deployment.DeploymentId)
+		_ = deploymentClient.DeleteDeployment(ctx, deployment.DeploymentId)
 	})
 
 	// Read deployment by id

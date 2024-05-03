@@ -32,8 +32,8 @@ func TestCodeLocationService_BasicCRUD(t *testing.T) {
 	}
 
 	t.Cleanup(func() {
-		client.DeleteCodeLocation(ctx, codeLocation.Name)
-		client.DeleteCodeLocation(ctx, updatedCodeLocation.Name)
+		_ = client.DeleteCodeLocation(ctx, codeLocation.Name)
+		_ = client.DeleteCodeLocation(ctx, updatedCodeLocation.Name)
 	})
 
 	// Check that code location doesn't exist
