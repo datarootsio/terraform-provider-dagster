@@ -8,6 +8,9 @@ import (
 )
 
 type DagsterClient struct {
+	Organization string
+	Deployment   string
+
 	DeploymentClient    service.DeploymentClient
 	UsersClient         service.UsersClient
 	TeamsClient         service.TeamsClient
@@ -26,6 +29,9 @@ func NewDagsterClient(organization, deployment, apiToken string) (DagsterClient,
 	})
 
 	return DagsterClient{
+		Organization: organization,
+		Deployment:   deployment,
+
 		DeploymentClient:    service.NewDeploymentClient(gqlClient),
 		UsersClient:         service.NewUsersClient(gqlClient),
 		TeamsClient:         service.NewTeamsClient(gqlClient),
