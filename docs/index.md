@@ -20,7 +20,7 @@ description: |-
 provider "dagster" {}
 
 # Explicitly
-# Note: Explicit configuration in the provider block takes precedences over the Env vars from the example above.
+# Note: Explicit configuration in the provider block takes precedences over the environment variables from the example above.
 provider "dagster" {
   organization = var.organization
   deployment   = var.deployment
