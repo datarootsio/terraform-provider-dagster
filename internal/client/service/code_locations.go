@@ -22,24 +22,12 @@ func NewCodeLocationsClient(client graphql.Client) CodeLocationsClient {
 }
 
 func (c *CodeLocationsClient) GetCodeLocationByName(ctx context.Context, name string) (types.CodeLocation, error) {
-	resp, err := schema.ListCodeLocations(ctx, c.client)
+	codeLocations, err := c.ListCodeLocations(ctx)
 	if err != nil {
 		return types.CodeLocation{}, err
 	}
 
-	codeLocationsAsBytes, err := resp.LocationsAsDocument.Document.MarshalJSON()
-	if err != nil {
-		return types.CodeLocation{}, err
-	}
-
-	codeLocations := types.CodeLocationsAsDocumentResponse{}
-
-	err = json.Unmarshal(codeLocationsAsBytes, &codeLocations)
-	if err != nil {
-		return types.CodeLocation{}, err
-	}
-
-	for _, codeLocation := range codeLocations.Locations {
+	for _, codeLocation := range codeLocations {
 		if codeLocation.Name == name {
 			return codeLocation, nil
 		}
@@ -130,4 +118,25 @@ func (c *CodeLocationsClient) DeleteCodeLocation(ctx context.Context, name strin
 	default:
 		return fmt.Errorf("unexpected type(%T) of result", resp.DeleteLocation)
 	}
+}
+
+func (c *CodeLocationsClient) ListCodeLocations(ctx context.Context) ([]types.CodeLocation, error) {
+	resp, err := schema.ListCodeLocations(ctx, c.client)
+	if err != nil {
+		return []types.CodeLocation{}, err
+	}
+
+	codeLocationsAsBytes, err := resp.LocationsAsDocument.Document.MarshalJSON()
+	if err != nil {
+		return []types.CodeLocation{}, err
+	}
+
+	codeLocations := types.CodeLocationsAsDocumentResponse{}
+
+	err = json.Unmarshal(codeLocationsAsBytes, &codeLocations)
+	if err != nil {
+		return []types.CodeLocation{}, err
+	}
+
+	return codeLocations.Locations, nil
 }
