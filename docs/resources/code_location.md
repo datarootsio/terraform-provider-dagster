@@ -27,16 +27,16 @@ resource "dagster_code_location" "example" {
 
 ### Required
 
-- `name` (String) Code Location name
+- `code_source` (Attributes) Code Location code source (see [below for nested schema](#nestedatt--code_source))
+- `name` (String) Code Location name.
 
 ### Optional
 
 - `agent_queue` (String) Code Location agent queue
 - `attribute` (String) Code Location attribute
-- `code_source` (Attributes) Code Location code source (see [below for nested schema](#nestedatt--code_source))
 - `executable_path` (String) Code Location executable path
-- `git` (Attributes) Code Location git (see [below for nested schema](#nestedatt--git))
-- `image` (String) Code Location image
+- `git` (Attributes) Code Location git. Git or Image is a required field (mutually exclusive). (see [below for nested schema](#nestedatt--git))
+- `image` (String) Code Location image. Git or Image is a required field (mutually exclusive).
 - `working_directory` (String) Code Location working directory
 
 <a id="nestedatt--code_source"></a>
@@ -44,9 +44,9 @@ resource "dagster_code_location" "example" {
 
 Optional:
 
-- `module_name` (String) Code Location code source module name
-- `package_name` (String) Code Location code source package name
-- `python_file` (String) Code Location code source python file
+- `module_name` (String) Code Location code source module name. One of module_name/package_name/python_file is required (mutually exclusive).
+- `package_name` (String) Code Location code source package name. One of module_name/package_name/python_file is required (mutually exclusive).
+- `python_file` (String) Code Location code source python file. One of module_name/package_name/python_file is required (mutually exclusive).
 
 
 <a id="nestedatt--git"></a>
@@ -54,5 +54,5 @@ Optional:
 
 Required:
 
-- `commit_hash` (String) Code Location git commit hash
-- `url` (String) Code Location git URL
+- `commit_hash` (String) Code Location git commit hash. If git is specified, `commit_hash` is required.
+- `url` (String) Code Location git URL. If git is specified, `url` is required.

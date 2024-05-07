@@ -45,35 +45,34 @@ func (r *CodeLocationResource) Schema(ctx context.Context, req resource.SchemaRe
 
 		Attributes: map[string]schema.Attribute{
 			"name": schema.StringAttribute{
-				MarkdownDescription: "Code Location name",
+				MarkdownDescription: "Code Location name. ",
 				Required:            true,
 			},
 			"image": schema.StringAttribute{
-				MarkdownDescription: "Code Location image",
+				MarkdownDescription: "Code Location image. Git or Image is a required field (mutually exclusive).",
 				Required:            false,
 				Optional:            true,
 			},
 			"code_source": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
 					"module_name": schema.StringAttribute{
-						MarkdownDescription: "Code Location code source module name",
+						MarkdownDescription: "Code Location code source module name. One of module_name/package_name/python_file is required (mutually exclusive).",
 						Required:            false,
 						Optional:            true,
 					},
 					"package_name": schema.StringAttribute{
-						MarkdownDescription: "Code Location code source package name",
+						MarkdownDescription: "Code Location code source package name. One of module_name/package_name/python_file is required (mutually exclusive).",
 						Required:            false,
 						Optional:            true,
 					},
 					"python_file": schema.StringAttribute{
-						MarkdownDescription: "Code Location code source python file",
+						MarkdownDescription: "Code Location code source python file. One of module_name/package_name/python_file is required (mutually exclusive).",
 						Required:            false,
 						Optional:            true,
 					},
 				},
 				MarkdownDescription: "Code Location code source",
-				Required:            false,
-				Optional:            true,
+				Required:            true,
 			},
 			"working_directory": schema.StringAttribute{
 				MarkdownDescription: "Code Location working directory",
@@ -93,15 +92,15 @@ func (r *CodeLocationResource) Schema(ctx context.Context, req resource.SchemaRe
 			"git": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
 					"commit_hash": schema.StringAttribute{
-						MarkdownDescription: "Code Location git commit hash",
+						MarkdownDescription: "Code Location git commit hash. If git is specified, `commit_hash` is required.",
 						Required:            true,
 					},
 					"url": schema.StringAttribute{
-						MarkdownDescription: "Code Location git URL",
+						MarkdownDescription: "Code Location git URL. If git is specified, `url` is required.",
 						Required:            true,
 					},
 				},
-				MarkdownDescription: "Code Location git",
+				MarkdownDescription: "Code Location git. Git or Image is a required field (mutually exclusive).",
 				Required:            false,
 				Optional:            true,
 			},
@@ -141,28 +140,35 @@ func (r *CodeLocationResource) Create(ctx context.Context, req resource.CreateRe
 		return
 	}
 
+	moduleName, _ := data.CodeSource.Attributes()["module_name"].(types.String)
+	packageName, _ := data.CodeSource.Attributes()["package_name"].(types.String)
+	pythonFile, _ := data.CodeSource.Attributes()["python_file"].(types.String)
+
+	commitHash, _ := data.Git.Attributes()["commit_hash"].(types.String)
+	url, _ := data.Git.Attributes()["url"].(types.String)
+
 	err := r.client.CodeLocationsClient.AddCodeLocation(
 		ctx,
 		clientTypes.CodeLocation{
 			Name:  data.Name.ValueString(),
 			Image: data.Image.ValueString(),
 			CodeSource: clientTypes.CodeLocationCodeSource{
-				ModuleName:  data.CodeSource.Attributes()["module_name"].(types.String).ValueString(),
-				PackageName: data.CodeSource.Attributes()["package_name"].(types.String).ValueString(),
-				PythonFile:  data.CodeSource.Attributes()["python_file"].(types.String).ValueString(),
+				ModuleName:  moduleName.ValueString(),
+				PackageName: packageName.ValueString(),
+				PythonFile:  pythonFile.ValueString(),
 			},
 			WorkingDirectory: data.WorkingDirectory.ValueString(),
 			ExecutablePath:   data.ExecutablePath.ValueString(),
 			Attribute:        data.Attribute.ValueString(),
 			Git: clientTypes.CodeLocationGit{
-				CommitHash: data.Git.Attributes()["commit_hash"].(types.String).ValueString(),
-				URL:        data.Git.Attributes()["url"].(types.String).ValueString(),
+				CommitHash: commitHash.ValueString(),
+				URL:        url.ValueString(),
 			},
 			AgentQueue: data.AgentQueue.ValueString(),
 		},
 	)
 	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create team, got error: %s", err))
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create code locations, got error: %s", err))
 		return
 	}
 
@@ -188,7 +194,7 @@ func (r *CodeLocationResource) Read(ctx context.Context, req resource.ReadReques
 			tflog.Trace(ctx, "Code Location not found, probably already deleted manually, removing from state")
 			resp.State.RemoveResource(ctx)
 		} else {
-			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read team, got error: %s", err))
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read code locations, got error: %s", err))
 		}
 		return
 	}
@@ -247,28 +253,35 @@ func (r *CodeLocationResource) Update(ctx context.Context, req resource.UpdateRe
 		return
 	}
 
+	moduleName, _ := data.CodeSource.Attributes()["module_name"].(types.String)
+	packageName, _ := data.CodeSource.Attributes()["package_name"].(types.String)
+	pythonFile, _ := data.CodeSource.Attributes()["python_file"].(types.String)
+
+	commitHash, _ := data.Git.Attributes()["commit_hash"].(types.String)
+	url, _ := data.Git.Attributes()["url"].(types.String)
+
 	err := r.client.CodeLocationsClient.UpdateCodeLocation(
 		ctx,
 		clientTypes.CodeLocation{
 			Name:  data.Name.ValueString(),
 			Image: data.Image.ValueString(),
 			CodeSource: clientTypes.CodeLocationCodeSource{
-				ModuleName:  data.CodeSource.Attributes()["module_name"].(types.String).ValueString(),
-				PackageName: data.CodeSource.Attributes()["package_name"].(types.String).ValueString(),
-				PythonFile:  data.CodeSource.Attributes()["python_file"].(types.String).ValueString(),
+				ModuleName:  moduleName.ValueString(),
+				PackageName: packageName.ValueString(),
+				PythonFile:  pythonFile.ValueString(),
 			},
 			WorkingDirectory: data.WorkingDirectory.ValueString(),
 			ExecutablePath:   data.ExecutablePath.ValueString(),
 			Attribute:        data.Attribute.ValueString(),
 			Git: clientTypes.CodeLocationGit{
-				CommitHash: data.Git.Attributes()["commit_hash"].(types.String).ValueString(),
-				URL:        data.Git.Attributes()["url"].(types.String).ValueString(),
+				CommitHash: commitHash.ValueString(),
+				URL:        url.ValueString(),
 			},
 			AgentQueue: data.AgentQueue.ValueString(),
 		},
 	)
 	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create team, got error: %s", err))
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create code locations, got error: %s", err))
 		return
 	}
 
@@ -293,10 +306,10 @@ func (r *CodeLocationResource) Delete(ctx context.Context, req resource.DeleteRe
 			tflog.Trace(ctx, "Code Location not found, probably already deleted manually, removing from state")
 			resp.State.RemoveResource(ctx)
 		} else {
-			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to delete team, got error: %s", err))
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to delete code locations, got error: %s", err))
 		}
 		return
 	}
 
-	tflog.Trace(ctx, fmt.Sprintf("deleted team resource with id: %s", data.Name.ValueString()))
+	tflog.Trace(ctx, fmt.Sprintf("deleted code locations resource with id: %s", data.Name.ValueString()))
 }
