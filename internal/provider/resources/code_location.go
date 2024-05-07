@@ -25,9 +25,14 @@ type CodeLocationResource struct {
 }
 
 type CodeLocationResourceModel struct {
-	Name       types.String `tfsdk:"name"`
-	Image      types.String `tfsdk:"image"`
-	CodeSource types.Object `tfsdk:"code_source"`
+	Name             types.String `tfsdk:"name"`
+	Image            types.String `tfsdk:"image"`
+	CodeSource       types.Object `tfsdk:"code_source"`
+	WorkingDirectory types.String `tfsdk:"working_directory"`
+	ExecutablePath   types.String `tfsdk:"executable_path"`
+	Attribute        types.String `tfsdk:"attribute"`
+	Git              types.Object `tfsdk:"git"`
+	AgentQueue       types.String `tfsdk:"agent_queue"`
 }
 
 func (r *CodeLocationResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -45,17 +50,65 @@ func (r *CodeLocationResource) Schema(ctx context.Context, req resource.SchemaRe
 			},
 			"image": schema.StringAttribute{
 				MarkdownDescription: "Code Location image",
-				Required:            true,
+				Required:            false,
+				Optional:            true,
 			},
 			"code_source": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
+					"module_name": schema.StringAttribute{
+						MarkdownDescription: "Code Location code source module name",
+						Required:            false,
+						Optional:            true,
+					},
+					"package_name": schema.StringAttribute{
+						MarkdownDescription: "Code Location code source package name",
+						Required:            false,
+						Optional:            true,
+					},
 					"python_file": schema.StringAttribute{
 						MarkdownDescription: "Code Location code source python file",
-						Required:            true,
+						Required:            false,
+						Optional:            true,
 					},
 				},
 				MarkdownDescription: "Code Location code source",
-				Required:            true,
+				Required:            false,
+				Optional:            true,
+			},
+			"working_directory": schema.StringAttribute{
+				MarkdownDescription: "Code Location working directory",
+				Required:            false,
+				Optional:            true,
+			},
+			"executable_path": schema.StringAttribute{
+				MarkdownDescription: "Code Location executable path",
+				Required:            false,
+				Optional:            true,
+			},
+			"attribute": schema.StringAttribute{
+				MarkdownDescription: "Code Location attribute",
+				Required:            false,
+				Optional:            true,
+			},
+			"git": schema.SingleNestedAttribute{
+				Attributes: map[string]schema.Attribute{
+					"commit_hash": schema.StringAttribute{
+						MarkdownDescription: "Code Location git commit hash",
+						Required:            true,
+					},
+					"url": schema.StringAttribute{
+						MarkdownDescription: "Code Location git URL",
+						Required:            true,
+					},
+				},
+				MarkdownDescription: "Code Location git",
+				Required:            false,
+				Optional:            true,
+			},
+			"agent_queue": schema.StringAttribute{
+				MarkdownDescription: "Code Location agent queue",
+				Required:            false,
+				Optional:            true,
 			},
 		},
 	}
@@ -94,8 +147,18 @@ func (r *CodeLocationResource) Create(ctx context.Context, req resource.CreateRe
 			Name:  data.Name.ValueString(),
 			Image: data.Image.ValueString(),
 			CodeSource: clientTypes.CodeLocationCodeSource{
-				PythonFile: data.CodeSource.Attributes()["python_file"].(types.String).ValueString(),
+				ModuleName:  data.CodeSource.Attributes()["module_name"].(types.String).ValueString(),
+				PackageName: data.CodeSource.Attributes()["package_name"].(types.String).ValueString(),
+				PythonFile:  data.CodeSource.Attributes()["python_file"].(types.String).ValueString(),
 			},
+			WorkingDirectory: data.WorkingDirectory.ValueString(),
+			ExecutablePath:   data.ExecutablePath.ValueString(),
+			Attribute:        data.Attribute.ValueString(),
+			Git: clientTypes.CodeLocationGit{
+				CommitHash: data.Git.Attributes()["commit_hash"].(types.String).ValueString(),
+				URL:        data.Git.Attributes()["url"].(types.String).ValueString(),
+			},
+			AgentQueue: data.AgentQueue.ValueString(),
 		},
 	)
 	if err != nil {
@@ -130,13 +193,34 @@ func (r *CodeLocationResource) Read(ctx context.Context, req resource.ReadReques
 		return
 	}
 
-	attributeTypes := map[string]attr.Type{
-		"python_file": types.StringType,
+	// Code source
+	codeSourceAttributeTypes := map[string]attr.Type{
+		"module_name":  types.StringType,
+		"package_name": types.StringType,
+		"python_file":  types.StringType,
 	}
-	attributeValues := map[string]attr.Value{
-		"python_file": types.StringValue(codeLocation.CodeSource.PythonFile),
+	codeSourceAttributeValues := map[string]attr.Value{
+		"module_name":  types.StringValue(codeLocation.CodeSource.ModuleName),
+		"package_name": types.StringValue(codeLocation.CodeSource.PackageName),
+		"python_file":  types.StringValue(codeLocation.CodeSource.PythonFile),
 	}
-	codeSource, diag := types.ObjectValue(attributeTypes, attributeValues)
+	codeSource, diag := types.ObjectValue(codeSourceAttributeTypes, codeSourceAttributeValues)
+	resp.Diagnostics.Append(diag...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	//Git
+	gitAttributeTypes := map[string]attr.Type{
+		"commit_hash": types.StringType,
+		"url":         types.StringType,
+	}
+	gitSourceAttributeValues := map[string]attr.Value{
+		"commit_hash": types.StringValue(codeLocation.Git.CommitHash),
+		"url":         types.StringValue(codeLocation.Git.URL),
+	}
+	git, diag := types.ObjectValue(gitAttributeTypes, gitSourceAttributeValues)
 	resp.Diagnostics.Append(diag...)
 
 	if resp.Diagnostics.HasError() {
@@ -145,6 +229,11 @@ func (r *CodeLocationResource) Read(ctx context.Context, req resource.ReadReques
 
 	data.Image = types.StringValue(codeLocation.Image)
 	data.CodeSource = codeSource
+	data.WorkingDirectory = types.StringValue(codeLocation.WorkingDirectory)
+	data.ExecutablePath = types.StringValue(codeLocation.ExecutablePath)
+	data.Attribute = types.StringValue(codeLocation.Attribute)
+	data.Git = git
+	data.AgentQueue = types.StringValue(codeLocation.AgentQueue)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -164,8 +253,18 @@ func (r *CodeLocationResource) Update(ctx context.Context, req resource.UpdateRe
 			Name:  data.Name.ValueString(),
 			Image: data.Image.ValueString(),
 			CodeSource: clientTypes.CodeLocationCodeSource{
-				PythonFile: data.CodeSource.Attributes()["python_file"].(types.String).ValueString(),
+				ModuleName:  data.CodeSource.Attributes()["module_name"].(types.String).ValueString(),
+				PackageName: data.CodeSource.Attributes()["package_name"].(types.String).ValueString(),
+				PythonFile:  data.CodeSource.Attributes()["python_file"].(types.String).ValueString(),
 			},
+			WorkingDirectory: data.WorkingDirectory.ValueString(),
+			ExecutablePath:   data.ExecutablePath.ValueString(),
+			Attribute:        data.Attribute.ValueString(),
+			Git: clientTypes.CodeLocationGit{
+				CommitHash: data.Git.Attributes()["commit_hash"].(types.String).ValueString(),
+				URL:        data.Git.Attributes()["url"].(types.String).ValueString(),
+			},
+			AgentQueue: data.AgentQueue.ValueString(),
 		},
 	)
 	if err != nil {
