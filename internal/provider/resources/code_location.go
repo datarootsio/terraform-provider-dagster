@@ -143,7 +143,7 @@ func (r *CodeLocationResource) Create(ctx context.Context, req resource.CreateRe
 	// If one of the attributes is nil, it will convert to "" and
 	// set the `ok` flag to false. We deliberately ignore the `ok` flag.
 	// Some of these values might indeed be nil, but the dagster client
-	// can probably handle them. So no need to handle the `ok` flag here.
+	// can handle them correctly. So no need to handle the `ok` flag here.
 	// If we don't catch the `ok` flag in a variable, program will panic
 	// when converting nil to string. That's why we catch it with `_`.
 	moduleName, _ := data.CodeSource.Attributes()["module_name"].(types.String)
@@ -262,7 +262,7 @@ func (r *CodeLocationResource) Update(ctx context.Context, req resource.UpdateRe
 	// If one of the attributes is nil, it will convert to "" and
 	// set the `ok` flag to false. We deliberately ignore the `ok` flag.
 	// Some of these values might indeed be nil, but the dagster client
-	// can probably handle them. So no need to handle the `ok` flag here.
+	// can handle them correctly. So no need to handle the `ok` flag here.
 	// If we don't catch the `ok` flag in a variable, program will panic
 	// when converting nil to string. That's why we catch it with `_`.
 	moduleName, _ := data.CodeSource.Attributes()["module_name"].(types.String)
