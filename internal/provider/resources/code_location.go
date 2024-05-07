@@ -140,6 +140,12 @@ func (r *CodeLocationResource) Create(ctx context.Context, req resource.CreateRe
 		return
 	}
 
+	// If one of the attributes is nil, it will convert to "" and
+	// set the `ok` flag to false. We deliberately ignore the `ok` flag.
+	// Some of these values might indeed be nil, but the dagster client
+	// can probably handle them. So no need to handle the `ok` flag here.
+	// If we don't catch the `ok` flag in a variable, program will panic
+	// when converting nil to string. That's why we catch it with `_`.
 	moduleName, _ := data.CodeSource.Attributes()["module_name"].(types.String)
 	packageName, _ := data.CodeSource.Attributes()["package_name"].(types.String)
 	pythonFile, _ := data.CodeSource.Attributes()["python_file"].(types.String)
@@ -253,6 +259,12 @@ func (r *CodeLocationResource) Update(ctx context.Context, req resource.UpdateRe
 		return
 	}
 
+	// If one of the attributes is nil, it will convert to "" and
+	// set the `ok` flag to false. We deliberately ignore the `ok` flag.
+	// Some of these values might indeed be nil, but the dagster client
+	// can probably handle them. So no need to handle the `ok` flag here.
+	// If we don't catch the `ok` flag in a variable, program will panic
+	// when converting nil to string. That's why we catch it with `_`.
 	moduleName, _ := data.CodeSource.Attributes()["module_name"].(types.String)
 	packageName, _ := data.CodeSource.Attributes()["package_name"].(types.String)
 	pythonFile, _ := data.CodeSource.Attributes()["python_file"].(types.String)
