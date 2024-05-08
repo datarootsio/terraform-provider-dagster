@@ -99,8 +99,8 @@ func TestTeamsDeploymentGrants(t *testing.T) {
 	err = codelocationClient.AddCodeLocation(ctx, codeLocation)
 	assert.Nil(t, err)
 	t.Cleanup(func() {
-		teamsClient.DeleteTeam(ctx, team.Id)
-		codelocationClient.DeleteCodeLocation(ctx, codeLocation.Name)
+		_ = teamsClient.DeleteTeam(ctx, team.Id)
+		_ = codelocationClient.DeleteCodeLocation(ctx, codeLocation.Name)
 	})
 
 	// Check current deployment grant doesn't exist
