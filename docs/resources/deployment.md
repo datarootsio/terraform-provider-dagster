@@ -50,6 +50,7 @@ YAML
 
 ### Optional
 
+- `force_destroy` (Boolean) When `false`, will check if there are code locations associated with the deployment, if there are, it will block the delete of the deployment. When `true` ignore the code locations check. This is done because when you delete a deployment, you delete all the resources/metadata of that deployment and this is not recoverable. DEFAULT `false`
 - `settings_document` (String) Deployment settings as a JSON document. We recommend using a `dagster_configuration_document` to generate this instead of composing a JSON document yourself. Leaving this attribute empty or partially filled in, will result in Dagster (partially) applying default settings to your deployment. This leads to perpetual changes in this resource.
 
 ### Read-Only

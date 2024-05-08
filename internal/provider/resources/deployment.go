@@ -14,6 +14,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
@@ -35,11 +36,12 @@ type DeploymentResource struct {
 }
 
 type DeploymentResourceModel struct {
-	Name     types.String `tfsdk:"name"`
-	Id       types.Int64  `tfsdk:"id"`
-	Status   types.String `tfsdk:"status"`
-	Type     types.String `tfsdk:"type"`
-	Settings types.String `tfsdk:"settings_document"`
+	Name         types.String `tfsdk:"name"`
+	Id           types.Int64  `tfsdk:"id"`
+	Status       types.String `tfsdk:"status"`
+	Type         types.String `tfsdk:"type"`
+	Settings     types.String `tfsdk:"settings_document"`
+	ForceDestroy types.Bool   `tfsdk:"force_destroy"`
 }
 
 func (r *DeploymentResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -91,6 +93,13 @@ func (r *DeploymentResource) Schema(ctx context.Context, req resource.SchemaRequ
 				Optional:            true,
 				Default:             stringdefault.StaticString("{}"),
 				MarkdownDescription: "Deployment settings as a JSON document. We recommend using a `dagster_configuration_document` to generate this instead of composing a JSON document yourself. Leaving this attribute empty or partially filled in, will result in Dagster (partially) applying default settings to your deployment. This leads to perpetual changes in this resource.",
+			},
+			"force_destroy": schema.BoolAttribute{
+				Required:    false,
+				Optional:    true,
+				Computed:    true,
+				Default:     booldefault.StaticBool(false),
+				Description: "When `false`, will check if there are code locations associated with the deployment, if there are, it will block the delete of the deployment. When `true` ignore the code locations check. This is done because when you delete a deployment, you delete all the resources/metadata of that deployment and this is not recoverable. DEFAULT `false`",
 			},
 		},
 	}
@@ -266,7 +275,23 @@ func (r *DeploymentResource) Delete(ctx context.Context, req resource.DeleteRequ
 		return
 	}
 
-	err := r.client.DeploymentClient.DeleteDeployment(ctx, int(data.Id.ValueInt64()))
+	if data.Name.ValueString() != r.client.Deployment {
+		resp.Diagnostics.AddError("Client Error", "Unable to delete deployment, got error: can't delete deployment with a client configured with another deployment.")
+		return
+	}
+
+	codeLocations, err := r.client.CodeLocationsClient.ListCodeLocations(ctx)
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to delete deployment, got error: %s", err))
+		return
+	}
+
+	if !data.ForceDestroy.ValueBool() && len(codeLocations) > 0 {
+		resp.Diagnostics.AddError("Client Error", "Unable to delete deployment, got error: deployment still contains code locations, use the `force_destroy` flag if you want to force delete it.")
+		return
+	}
+
+	err = r.client.DeploymentClient.DeleteDeployment(ctx, int(data.Id.ValueInt64()))
 	if err != nil {
 		var errComp *clientTypes.ErrNotFound
 		if errors.As(err, &errComp) {

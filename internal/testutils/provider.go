@@ -43,13 +43,13 @@ func AccTestPreCheck(t *testing.T) {
 }
 
 const ProviderConfig = `
-variable "testing_dagster_organization" {}
-variable "testing_dagster_deployment" {}
-variable "testing_dagster_api_token" {}
+	variable "testing_dagster_organization" {}
+	variable "testing_dagster_deployment" {}
+	variable "testing_dagster_api_token" {}
 
-provider "dagster" {
-	organization = var.testing_dagster_organization
-	deployment   = var.testing_dagster_deployment
-	api_token    = var.testing_dagster_api_token
-}
+	provider "dagster" {
+		organization = var.testing_dagster_organization
+		deployment   = var.testing_dagster_deployment
+		api_token    = var.testing_dagster_api_token
+	}
 `
