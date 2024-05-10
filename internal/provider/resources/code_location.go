@@ -56,7 +56,7 @@ func (r *CodeLocationResource) Schema(ctx context.Context, req resource.SchemaRe
 			"code_source": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
 					"module_name": schema.StringAttribute{
-						MarkdownDescription: "Code Location code source module name. One of module_name/package_name/python_file is required (mutually exclusive).",
+						MarkdownDescription: "Name of the Python module from which to load definitions. Exactly one of `module_name`, `package_name` or `python_file` is required.",
 						Required:            false,
 						Optional:            true,
 					},
