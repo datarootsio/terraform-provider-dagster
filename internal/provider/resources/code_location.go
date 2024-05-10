@@ -49,7 +49,7 @@ func (r *CodeLocationResource) Schema(ctx context.Context, req resource.SchemaRe
 				Required:            true,
 			},
 			"image": schema.StringAttribute{
-				MarkdownDescription: "Code Location image. Git or Image is a required field (mutually exclusive).",
+				MarkdownDescription: "Docker image URL to use. Must be specified if `git` is not defined.",
 				Required:            false,
 				Optional:            true,
 			},
