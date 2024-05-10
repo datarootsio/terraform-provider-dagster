@@ -66,7 +66,7 @@ func (r *CodeLocationResource) Schema(ctx context.Context, req resource.SchemaRe
 						Optional:            true,
 					},
 					"python_file": schema.StringAttribute{
-						MarkdownDescription: "Code Location code source python file. One of module_name/package_name/python_file is required (mutually exclusive).",
+						MarkdownDescription: "Name of the Python file from which to load definitions. Exactly one of `module_name`, `package_name` or `python_file` is required.",
 						Required:            false,
 						Optional:            true,
 					},
