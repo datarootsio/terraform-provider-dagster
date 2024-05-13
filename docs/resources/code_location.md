@@ -36,7 +36,7 @@ resource "dagster_code_location" "example" {
 - `attribute` (String) Code Location attribute
 - `executable_path` (String) Code Location executable path
 - `git` (Attributes) Code Location git. Git or Image is a required field (mutually exclusive). (see [below for nested schema](#nestedatt--git))
-- `image` (String) Code Location image. Git or Image is a required field (mutually exclusive).
+- `image` (String) Docker image URL to use. Must be specified if `git` is not defined.
 - `working_directory` (String) Code Location working directory
 
 <a id="nestedatt--code_source"></a>
@@ -44,9 +44,9 @@ resource "dagster_code_location" "example" {
 
 Optional:
 
-- `module_name` (String) Code Location code source module name. One of module_name/package_name/python_file is required (mutually exclusive).
-- `package_name` (String) Code Location code source package name. One of module_name/package_name/python_file is required (mutually exclusive).
-- `python_file` (String) Code Location code source python file. One of module_name/package_name/python_file is required (mutually exclusive).
+- `module_name` (String) Name of the Python module from which to load definitions. Exactly one of `module_name`, `package_name` or `python_file` is required.
+- `package_name` (String) Name of the Python package from which to load definitions. Exactly one of `module_name`, `package_name` or `python_file` is required.
+- `python_file` (String) Name of the Python file from which to load definitions. Exactly one of `module_name`, `package_name` or `python_file` is required.
 
 
 <a id="nestedatt--git"></a>

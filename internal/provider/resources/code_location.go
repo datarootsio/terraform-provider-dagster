@@ -7,7 +7,9 @@ import (
 
 	"github.com/datarootsio/terraform-provider-dagster/internal/client"
 	clientTypes "github.com/datarootsio/terraform-provider-dagster/internal/client/types"
+	"github.com/hashicorp/terraform-plugin-framework-validators/resourcevalidator"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
+	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -110,6 +112,20 @@ func (r *CodeLocationResource) Schema(ctx context.Context, req resource.SchemaRe
 				Optional:            true,
 			},
 		},
+	}
+}
+
+func (r CodeLocationResource) ConfigValidators(ctx context.Context) []resource.ConfigValidator {
+	return []resource.ConfigValidator{
+		resourcevalidator.ExactlyOneOf(
+			path.MatchRoot("image"),
+			path.MatchRoot("git"),
+		),
+		resourcevalidator.ExactlyOneOf(
+			path.MatchRoot("code_source").AtName("module_name"),
+			path.MatchRoot("code_source").AtName("package_name"),
+			path.MatchRoot("code_source").AtName("python_file"),
+		),
 	}
 }
 

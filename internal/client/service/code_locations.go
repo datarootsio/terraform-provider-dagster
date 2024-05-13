@@ -49,12 +49,7 @@ func (c *CodeLocationsClient) GetCodeLocationByName(ctx context.Context, name st
 }
 
 func (c *CodeLocationsClient) AddCodeLocation(ctx context.Context, codeLocation types.CodeLocation) error {
-	err := codeLocation.Validate()
-	if err != nil {
-		return err
-	}
-
-	_, err = c.GetCodeLocationByName(ctx, codeLocation.Name)
+	_, err := c.GetCodeLocationByName(ctx, codeLocation.Name)
 	if err == nil {
 		return &types.ErrAlreadyExists{What: "CodeLocation", Key: "name", Value: codeLocation.Name}
 	}
@@ -99,12 +94,7 @@ func (c *CodeLocationsClient) AddCodeLocation(ctx context.Context, codeLocation 
 }
 
 func (c *CodeLocationsClient) UpdateCodeLocation(ctx context.Context, codeLocation types.CodeLocation) error {
-	err := codeLocation.Validate()
-	if err != nil {
-		return err
-	}
-
-	_, err = c.GetCodeLocationByName(ctx, codeLocation.Name)
+	_, err := c.GetCodeLocationByName(ctx, codeLocation.Name)
 	if err != nil {
 		return err
 	}
