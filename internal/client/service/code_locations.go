@@ -36,12 +36,8 @@ func (c *CodeLocationsClient) GetCodeLocationByName(ctx context.Context, name st
 	return types.CodeLocation{}, &types.ErrNotFound{What: "CodeLocation", Key: "name", Value: name}
 }
 
-// TODO: this is a "simple implementation" of managing code locations.
-// Adding k8s args, etc is not supported with this "simple implementation".
-// For full implementation use addOrUpdateLocationFromDocument (from gql api)
 func (c *CodeLocationsClient) AddCodeLocation(ctx context.Context, codeLocation types.CodeLocation) error {
 	_, err := c.GetCodeLocationByName(ctx, codeLocation.Name)
-
 	if err == nil {
 		return &types.ErrAlreadyExists{What: "CodeLocation", Key: "name", Value: codeLocation.Name}
 	}
@@ -51,7 +47,21 @@ func (c *CodeLocationsClient) AddCodeLocation(ctx context.Context, codeLocation 
 		return err
 	}
 
-	resp, err := schema.AddOrUpdateCodeLocation(ctx, c.client, codeLocation.Name, codeLocation.Image, codeLocation.CodeSource.PythonFile)
+	resp, err := schema.AddOrUpdateCodeLocation(
+		ctx,
+		c.client,
+		codeLocation.Name,
+		codeLocation.Image,
+		codeLocation.CodeSource.PythonFile,
+		codeLocation.CodeSource.PackageName,
+		codeLocation.CodeSource.ModuleName,
+		codeLocation.WorkingDirectory,
+		codeLocation.ExecutablePath,
+		codeLocation.Attribute,
+		codeLocation.Git.CommitHash,
+		codeLocation.Git.URL,
+		codeLocation.AgentQueue,
+	)
 
 	if err != nil {
 		return err
@@ -77,7 +87,21 @@ func (c *CodeLocationsClient) UpdateCodeLocation(ctx context.Context, codeLocati
 		return err
 	}
 
-	resp, err := schema.AddOrUpdateCodeLocation(ctx, c.client, codeLocation.Name, codeLocation.Image, codeLocation.CodeSource.PythonFile)
+	resp, err := schema.AddOrUpdateCodeLocation(
+		ctx,
+		c.client,
+		codeLocation.Name,
+		codeLocation.Image,
+		codeLocation.CodeSource.PythonFile,
+		codeLocation.CodeSource.PackageName,
+		codeLocation.CodeSource.ModuleName,
+		codeLocation.WorkingDirectory,
+		codeLocation.ExecutablePath,
+		codeLocation.Attribute,
+		codeLocation.Git.CommitHash,
+		codeLocation.Git.URL,
+		codeLocation.AgentQueue,
+	)
 
 	if err != nil {
 		return err
