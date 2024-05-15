@@ -115,7 +115,7 @@ func (r *CodeLocationResource) Schema(ctx context.Context, req resource.SchemaRe
 	}
 }
 
-func (r CodeLocationResource) ConfigValidators(ctx context.Context) []resource.ConfigValidator {
+func (r *CodeLocationResource) ConfigValidators(ctx context.Context) []resource.ConfigValidator {
 	return []resource.ConfigValidator{
 		resourcevalidator.ExactlyOneOf(
 			path.MatchRoot("image"),
