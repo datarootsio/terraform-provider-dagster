@@ -19,13 +19,3 @@ Terraform provider to manage Dagster Cloud resources.
 | Code location | Partial | :x: |
 | Team | :heavy_check_mark: | :x: |
 | Team membership | :heavy_check_mark: | :x: |
-
-
-## Roadmap
-
-- [ ] Configure provider with env vars
-
-## Useful links
-- gql code gen: https://github.com/Khan/genqlient & https://github.com/Khan/genqlient/blob/main/docs/introduction.md
-- dagster gql api: https://\<instance\>.dagster.cloud/\<deployment\>/graphql
-- dagster python cloud sdk: https://github.com/dagster-io/dagster-cloud
