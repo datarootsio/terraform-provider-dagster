@@ -10,8 +10,6 @@ import (
 )
 
 func TestUserService_BasicCRUD(t *testing.T) {
-	t.Skip("can't test when SCIM provisioning is enabled")
-
 	client := testutils.GetDagsterClientFromEnvVars().UsersClient
 	ctx := context.Background()
 
@@ -51,8 +49,6 @@ func TestUserService_BasicCRUD(t *testing.T) {
 }
 
 func TestUserService_Teams(t *testing.T) {
-	t.Skip("can't test when SCIM provisioning is enabled")
-
 	userClient := testutils.GetDagsterClientFromEnvVars().UsersClient
 	teamsClient := testutils.GetDagsterClientFromEnvVars().TeamsClient
 	ctx := context.Background()
