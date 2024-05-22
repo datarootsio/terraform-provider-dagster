@@ -145,6 +145,27 @@ func (r *TeamDeploymentGrantResource) Create(ctx context.Context, req resource.C
 		}
 	}
 
+	// Validation
+	_, err = r.client.TeamsClient.GetTeamById(ctx, data.TeamId.ValueString())
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create team deployment grant, got error: %s", err))
+		return
+	}
+
+	_, err = r.client.DeploymentClient.GetDeploymentById(ctx, int(data.DeploymentId.ValueInt64()))
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create team deployment grant, got error: %s", err))
+		return
+	}
+
+	for _, codeLocationGrant := range codeLocationGrants {
+		_, err = r.client.CodeLocationsClient.GetCodeLocationByName(ctx, codeLocationGrant.LocationName)
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create team deployment grant, got error: %s", err))
+			return
+		}
+	}
+
 	teamDeploymentGrant, err := r.client.TeamsClient.CreateOrUpdateTeamDeploymentGrant(
 		ctx,
 		data.TeamId.ValueString(),
@@ -232,6 +253,27 @@ func (r *TeamDeploymentGrantResource) Update(ctx context.Context, req resource.U
 		}
 	}
 
+	// Validation
+	_, err = r.client.TeamsClient.GetTeamById(ctx, data.TeamId.ValueString())
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create team deployment grant, got error: %s", err))
+		return
+	}
+
+	_, err = r.client.DeploymentClient.GetDeploymentById(ctx, int(data.DeploymentId.ValueInt64()))
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create team deployment grant, got error: %s", err))
+		return
+	}
+
+	for _, codeLocationGrant := range codeLocationGrants {
+		_, err = r.client.CodeLocationsClient.GetCodeLocationByName(ctx, codeLocationGrant.LocationName)
+		if err != nil {
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create team deployment grant, got error: %s", err))
+			return
+		}
+	}
+
 	teamDeploymentGrant, err := r.client.TeamsClient.CreateOrUpdateTeamDeploymentGrant(
 		ctx,
 		data.TeamId.ValueString(),
@@ -259,7 +301,20 @@ func (r *TeamDeploymentGrantResource) Delete(ctx context.Context, req resource.D
 		return
 	}
 
-	err := r.client.TeamsClient.RemoveTeamDeploymentGrant(
+	// Validation
+	_, err := r.client.TeamsClient.GetTeamById(ctx, data.TeamId.ValueString())
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create team deployment grant, got error: %s", err))
+		return
+	}
+
+	_, err = r.client.DeploymentClient.GetDeploymentById(ctx, int(data.DeploymentId.ValueInt64()))
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create team deployment grant, got error: %s", err))
+		return
+	}
+
+	err = r.client.TeamsClient.RemoveTeamDeploymentGrant(
 		ctx,
 		data.TeamId.ValueString(),
 		int(data.DeploymentId.ValueInt64()),

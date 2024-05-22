@@ -30,3 +30,12 @@ type ErrApi struct {
 func (e *ErrApi) Error() string {
 	return fmt.Sprintf("typename(%s): %s", e.Typename, e.Message)
 }
+
+type ErrInvalid struct {
+	What    string
+	Message string
+}
+
+func (e *ErrInvalid) Error() string {
+	return fmt.Sprintf("%s is invalid %s", e.What, e.Message)
+}
