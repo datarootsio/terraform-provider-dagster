@@ -171,13 +171,6 @@ func (c *TeamsClient) CreateOrUpdateTeamDeploymentGrant(ctx context.Context, tea
 	for _, locationGrant := range locationGrants {
 		locationGrantIdx := utils.IndexOf(types.DeploymentGrantEnumValues(), string(locationGrant.Grant))
 
-		if deploymentGrantIdx >= locationGrantIdx {
-			return schema.ScopedPermissionGrant{}, &types.ErrInvalid{
-				What:    "TeamDeploymentGrant",
-				Message: "LocationGrant can't be less permissive than DeploymentGrant",
-			}
-		}
-
 		if utils.IndexOf(types.LocationGrantEnumValues(), string(locationGrant.Grant)) == -1 {
 			return schema.ScopedPermissionGrant{}, &types.ErrInvalid{
 				What: "TeamDeploymentGrant",
@@ -188,6 +181,12 @@ func (c *TeamsClient) CreateOrUpdateTeamDeploymentGrant(ctx context.Context, tea
 			}
 		}
 
+		if deploymentGrantIdx >= locationGrantIdx {
+			return schema.ScopedPermissionGrant{}, &types.ErrInvalid{
+				What:    "TeamDeploymentGrant",
+				Message: "LocationGrant can't be less permissive than DeploymentGrant",
+			}
+		}
 		locationGrantsInput = append(
 			locationGrantsInput,
 			schema.LocationScopedGrantInput(locationGrant),
