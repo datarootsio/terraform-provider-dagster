@@ -304,7 +304,7 @@ func (r *TeamDeploymentGrantResource) Delete(ctx context.Context, req resource.D
 	// Validation
 	_, err := r.client.TeamsClient.GetTeamById(ctx, data.TeamId.ValueString())
 	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create team deployment grant, got error: %s", err))
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to delete team deployment grant, got error: %s", err))
 		return
 	}
 
