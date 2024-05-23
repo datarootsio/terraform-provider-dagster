@@ -187,6 +187,7 @@ func (c *TeamsClient) CreateOrUpdateTeamDeploymentGrant(ctx context.Context, tea
 				Message: "LocationGrant can't be less permissive than DeploymentGrant",
 			}
 		}
+
 		locationGrantsInput = append(
 			locationGrantsInput,
 			schema.LocationScopedGrantInput(locationGrant),
