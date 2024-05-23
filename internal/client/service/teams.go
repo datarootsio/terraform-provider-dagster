@@ -174,7 +174,7 @@ func (c *TeamsClient) CreateOrUpdateTeamDeploymentGrant(ctx context.Context, tea
 		if deploymentGrantIdx >= locationGrantIdx {
 			return schema.ScopedPermissionGrant{}, &types.ErrInvalid{
 				What:    "TeamDeploymentGrant",
-				Message: "LocationGrant can't be higher than DeploymentGrant",
+				Message: "LocationGrant can't be less permissive than DeploymentGrant",
 			}
 		}
 
