@@ -51,7 +51,6 @@ func TestDeploymentService_BasicCRUD(t *testing.T) {
 }
 
 func TestDeploymentSettingsCRUD(t *testing.T) {
-	// Todo: create deploy, read settings, set settings, read settings, delete
 	client := testutils.GetDagsterClientFromEnvVars()
 
 	ctx := context.Background()
