@@ -269,7 +269,7 @@ func (r *TeamDeploymentGrantResource) Update(ctx context.Context, req resource.U
 	for _, codeLocationGrant := range codeLocationGrants {
 		_, err = r.client.CodeLocationsClient.GetCodeLocationByName(ctx, codeLocationGrant.LocationName)
 		if err != nil {
-			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create team deployment grant, got error: %s", err))
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to update team deployment grant, got error: %s", err))
 			return
 		}
 	}
