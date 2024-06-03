@@ -8,6 +8,7 @@ import (
 	"github.com/Khan/genqlient/graphql"
 	"github.com/datarootsio/terraform-provider-dagster/internal/client/schema"
 	"github.com/datarootsio/terraform-provider-dagster/internal/client/types"
+	"github.com/datarootsio/terraform-provider-dagster/internal/utils"
 )
 
 type TeamsClient struct {
@@ -163,12 +164,30 @@ func (c *TeamsClient) GetTeamDeploymentGrantByTeamAndDeploymentId(ctx context.Co
 }
 
 func (c *TeamsClient) CreateOrUpdateTeamDeploymentGrant(ctx context.Context, teamId string, deploymentId int, grant schema.PermissionGrant, locationGrants []schema.LocationScopedGrant) (schema.ScopedPermissionGrant, error) {
-	// TODO: check if team exists and check if deployment exists => to return specific errors
-	// TODO: validate sure grant >= location grant and location grant cant be viewer or agent
 	locationGrantsInput := make([]schema.LocationScopedGrantInput, 0, len(locationGrants))
 
+	deploymentGrantIdx := utils.IndexOf(types.DeploymentGrantEnumValues(), string(grant))
+
 	for _, locationGrant := range locationGrants {
-		// TODO check if code location exists
+		locationGrantIdx := utils.IndexOf(types.DeploymentGrantEnumValues(), string(locationGrant.Grant))
+
+		if utils.IndexOf(types.LocationGrantEnumValues(), string(locationGrant.Grant)) == -1 {
+			return schema.ScopedPermissionGrant{}, &types.ErrInvalid{
+				What: "TeamDeploymentGrant",
+				Message: fmt.Sprintf(
+					"LocationGrant must be one of %v",
+					types.LocationGrantEnumValues(),
+				),
+			}
+		}
+
+		if deploymentGrantIdx >= locationGrantIdx {
+			return schema.ScopedPermissionGrant{}, &types.ErrInvalid{
+				What:    "TeamDeploymentGrant",
+				Message: "LocationGrant can't be less permissive than DeploymentGrant",
+			}
+		}
+
 		locationGrantsInput = append(
 			locationGrantsInput,
 			schema.LocationScopedGrantInput(locationGrant),
@@ -209,7 +228,6 @@ func (c *TeamsClient) CreateOrUpdateTeamDeploymentGrant(ctx context.Context, tea
 }
 
 func (c *TeamsClient) RemoveTeamDeploymentGrant(ctx context.Context, teamId string, deploymentId int) error {
-	// TODO: check if team exists and check if deployment exists => to return specific errors
 	resp, err := schema.RemoveTeamPermission(
 		ctx,
 		c.client,

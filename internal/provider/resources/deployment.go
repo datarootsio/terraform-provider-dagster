@@ -232,7 +232,6 @@ func (r *DeploymentResource) Update(ctx context.Context, req resource.UpdateRequ
 		return
 	}
 
-	// Todo: can we use DeploymentId from state? TF marks it as unknown = 0. Why?
 	deploymentName := plan.Name.ValueString()
 	deploymentSettings := json.RawMessage(plan.Settings.ValueString())
 	deploy, err := r.client.DeploymentClient.GetDeploymentByName(ctx, deploymentName)

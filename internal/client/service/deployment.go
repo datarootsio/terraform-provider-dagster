@@ -87,7 +87,6 @@ func (c DeploymentClient) CreateHybridDeployment(ctx context.Context, name strin
 	case *schema.CreateHybridDeploymentCreateDeploymentDeploymentLimitError:
 		return schema.Deployment{}, &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
 	case *schema.CreateHybridDeploymentCreateDeploymentDeploymentNotFoundError:
-		// TODO return ErrNotFound, but how can a create trigger this?
 		return schema.Deployment{}, &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
 	case *schema.CreateHybridDeploymentCreateDeploymentPythonError:
 		return schema.Deployment{}, &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
