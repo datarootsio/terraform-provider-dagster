@@ -37,7 +37,6 @@ func (c *TeamsClient) ListTeams(ctx context.Context) ([]schema.Team, error) {
 
 func (c *TeamsClient) GetTeamByName(ctx context.Context, name string) (schema.Team, error) {
 	teams, err := c.ListTeams(ctx)
-
 	if err != nil {
 		return schema.Team{}, err
 	}
@@ -53,7 +52,6 @@ func (c *TeamsClient) GetTeamByName(ctx context.Context, name string) (schema.Te
 
 func (c *TeamsClient) GetTeamById(ctx context.Context, id string) (schema.Team, error) {
 	teams, err := c.ListTeams(ctx)
-
 	if err != nil {
 		return schema.Team{}, err
 	}
@@ -80,7 +78,6 @@ func (c *TeamsClient) CreateTeam(ctx context.Context, name string) (schema.Team,
 	}
 
 	resp, err := schema.CreateTeam(ctx, c.client, name)
-
 	if err != nil {
 		return schema.Team{}, err
 	}
