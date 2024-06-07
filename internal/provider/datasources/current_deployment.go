@@ -10,8 +10,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-var _ datasource.DataSource = &CurrentDeploymentDataSource{}
-var _ datasource.DataSourceWithConfigure = &CurrentDeploymentDataSource{}
+var (
+	_ datasource.DataSource              = &CurrentDeploymentDataSource{}
+	_ datasource.DataSourceWithConfigure = &CurrentDeploymentDataSource{}
+)
 
 type CurrentDeploymentDataSource struct {
 	client client.DagsterClient
