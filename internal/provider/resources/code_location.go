@@ -99,7 +99,7 @@ func (r *CodeLocationResource) Create(ctx context.Context, req resource.CreateRe
 		},
 	)
 	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create team, got error: %s", err))
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create code location, got error: %s", err))
 		return
 	}
 
@@ -118,14 +118,13 @@ func (r *CodeLocationResource) Read(ctx context.Context, req resource.ReadReques
 	}
 
 	codeLocation, err := r.client.CodeLocationsClient.GetCodeLocationByName(ctx, data.Name.ValueString())
-
 	if err != nil {
 		var errComp *clientTypes.ErrNotFound
 		if errors.As(err, &errComp) {
 			tflog.Trace(ctx, "Code Location not found, probably already deleted manually, removing from state")
 			resp.State.RemoveResource(ctx)
 		} else {
-			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read team, got error: %s", err))
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read code location, got error: %s", err))
 		}
 		return
 	}
@@ -169,7 +168,7 @@ func (r *CodeLocationResource) Update(ctx context.Context, req resource.UpdateRe
 		},
 	)
 	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create team, got error: %s", err))
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create code location, got error: %s", err))
 		return
 	}
 
@@ -194,10 +193,10 @@ func (r *CodeLocationResource) Delete(ctx context.Context, req resource.DeleteRe
 			tflog.Trace(ctx, "Code Location not found, probably already deleted manually, removing from state")
 			resp.State.RemoveResource(ctx)
 		} else {
-			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to delete team, got error: %s", err))
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to delete code location, got error: %s", err))
 		}
 		return
 	}
 
-	tflog.Trace(ctx, fmt.Sprintf("deleted team resource with id: %s", data.Name.ValueString()))
+	tflog.Trace(ctx, fmt.Sprintf("deleted code location resource with id: %s", data.Name.ValueString()))
 }
