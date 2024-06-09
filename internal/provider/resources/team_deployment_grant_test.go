@@ -7,6 +7,7 @@ import (
 	"strconv"
 	"testing"
 
+	"github.com/datarootsio/terraform-provider-dagster/internal/client/types"
 	clientTypes "github.com/datarootsio/terraform-provider-dagster/internal/client/types"
 	"github.com/datarootsio/terraform-provider-dagster/internal/testutils"
 	"github.com/hashicorp/terraform-plugin-testing/helper/acctest"
@@ -49,8 +50,6 @@ resource "dagster_team_deployment_grant" "test" {
 func TestAccResourceBasicTeamDeploymentGrant(t *testing.T) {
 	teamName := "team-" + acctest.RandStringFromCharSet(5, acctest.CharSetAlphaNum)
 	clName := "code-location-" + acctest.RandStringFromCharSet(5, acctest.CharSetAlphaNum)
-	deploymentGrant := "VIEWER"
-	clGrant := "LAUNCHER"
 
 	var deploymentId string
 	var teamId string
@@ -61,21 +60,32 @@ func TestAccResourceBasicTeamDeploymentGrant(t *testing.T) {
 		CheckDestroy:             testGrantDeleted(&teamId, &deploymentId),
 		Steps: []resource.TestStep{
 			{
-				Config: testAccResourceTeamDeploymentGrantConfig(teamName, clName, deploymentGrant, clGrant),
+				Config: testAccResourceTeamDeploymentGrantConfig(teamName, clName, "VIEWER", "LAUNCHER"),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					testutils.FetchValueFromState("data.dagster_current_deployment.current", "id", &deploymentId),
 					testutils.FetchValueFromState("dagster_team.this", "id", &teamId),
-					testGrantProperties(&teamId, &deploymentId),
+					testGrantProperties(&teamId, &deploymentId, "VIEWER"),
 					resource.TestCheckResourceAttrPtr("dagster_team_deployment_grant.test", "deployment_id", &deploymentId),
 					resource.TestCheckResourceAttrPtr("dagster_team_deployment_grant.test", "team_id", &teamId),
-					resource.TestCheckResourceAttr("dagster_team_deployment_grant.test", "grant", deploymentGrant),
+					resource.TestCheckResourceAttr("dagster_team_deployment_grant.test", "grant", "VIEWER"),
+				),
+			},
+			{
+				Config: testAccResourceTeamDeploymentGrantConfig(teamName, clName, "EDITOR", "EDITOR"),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					testutils.FetchValueFromState("data.dagster_current_deployment.current", "id", &deploymentId),
+					testutils.FetchValueFromState("dagster_team.this", "id", &teamId),
+					testGrantProperties(&teamId, &deploymentId, "EDITOR"),
+					resource.TestCheckResourceAttrPtr("dagster_team_deployment_grant.test", "deployment_id", &deploymentId),
+					resource.TestCheckResourceAttrPtr("dagster_team_deployment_grant.test", "team_id", &teamId),
+					resource.TestCheckResourceAttr("dagster_team_deployment_grant.test", "grant", "EDITOR"),
 				),
 			},
 		},
 	})
 }
 
-func testGrantProperties(teamId *string, deploymentId *string) resource.TestCheckFunc {
+func testGrantProperties(teamId *string, deploymentId *string, expectedGrant string) resource.TestCheckFunc {
 	return func(state *terraform.State) error {
 		client := testutils.GetDagsterClientFromEnvVars()
 		deploymentIdInt, err := strconv.Atoi(*deploymentId)
@@ -88,8 +98,12 @@ func testGrantProperties(teamId *string, deploymentId *string) resource.TestChec
 			return err
 		}
 
-		if grant.Grant != "VIEWER" {
-			return fmt.Errorf("expected grant to be %s, got %s", "VIEWER", grant.Grant)
+		expectedGrantTyped, err := types.ConvertToGrantEnum(expectedGrant)
+		if err != nil {
+			return err
+		}
+		if grant.Grant != expectedGrantTyped {
+			return fmt.Errorf("expected grant to be %v, got %v", expectedGrant, grant.Grant)
 		}
 
 		return err
