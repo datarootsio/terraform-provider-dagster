@@ -3,12 +3,12 @@
 page_title: "dagster_current_deployment Data Source - dagster"
 subcategory: ""
 description: |-
-  Retrieve information about a the CurrentDeployment.
+  Retrieve information about the deployment used to configure this provider.
 ---
 
 # dagster_current_deployment (Data Source)
 
-Retrieve information about a the CurrentDeployment.
+Retrieve information about the deployment used to configure this provider.
 
 ## Example Usage
 

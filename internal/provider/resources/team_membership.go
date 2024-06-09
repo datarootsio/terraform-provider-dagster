@@ -35,7 +35,7 @@ func (r *TeamMembershipResource) Metadata(ctx context.Context, req resource.Meta
 
 func (r *TeamMembershipResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		Description: `Adds a Dagster user to a team.`,
+		Description: `Adds a user to a team.`,
 		Attributes: map[string]schema.Attribute{
 			"user_id": schema.Int64Attribute{
 				Computed:    false,

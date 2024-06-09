@@ -43,7 +43,7 @@ func (r *CodeLocationResource) Metadata(ctx context.Context, req resource.Metada
 
 func (r *CodeLocationResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Code Location resource",
+		MarkdownDescription: "Creates a code location.",
 
 		Attributes: map[string]schema.Attribute{
 			"name": schema.StringAttribute{
@@ -209,7 +209,6 @@ func (r *CodeLocationResource) Read(ctx context.Context, req resource.ReadReques
 	}
 
 	codeLocation, err := r.client.CodeLocationsClient.GetCodeLocationByName(ctx, data.Name.ValueString())
-
 	if err != nil {
 		var errComp *clientTypes.ErrNotFound
 		if errors.As(err, &errComp) {
@@ -239,7 +238,7 @@ func (r *CodeLocationResource) Read(ctx context.Context, req resource.ReadReques
 		return
 	}
 
-	//Git
+	// Git
 	gitAttributeTypes := map[string]attr.Type{
 		"commit_hash": types.StringType,
 		"url":         types.StringType,

@@ -3,12 +3,12 @@
 page_title: "dagster_deployment Resource - dagster"
 subcategory: ""
 description: |-
-  Deployment resource
+  Creates a deployment.
 ---
 
 # dagster_deployment (Resource)
 
-Deployment resource
+Creates a deployment.
 
 ## Example Usage
 

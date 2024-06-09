@@ -24,8 +24,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-var _ resource.Resource = &DeploymentResource{}
-var _ resource.ResourceWithImportState = &DeploymentResource{}
+var (
+	_ resource.Resource                = &DeploymentResource{}
+	_ resource.ResourceWithImportState = &DeploymentResource{}
+)
 
 func NewDeploymentResource() resource.Resource {
 	return &DeploymentResource{}
@@ -50,7 +52,7 @@ func (r *DeploymentResource) Metadata(ctx context.Context, req resource.Metadata
 
 func (r *DeploymentResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Deployment resource",
+		MarkdownDescription: "Creates a deployment.",
 
 		Attributes: map[string]schema.Attribute{
 			"name": schema.StringAttribute{

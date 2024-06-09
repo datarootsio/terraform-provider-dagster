@@ -3,12 +3,12 @@
 page_title: "dagster_team_membership Resource - dagster"
 subcategory: ""
 description: |-
-  Adds a Dagster user to a team.
+  Adds a user to a team.
 ---
 
 # dagster_team_membership (Resource)
 
-Adds a Dagster user to a team.
+Adds a user to a team.
 
 ## Example Usage
 

@@ -3,12 +3,12 @@
 page_title: "dagster_code_location Resource - dagster"
 subcategory: ""
 description: |-
-  Code Location resource
+  Creates a code location.
 ---
 
 # dagster_code_location (Resource)
 
-Code Location resource
+Creates a code location.
 
 ## Example Usage
 
