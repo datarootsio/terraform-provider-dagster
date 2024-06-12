@@ -28,12 +28,31 @@ resource "dagster_code_location" "example" {
 ### Required
 
 - `code_source` (Attributes) Code Location code source (see [below for nested schema](#nestedatt--code_source))
-- `image` (String) Code Location image
-- `name` (String) Code Location name
+- `name` (String) Code Location name.
+
+### Optional
+
+- `agent_queue` (String) Code Location agent queue
+- `attribute` (String) Code Location attribute
+- `executable_path` (String) Code Location executable path
+- `git` (Attributes) Code Location git. Git or Image is a required field (mutually exclusive). (see [below for nested schema](#nestedatt--git))
+- `image` (String) Docker image URL to use. Must be specified if `git` is not defined.
+- `working_directory` (String) Code Location working directory
 
 <a id="nestedatt--code_source"></a>
 ### Nested Schema for `code_source`
 
+Optional:
+
+- `module_name` (String) Name of the Python module from which to load definitions. Exactly one of `module_name`, `package_name` or `python_file` is required.
+- `package_name` (String) Name of the Python package from which to load definitions. Exactly one of `module_name`, `package_name` or `python_file` is required.
+- `python_file` (String) Name of the Python file from which to load definitions. Exactly one of `module_name`, `package_name` or `python_file` is required.
+
+
+<a id="nestedatt--git"></a>
+### Nested Schema for `git`
+
 Required:
 
-- `python_file` (String) Code Location code source python file
+- `commit_hash` (String) Code Location git commit hash. If git is specified, `commit_hash` is required.
+- `url` (String) Code Location git URL. If git is specified, `url` is required.

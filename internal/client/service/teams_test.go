@@ -85,6 +85,7 @@ func TestTeamsDeploymentGrants(t *testing.T) {
 			PythonFile: "test.py-2",
 		},
 	}
+
 	var errNotFound *types.ErrNotFound
 
 	// Ensure no codelocation or team with the test name exist
@@ -137,6 +138,32 @@ func TestTeamsDeploymentGrants(t *testing.T) {
 			assert.Equal(t, schema.PermissionGrantLauncher, locationGrant.Grant)
 		}
 	}
+
+	// Test validation of grant hierarchy
+	var errInvalid *types.ErrInvalid
+
+	_, err = teamsClient.CreateOrUpdateTeamDeploymentGrant(
+		ctx,
+		team.Id,
+		deployment.DeploymentId,
+		schema.PermissionGrantAdmin,
+		[]schema.LocationScopedGrant{
+			{LocationName: codeLocation.Name, Grant: schema.PermissionGrantLauncher},
+		},
+	)
+	assert.ErrorAs(t, err, &errInvalid)
+
+	// Test invalid location grant value
+	_, err = teamsClient.CreateOrUpdateTeamDeploymentGrant(
+		ctx,
+		team.Id,
+		deployment.DeploymentId,
+		schema.PermissionGrantViewer,
+		[]schema.LocationScopedGrant{
+			{LocationName: codeLocation.Name, Grant: schema.PermissionGrantAgent},
+		},
+	)
+	assert.ErrorAs(t, err, &errInvalid)
 
 	// Remove the grant and check the result
 	err = teamsClient.RemoveTeamDeploymentGrant(ctx, team.Id, deployment.DeploymentId)

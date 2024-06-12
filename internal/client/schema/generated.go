@@ -8430,9 +8430,17 @@ func (v *__AddMemberToTeamInput) GetTeamId() string { return v.TeamId }
 
 // __AddOrUpdateCodeLocationInput is used internally by genqlient
 type __AddOrUpdateCodeLocationInput struct {
-	Name       string `json:"name"`
-	Image      string `json:"image"`
-	PythonFile string `json:"pythonFile"`
+	Name             string `json:"name,omitempty"`
+	Image            string `json:"image,omitempty"`
+	PythonFile       string `json:"pythonFile,omitempty"`
+	PackageName      string `json:"packageName,omitempty"`
+	ModuleName       string `json:"moduleName,omitempty"`
+	WorkingDirectory string `json:"workingDirectory,omitempty"`
+	ExecutablePath   string `json:"executablePath,omitempty"`
+	Attribute        string `json:"attribute,omitempty"`
+	CommitHash       string `json:"commitHash,omitempty"`
+	Url              string `json:"url,omitempty"`
+	AgentQueue       string `json:"agentQueue,omitempty"`
 }
 
 // GetName returns __AddOrUpdateCodeLocationInput.Name, and is useful for accessing the field via an interface.
@@ -8443,6 +8451,30 @@ func (v *__AddOrUpdateCodeLocationInput) GetImage() string { return v.Image }
 
 // GetPythonFile returns __AddOrUpdateCodeLocationInput.PythonFile, and is useful for accessing the field via an interface.
 func (v *__AddOrUpdateCodeLocationInput) GetPythonFile() string { return v.PythonFile }
+
+// GetPackageName returns __AddOrUpdateCodeLocationInput.PackageName, and is useful for accessing the field via an interface.
+func (v *__AddOrUpdateCodeLocationInput) GetPackageName() string { return v.PackageName }
+
+// GetModuleName returns __AddOrUpdateCodeLocationInput.ModuleName, and is useful for accessing the field via an interface.
+func (v *__AddOrUpdateCodeLocationInput) GetModuleName() string { return v.ModuleName }
+
+// GetWorkingDirectory returns __AddOrUpdateCodeLocationInput.WorkingDirectory, and is useful for accessing the field via an interface.
+func (v *__AddOrUpdateCodeLocationInput) GetWorkingDirectory() string { return v.WorkingDirectory }
+
+// GetExecutablePath returns __AddOrUpdateCodeLocationInput.ExecutablePath, and is useful for accessing the field via an interface.
+func (v *__AddOrUpdateCodeLocationInput) GetExecutablePath() string { return v.ExecutablePath }
+
+// GetAttribute returns __AddOrUpdateCodeLocationInput.Attribute, and is useful for accessing the field via an interface.
+func (v *__AddOrUpdateCodeLocationInput) GetAttribute() string { return v.Attribute }
+
+// GetCommitHash returns __AddOrUpdateCodeLocationInput.CommitHash, and is useful for accessing the field via an interface.
+func (v *__AddOrUpdateCodeLocationInput) GetCommitHash() string { return v.CommitHash }
+
+// GetUrl returns __AddOrUpdateCodeLocationInput.Url, and is useful for accessing the field via an interface.
+func (v *__AddOrUpdateCodeLocationInput) GetUrl() string { return v.Url }
+
+// GetAgentQueue returns __AddOrUpdateCodeLocationInput.AgentQueue, and is useful for accessing the field via an interface.
+func (v *__AddOrUpdateCodeLocationInput) GetAgentQueue() string { return v.AgentQueue }
 
 // __AddUserInput is used internally by genqlient
 type __AddUserInput struct {
@@ -8656,8 +8688,8 @@ func AddMemberToTeam(
 
 // The query or mutation executed by AddOrUpdateCodeLocation.
 const AddOrUpdateCodeLocation_Operation = `
-mutation AddOrUpdateCodeLocation ($name: String!, $image: String!, $pythonFile: String!) {
-	addOrUpdateLocation(location: {name:$name,image:$image,pythonFile:$pythonFile}) {
+mutation AddOrUpdateCodeLocation ($name: String!, $image: String, $pythonFile: String, $packageName: String, $moduleName: String, $workingDirectory: String, $executablePath: String, $attribute: String, $commitHash: String, $url: String, $agentQueue: String) {
+	addOrUpdateLocation(location: {name:$name,image:$image,pythonFile:$pythonFile,packageName:$packageName,moduleName:$moduleName,workingDirectory:$workingDirectory,executablePath:$executablePath,attribute:$attribute,commitHash:$commitHash,url:$url,agentQueue:$agentQueue}) {
 		__typename
 		... on WorkspaceEntry {
 			locationName
@@ -8684,14 +8716,30 @@ func AddOrUpdateCodeLocation(
 	name string,
 	image string,
 	pythonFile string,
+	packageName string,
+	moduleName string,
+	workingDirectory string,
+	executablePath string,
+	attribute string,
+	commitHash string,
+	url string,
+	agentQueue string,
 ) (*AddOrUpdateCodeLocationResponse, error) {
 	req_ := &graphql.Request{
 		OpName: "AddOrUpdateCodeLocation",
 		Query:  AddOrUpdateCodeLocation_Operation,
 		Variables: &__AddOrUpdateCodeLocationInput{
-			Name:       name,
-			Image:      image,
-			PythonFile: pythonFile,
+			Name:             name,
+			Image:            image,
+			PythonFile:       pythonFile,
+			PackageName:      packageName,
+			ModuleName:       moduleName,
+			WorkingDirectory: workingDirectory,
+			ExecutablePath:   executablePath,
+			Attribute:        attribute,
+			CommitHash:       commitHash,
+			Url:              url,
+			AgentQueue:       agentQueue,
 		},
 	}
 	var err_ error

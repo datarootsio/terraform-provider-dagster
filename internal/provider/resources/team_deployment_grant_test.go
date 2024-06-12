@@ -71,14 +71,14 @@ func TestAccResourceBasicTeamDeploymentGrant(t *testing.T) {
 				),
 			},
 			{
-				Config: testAccResourceTeamDeploymentGrantConfig(teamName, clName, "EDITOR", "EDITOR"),
+				Config: testAccResourceTeamDeploymentGrantConfig(teamName, clName, "VIEWER", "EDITOR"),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					testutils.FetchValueFromState("data.dagster_current_deployment.current", "id", &deploymentId),
 					testutils.FetchValueFromState("dagster_team.this", "id", &teamId),
-					testGrantProperties(&teamId, &deploymentId, "EDITOR"),
+					testGrantProperties(&teamId, &deploymentId, "VIEWER"),
 					resource.TestCheckResourceAttrPtr("dagster_team_deployment_grant.test", "deployment_id", &deploymentId),
 					resource.TestCheckResourceAttrPtr("dagster_team_deployment_grant.test", "team_id", &teamId),
-					resource.TestCheckResourceAttr("dagster_team_deployment_grant.test", "grant", "EDITOR"),
+					resource.TestCheckResourceAttr("dagster_team_deployment_grant.test", "grant", "VIEWER"),
 				),
 			},
 		},

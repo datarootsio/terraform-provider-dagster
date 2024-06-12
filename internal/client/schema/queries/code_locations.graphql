@@ -4,13 +4,34 @@ query ListCodeLocations {
   }
 }
 
+# @genqlient(omitempty: true)
 mutation AddOrUpdateCodeLocation(
   $name: String!
-  $image: String!
-  $pythonFile: String!
+  $image: String
+  $pythonFile: String
+  $packageName: String
+  $moduleName: String
+  $workingDirectory: String
+  $executablePath: String
+  $attribute: String
+  $commitHash: String
+  $url: String
+  $agentQueue: String
 ) {
   addOrUpdateLocation(
-    location: { name: $name, image: $image, pythonFile: $pythonFile }
+    location: {
+      name: $name
+      image: $image
+      pythonFile: $pythonFile
+      packageName: $packageName
+      moduleName: $moduleName
+      workingDirectory: $workingDirectory
+      executablePath: $executablePath
+      attribute: $attribute
+      commitHash: $commitHash
+      url: $url
+      agentQueue: $agentQueue
+    }
   ) {
     ... on WorkspaceEntry {
       locationName
