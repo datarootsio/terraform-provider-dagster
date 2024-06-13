@@ -32,18 +32,11 @@ provider "dagster" {
 
 
 data "dagster_user" "user" {
-  email = "quinten.bruynseraede@telenetgroup.be"
+  email = "john.doe@dataroots.io"
 }
 
 output "user_info" {
   value = data.dagster_user.user
-  # user_info = {
-  #   "email" = "quinten.bruynseraede@telenetgroup.be"
-  #   "id" = 104379
-  #   "is_scim_provisioned" = false
-  #   "name" = ""
-  #   "picture" = ""
-  # }
 }
 
 output "user_email" {
@@ -51,14 +44,9 @@ output "user_email" {
 }
 
 resource "dagster_user" "test" {
-  email = "foo@bar.be"
+  email = "alice.baker@dataroots.io"
 }
 
 output "new_user" {
   value = dagster_user.test
-  # new_user = {
-  #   "email" = "foo@bar.be"
-  #   "id" = 108370
-  #   "name" = ""
-  #   "picture" = ""
 }

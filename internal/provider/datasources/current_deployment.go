@@ -34,7 +34,7 @@ func (d *CurrentDeploymentDataSource) Metadata(_ context.Context, req datasource
 
 func (d *CurrentDeploymentDataSource) Schema(_ context.Context, _ datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		Description: `Retrieve information about a the CurrentDeployment.`,
+		Description: `Retrieve information about the deployment used to configure this provider.`,
 		Attributes: map[string]schema.Attribute{
 			"id": schema.Int64Attribute{
 				Computed:    true,

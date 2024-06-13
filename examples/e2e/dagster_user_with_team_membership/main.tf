@@ -31,7 +31,7 @@ provider "dagster" {
 }
 
 resource "dagster_user" "this" {
-  email = "foo.bar@dataroots.io"
+  email = "john.doe@dataroots.io"
 }
 
 resource "dagster_team" "this" {

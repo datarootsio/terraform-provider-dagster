@@ -18,8 +18,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-var _ resource.Resource = &TeamResource{}
-var _ resource.ResourceWithImportState = &TeamResource{}
+var (
+	_ resource.Resource                = &TeamResource{}
+	_ resource.ResourceWithImportState = &TeamResource{}
+)
 
 func NewTeamResource() resource.Resource {
 	return &TeamResource{}
@@ -40,7 +42,7 @@ func (r *TeamResource) Metadata(ctx context.Context, req resource.MetadataReques
 
 func (r *TeamResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Team resource",
+		MarkdownDescription: "Creates a team.",
 
 		Attributes: map[string]schema.Attribute{
 			"name": schema.StringAttribute{

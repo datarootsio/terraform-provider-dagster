@@ -3,12 +3,12 @@
 page_title: "dagster_team Resource - dagster"
 subcategory: ""
 description: |-
-  Team resource
+  Creates a team.
 ---
 
 # dagster_team (Resource)
 
-Team resource
+Creates a team.
 
 ## Example Usage
 

@@ -45,7 +45,7 @@ func (r *UserResource) Metadata(ctx context.Context, req resource.MetadataReques
 
 func (r *UserResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		Description: `Create a Dagster Cloud user.`,
+		Description: `Registers a new user.`,
 		Attributes: map[string]schema.Attribute{
 			"id": schema.Int64Attribute{
 				Computed:    true,

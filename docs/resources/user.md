@@ -3,12 +3,12 @@
 page_title: "dagster_user Resource - dagster"
 subcategory: ""
 description: |-
-  Create a Dagster Cloud user.
+  Registers a new user.
 ---
 
 # dagster_user (Resource)
 
-Create a Dagster Cloud user.
+Registers a new user.
 
 ## Example Usage
 

@@ -3,12 +3,12 @@
 page_title: "dagster_team_deployment_grant Resource - dagster"
 subcategory: ""
 description: |-
-  Team Deployment Grant resource
+  Creates a team deployment grants, which grants a team permissions on a deployment and its code locations.
 ---
 
 # dagster_team_deployment_grant (Resource)
 
-Team Deployment Grant resource
+Creates a team deployment grants, which grants a team permissions on a deployment and its code locations.
 
 ## Example Usage
 

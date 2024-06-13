@@ -42,7 +42,7 @@ func (r *TeamDeploymentGrantResource) Metadata(ctx context.Context, req resource
 
 func (r *TeamDeploymentGrantResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Team Deployment Grant resource",
+		MarkdownDescription: "Creates a team deployment grants, which grants a team permissions on a deployment and its code locations.",
 
 		Attributes: map[string]schema.Attribute{
 			"deployment_id": schema.Int64Attribute{

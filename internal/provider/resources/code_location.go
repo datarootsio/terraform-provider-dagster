@@ -44,7 +44,7 @@ func (r *CodeLocationResource) Metadata(ctx context.Context, req resource.Metada
 
 func (r *CodeLocationResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Code Location resource",
+		MarkdownDescription: "Creates a code location.",
 
 		Attributes: map[string]schema.Attribute{
 			"name": schema.StringAttribute{

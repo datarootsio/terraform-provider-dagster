@@ -53,7 +53,7 @@ func (r *DeploymentResource) Metadata(ctx context.Context, req resource.Metadata
 
 func (r *DeploymentResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Deployment resource",
+		MarkdownDescription: "Creates a deployment.",
 
 		Attributes: map[string]schema.Attribute{
 			"name": schema.StringAttribute{
