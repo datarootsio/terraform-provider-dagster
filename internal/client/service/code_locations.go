@@ -166,7 +166,7 @@ func (c *CodeLocationsClient) ListCodeLocations(ctx context.Context) ([]types.Co
 }
 
 func (c *CodeLocationsClient) AddCodeLocationAsDocument(ctx context.Context, codeLocationsAsDocument json.RawMessage) error {
-	codeLocationName, err := getLocationNameFromDocument(codeLocationsAsDocument)
+	codeLocationName, err := GetLocationNameFromDocument(codeLocationsAsDocument)
 	if err != nil {
 		return err
 	}
@@ -200,7 +200,7 @@ func (c *CodeLocationsClient) AddCodeLocationAsDocument(ctx context.Context, cod
 }
 
 func (c *CodeLocationsClient) UpdateCodeLocationAsDocument(ctx context.Context, codeLocationsAsDocument json.RawMessage) error {
-	codeLocationName, err := getLocationNameFromDocument(codeLocationsAsDocument)
+	codeLocationName, err := GetLocationNameFromDocument(codeLocationsAsDocument)
 	if err != nil {
 		return err
 	}
@@ -233,7 +233,7 @@ func (c *CodeLocationsClient) UpdateCodeLocationAsDocument(ctx context.Context, 
 	}
 }
 
-func getLocationNameFromDocument(codeLocationsAsDocument json.RawMessage) (string, error) {
+func GetLocationNameFromDocument(codeLocationsAsDocument json.RawMessage) (string, error) {
 	var codeLocation map[string]interface{}
 	err := json.Unmarshal(codeLocationsAsDocument, &codeLocation)
 
