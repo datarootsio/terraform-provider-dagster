@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"os"
 	"regexp"
 
 	"github.com/datarootsio/terraform-provider-dagster/internal/client"
@@ -24,8 +25,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-var _ resource.Resource = &DeploymentResource{}
-var _ resource.ResourceWithImportState = &DeploymentResource{}
+var (
+	_ resource.Resource                = &DeploymentResource{}
+	_ resource.ResourceWithImportState = &DeploymentResource{}
+)
 
 func NewDeploymentResource() resource.Resource {
 	return &DeploymentResource{}
@@ -274,7 +277,8 @@ func (r *DeploymentResource) Delete(ctx context.Context, req resource.DeleteRequ
 		return
 	}
 
-	if data.Name.ValueString() != r.client.Deployment {
+	// Skip this check in tests, where we create temporary deployments
+	if os.Getenv("TF_ACC") == "" && data.Name.ValueString() != r.client.Deployment {
 		resp.Diagnostics.AddError("Client Error", "Unable to delete deployment, got error: can't delete deployment with a client configured with another deployment.")
 		return
 	}

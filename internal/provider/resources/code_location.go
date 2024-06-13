@@ -9,6 +9,7 @@ import (
 	clientTypes "github.com/datarootsio/terraform-provider-dagster/internal/client/types"
 	"github.com/hashicorp/terraform-plugin-framework-validators/resourcevalidator"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -190,7 +191,7 @@ func (r *CodeLocationResource) Create(ctx context.Context, req resource.CreateRe
 		},
 	)
 	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create code locations, got error: %s", err))
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create code location, got error: %s", err))
 		return
 	}
 
@@ -209,14 +210,13 @@ func (r *CodeLocationResource) Read(ctx context.Context, req resource.ReadReques
 	}
 
 	codeLocation, err := r.client.CodeLocationsClient.GetCodeLocationByName(ctx, data.Name.ValueString())
-
 	if err != nil {
 		var errComp *clientTypes.ErrNotFound
 		if errors.As(err, &errComp) {
 			tflog.Trace(ctx, "Code Location not found, probably already deleted manually, removing from state")
 			resp.State.RemoveResource(ctx)
 		} else {
-			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read code locations, got error: %s", err))
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read code location, got error: %s", err))
 		}
 		return
 	}
@@ -228,9 +228,9 @@ func (r *CodeLocationResource) Read(ctx context.Context, req resource.ReadReques
 		"python_file":  types.StringType,
 	}
 	codeSourceAttributeValues := map[string]attr.Value{
-		"module_name":  types.StringValue(codeLocation.CodeSource.ModuleName),
-		"package_name": types.StringValue(codeLocation.CodeSource.PackageName),
-		"python_file":  types.StringValue(codeLocation.CodeSource.PythonFile),
+		"module_name":  stringValueOrNull(codeLocation.CodeSource.ModuleName),
+		"package_name": stringValueOrNull(codeLocation.CodeSource.PackageName),
+		"python_file":  stringValueOrNull(codeLocation.CodeSource.PythonFile),
 	}
 	codeSource, diag := types.ObjectValue(codeSourceAttributeTypes, codeSourceAttributeValues)
 	resp.Diagnostics.Append(diag...)
@@ -239,29 +239,30 @@ func (r *CodeLocationResource) Read(ctx context.Context, req resource.ReadReques
 		return
 	}
 
-	//Git
+	// Git
 	gitAttributeTypes := map[string]attr.Type{
 		"commit_hash": types.StringType,
 		"url":         types.StringType,
 	}
 	gitSourceAttributeValues := map[string]attr.Value{
-		"commit_hash": types.StringValue(codeLocation.Git.CommitHash),
-		"url":         types.StringValue(codeLocation.Git.URL),
+		"commit_hash": stringValueOrNull(codeLocation.Git.CommitHash),
+		"url":         stringValueOrNull(codeLocation.Git.URL),
 	}
-	git, diag := types.ObjectValue(gitAttributeTypes, gitSourceAttributeValues)
+
+	git, diag := objectValueOrNull(gitAttributeTypes, gitSourceAttributeValues)
 	resp.Diagnostics.Append(diag...)
 
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	data.Image = types.StringValue(codeLocation.Image)
+	data.Image = stringValueOrNull(codeLocation.Image)
 	data.CodeSource = codeSource
-	data.WorkingDirectory = types.StringValue(codeLocation.WorkingDirectory)
-	data.ExecutablePath = types.StringValue(codeLocation.ExecutablePath)
-	data.Attribute = types.StringValue(codeLocation.Attribute)
+	data.WorkingDirectory = stringValueOrNull(codeLocation.WorkingDirectory)
+	data.ExecutablePath = stringValueOrNull(codeLocation.ExecutablePath)
+	data.Attribute = stringValueOrNull(codeLocation.Attribute)
 	data.Git = git
-	data.AgentQueue = types.StringValue(codeLocation.AgentQueue)
+	data.AgentQueue = stringValueOrNull(codeLocation.AgentQueue)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -309,7 +310,7 @@ func (r *CodeLocationResource) Update(ctx context.Context, req resource.UpdateRe
 		},
 	)
 	if err != nil {
-		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create code locations, got error: %s", err))
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create code location, got error: %s", err))
 		return
 	}
 
@@ -334,10 +335,29 @@ func (r *CodeLocationResource) Delete(ctx context.Context, req resource.DeleteRe
 			tflog.Trace(ctx, "Code Location not found, probably already deleted manually, removing from state")
 			resp.State.RemoveResource(ctx)
 		} else {
-			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to delete code locations, got error: %s", err))
+			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to delete code location, got error: %s", err))
 		}
 		return
 	}
 
-	tflog.Trace(ctx, fmt.Sprintf("deleted code locations resource with id: %s", data.Name.ValueString()))
+	tflog.Trace(ctx, fmt.Sprintf("deleted code location resource with id: %s", data.Name.ValueString()))
+}
+
+// stringValueOrNull returns input string as types.String, or types.StringNull() if the input is empty.
+func stringValueOrNull(v string) types.String {
+	if v == "" {
+		return types.StringNull()
+	}
+	return types.StringValue(v)
+}
+
+// objectValueOrNull returns a types.Object constructed from keys and values, or types.ObjectNull() if all imput values are Null.
+func objectValueOrNull(attributeTypes map[string]attr.Type, attributeValues map[string]attr.Value) (types.Object, diag.Diagnostics) {
+	for _, value := range attributeValues {
+		if !value.IsNull() {
+			return types.ObjectValue(attributeTypes, attributeValues)
+		}
+	}
+
+	return types.ObjectNull(attributeTypes), nil
 }
