@@ -2,7 +2,7 @@
 Terraform provider to manage Dagster Cloud resources.
 
 > [!WARNING]
-> This is an early release and we provide no guarantees on completeness or stability.
+> This is an unofficial provider! As this is an early version, we provide no guarantees on completeness or stability.
 
 ## Coverage
 
