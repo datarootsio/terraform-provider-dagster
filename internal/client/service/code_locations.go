@@ -164,3 +164,92 @@ func (c *CodeLocationsClient) ListCodeLocations(ctx context.Context) ([]types.Co
 
 	return codeLocations.Locations, nil
 }
+
+func (c *CodeLocationsClient) AddCodeLocationAsDocument(ctx context.Context, codeLocationsAsDocument json.RawMessage) error {
+	codeLocationName, err := getLocationNameFromDocument(codeLocationsAsDocument)
+	if err != nil {
+		return err
+	}
+
+	_, err = c.GetCodeLocationByName(ctx, codeLocationName)
+	if err == nil {
+		return &types.ErrAlreadyExists{What: "CodeLocation", Key: "name", Value: codeLocationName}
+	}
+
+	resp, err := schema.AddOrUpdateLocationFromDocument(
+		ctx,
+		c.client,
+		codeLocationsAsDocument,
+	)
+	if err != nil {
+		return err
+	}
+
+	switch respCast := resp.AddOrUpdateLocationFromDocument.(type) {
+	case *schema.AddOrUpdateLocationFromDocumentAddOrUpdateLocationFromDocumentWorkspaceEntry:
+		return nil
+	case *schema.AddOrUpdateLocationFromDocumentAddOrUpdateLocationFromDocumentInvalidLocationError:
+		return &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
+	case *schema.AddOrUpdateLocationFromDocumentAddOrUpdateLocationFromDocumentUnauthorizedError:
+		return &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
+	case *schema.AddOrUpdateLocationFromDocumentAddOrUpdateLocationFromDocumentPythonError:
+		return &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
+	default:
+		return fmt.Errorf("unexpected type(%T) of result", resp.AddOrUpdateLocationFromDocument)
+	}
+}
+
+func (c *CodeLocationsClient) UpdateCodeLocationAsDocument(ctx context.Context, codeLocationsAsDocument json.RawMessage) error {
+	codeLocationName, err := getLocationNameFromDocument(codeLocationsAsDocument)
+	if err != nil {
+		return err
+	}
+
+	_, err = c.GetCodeLocationByName(ctx, codeLocationName)
+	if err != nil {
+		return err
+	}
+
+	resp, err := schema.AddOrUpdateLocationFromDocument(
+		ctx,
+		c.client,
+		codeLocationsAsDocument,
+	)
+	if err != nil {
+		return err
+	}
+
+	switch respCast := resp.AddOrUpdateLocationFromDocument.(type) {
+	case *schema.AddOrUpdateLocationFromDocumentAddOrUpdateLocationFromDocumentWorkspaceEntry:
+		return nil
+	case *schema.AddOrUpdateLocationFromDocumentAddOrUpdateLocationFromDocumentInvalidLocationError:
+		return &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
+	case *schema.AddOrUpdateLocationFromDocumentAddOrUpdateLocationFromDocumentUnauthorizedError:
+		return &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
+	case *schema.AddOrUpdateLocationFromDocumentAddOrUpdateLocationFromDocumentPythonError:
+		return &types.ErrApi{Typename: respCast.Typename, Message: respCast.Message}
+	default:
+		return fmt.Errorf("unexpected type(%T) of result", resp.AddOrUpdateLocationFromDocument)
+	}
+}
+
+func getLocationNameFromDocument(codeLocationsAsDocument json.RawMessage) (string, error) {
+	var codeLocation map[string]interface{}
+	err := json.Unmarshal(codeLocationsAsDocument, &codeLocation)
+
+	if err != nil {
+		return "", err
+	}
+
+	locationNameRaw, ok := codeLocation["location_name"]
+	if !ok {
+		return "", fmt.Errorf("location_name not found in codeLocationsAsDocument json")
+	}
+
+	locationName, ok := locationNameRaw.(string)
+	if !ok {
+		return "", fmt.Errorf("could not parse locationName in to string")
+	}
+
+	return locationName, nil
+}

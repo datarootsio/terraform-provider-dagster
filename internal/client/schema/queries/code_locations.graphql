@@ -51,3 +51,14 @@ mutation DeleteCodeLocation($name: String!) {
     ...UnauthorizedError
   }
 }
+
+mutation AddOrUpdateLocationFromDocument($document: GenericScalar!) {
+  addOrUpdateLocationFromDocument(document: $document) {
+    ... on WorkspaceEntry {
+      locationName
+    }
+    ...PythonError
+    ...InvalidLocationError
+    ...UnauthorizedError
+  }
+}
