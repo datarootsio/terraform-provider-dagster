@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"log"
 
 	"github.com/Khan/genqlient/graphql"
 	"github.com/datarootsio/terraform-provider-dagster/internal/client/schema"
@@ -166,7 +167,7 @@ func (c *CodeLocationsClient) ListCodeLocations(ctx context.Context) ([]types.Co
 }
 
 func (c *CodeLocationsClient) AddCodeLocationAsDocument(ctx context.Context, codeLocationsAsDocument json.RawMessage) error {
-	codeLocationName, err := GetLocationNameFromDocument(codeLocationsAsDocument)
+	codeLocationName, err := GetCodeLocationNameFromDocument(codeLocationsAsDocument)
 	if err != nil {
 		return err
 	}
@@ -200,7 +201,7 @@ func (c *CodeLocationsClient) AddCodeLocationAsDocument(ctx context.Context, cod
 }
 
 func (c *CodeLocationsClient) UpdateCodeLocationAsDocument(ctx context.Context, codeLocationsAsDocument json.RawMessage) error {
-	codeLocationName, err := GetLocationNameFromDocument(codeLocationsAsDocument)
+	codeLocationName, err := GetCodeLocationNameFromDocument(codeLocationsAsDocument)
 	if err != nil {
 		return err
 	}
@@ -233,7 +234,7 @@ func (c *CodeLocationsClient) UpdateCodeLocationAsDocument(ctx context.Context, 
 	}
 }
 
-func GetLocationNameFromDocument(codeLocationsAsDocument json.RawMessage) (string, error) {
+func GetCodeLocationNameFromDocument(codeLocationsAsDocument json.RawMessage) (string, error) {
 	var codeLocation map[string]interface{}
 	err := json.Unmarshal(codeLocationsAsDocument, &codeLocation)
 
@@ -241,15 +242,52 @@ func GetLocationNameFromDocument(codeLocationsAsDocument json.RawMessage) (strin
 		return "", err
 	}
 
-	locationNameRaw, ok := codeLocation["location_name"]
+	codeLocationNameRaw, ok := codeLocation["location_name"]
 	if !ok {
 		return "", fmt.Errorf("location_name not found in codeLocationsAsDocument json")
 	}
 
-	locationName, ok := locationNameRaw.(string)
+	codeLocationName, ok := codeLocationNameRaw.(string)
 	if !ok {
 		return "", fmt.Errorf("could not parse locationName in to string")
 	}
 
-	return locationName, nil
+	return codeLocationName, nil
+}
+
+func (c *CodeLocationsClient) GetCodeLocationAsDocumentByName(ctx context.Context, name string) (json.RawMessage, error) {
+	response, err := schema.ListCodeLocations(ctx, c.client)
+	if err != nil {
+		return json.RawMessage{}, err
+	}
+
+	responseAsBytes, err := response.LocationsAsDocument.Document.MarshalJSON()
+	if err != nil {
+		return json.RawMessage{}, err
+	}
+
+	var responseAsJSON map[string]json.RawMessage
+	err = json.Unmarshal(responseAsBytes, &responseAsJSON)
+	if err != nil {
+		return json.RawMessage{}, err
+	}
+
+	var locations []json.RawMessage
+	err = json.Unmarshal(responseAsJSON["locations"], &locations)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for _, locationRaw := range locations {
+		var location map[string]interface{}
+		err := json.Unmarshal(locationRaw, &location)
+		if err != nil {
+			log.Fatal(err)
+		}
+		if location["location_name"] == name {
+			return locationRaw, nil
+		}
+	}
+
+	return json.RawMessage{}, &types.ErrNotFound{What: "CodeLocationAsDocument", Key: "name", Value: name}
 }

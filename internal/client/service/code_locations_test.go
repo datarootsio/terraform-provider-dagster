@@ -96,7 +96,7 @@ func TestCodeLocationService_AsDocument_BasicCRUD(t *testing.T) {
 		"image": "my_image:updated"
 	}`)
 
-	codeLocationName, err := service.GetLocationNameFromDocument(codeLocation)
+	codeLocationName, err := service.GetCodeLocationNameFromDocument(codeLocation)
 	assert.NoError(t, err)
 
 	t.Cleanup(func() {
@@ -116,6 +116,15 @@ func TestCodeLocationService_AsDocument_BasicCRUD(t *testing.T) {
 	// Read code location
 	_, err = client.GetCodeLocationByName(ctx, codeLocationName)
 	assert.NoError(t, err)
+
+	// Get code location as document
+	codeLocationAsDocument, err := client.GetCodeLocationAsDocumentByName(ctx, codeLocationName)
+	assert.NoError(t, err)
+	assert.EqualValues(
+		t,
+		testutils.UnmarshalJSONOrPanic(codeLocation),
+		testutils.UnmarshalJSONOrPanic(codeLocationAsDocument),
+	)
 
 	// Update code location and check result
 	err = client.UpdateCodeLocationAsDocument(ctx, updatedCodeLocation)
@@ -156,5 +165,4 @@ func TestCodeLocationService_AsDocument_Errors(t *testing.T) {
 
 	err = client.AddCodeLocationAsDocument(ctx, errorInputMalformedJSON)
 	assert.ErrorContains(t, err, "invalid")
-
 }
