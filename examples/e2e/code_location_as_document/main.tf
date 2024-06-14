@@ -30,14 +30,18 @@ provider "dagster" {
   api_token    = var.testing_dagster_api_token
 }
 
-resource "dagster_code_location" "example" {
-  name  = "example_code_location"
-  image = "python:3.13"
-  code_source = {
-    python_file = "my_python.py"
-  }
+resource "dagster_code_location_as_document" "example" {
+  document = data.dagster_configuration_document.example.json
+}
+
+data "dagster_configuration_document" "example" {
+  yaml_body = <<YAML
+location_name: "example_code_location_as_document"
+code_source:
+  python_file: "a_python_file.py"
+YAML
 }
 
 output "code_location" {
-  value = dagster_code_location.example
+  value = dagster_code_location_as_document.example
 }

@@ -1,12 +1,12 @@
-variable "organization" {
+variable "testing_dagster_organization" {
   type = string
 }
 
-variable "deployment" {
+variable "testing_dagster_deployment" {
   type = string
 }
 
-variable "api_token" {
+variable "testing_dagster_api_token" {
   type = string
 }
 
@@ -25,13 +25,13 @@ terraform {
 }
 
 provider "dagster" {
-  organization = var.organization
-  deployment   = var.deployment
-  api_token    = var.api_token
+  organization = var.testing_dagster_organization
+  deployment   = var.testing_dagster_deployment
+  api_token    = var.testing_dagster_api_token
 }
 
 data "dagster_current_deployment" "current" {}
 
-output "deployment" {
+output "testing_dagster_deployment" {
   value = data.dagster_current_deployment.current
 }
