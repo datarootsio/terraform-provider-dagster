@@ -55,7 +55,30 @@ func (r *CodeLocationAsDocumentResource) Schema(ctx context.Context, req resourc
 				Computed:            true,
 				Optional:            true,
 				Default:             stringdefault.StaticString("{}"),
-				MarkdownDescription: "Code location as a JSON document. We recommend using a `dagster_configuration_document` to generate this instead of composing a JSON document yourself. Leaving this attribute empty or partially filled in, will result in Dagster (partially) applying default settings to your deployment. This leads to perpetual changes in this resource.",
+				MarkdownDescription: "Code location as a JSON document. We recommend using a `dagster_configuration_document` to generate this instead of composing a JSON document yourself.",
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplaceIf(func(ctx context.Context, req planmodifier.StringRequest, resp *stringplanmodifier.RequiresReplaceIfFuncResponse) {
+						stateName, err := service.GetCodeLocationNameFromDocument(json.RawMessage(req.StateValue.ValueString()))
+						if err != nil {
+							resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Plan modifier got error: %s", err))
+							return
+						}
+
+						planName, err := service.GetCodeLocationNameFromDocument(json.RawMessage(req.PlanValue.ValueString()))
+						if err != nil {
+							resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Plan modifier got error: %s", err))
+							return
+						}
+
+						// If the name value has changed, set RequiresReplace to true
+						if stateName != planName {
+							resp.RequiresReplace = true
+						}
+					},
+						"replace code location when name changes",
+						"replace code location when name changes",
+					),
+				},
 			},
 		},
 	}
