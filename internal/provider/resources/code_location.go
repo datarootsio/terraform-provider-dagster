@@ -52,6 +52,7 @@ func (r *CodeLocationResource) Schema(ctx context.Context, req resource.SchemaRe
 			"name": schema.StringAttribute{
 				MarkdownDescription: "Code Location name. ",
 				Required:            true,
+				// Name is the unique id, meaning if this changes, we need to recreate the resource
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
