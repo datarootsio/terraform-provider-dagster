@@ -32,6 +32,6 @@ provider "dagster" {
 
 data "dagster_current_deployment" "current" {}
 
-output "testing_dagster_deployment" {
+output "deployment" {
   value = data.dagster_current_deployment.current
 }
