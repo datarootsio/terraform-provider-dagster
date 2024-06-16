@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"log"
 
 	"github.com/Khan/genqlient/graphql"
 	"github.com/datarootsio/terraform-provider-dagster/internal/client/schema"
@@ -275,14 +274,14 @@ func (c *CodeLocationsClient) GetCodeLocationAsDocumentByName(ctx context.Contex
 	var locations []json.RawMessage
 	err = json.Unmarshal(responseAsJSON["locations"], &locations)
 	if err != nil {
-		log.Fatal(err)
+		return json.RawMessage{}, err
 	}
 
 	for _, locationRaw := range locations {
 		var location map[string]interface{}
 		err := json.Unmarshal(locationRaw, &location)
 		if err != nil {
-			log.Fatal(err)
+			return json.RawMessage{}, err
 		}
 		if location["location_name"] == name {
 			return locationRaw, nil

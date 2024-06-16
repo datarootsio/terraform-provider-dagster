@@ -99,9 +99,12 @@ func TestCodeLocationService_AsDocument_BasicCRUD(t *testing.T) {
 	codeLocationName, err := service.GetCodeLocationNameFromDocument(codeLocation)
 	assert.NoError(t, err)
 
+	updatedCodeLocationName, err := service.GetCodeLocationNameFromDocument(updatedCodeLocation)
+	assert.NoError(t, err)
+
 	t.Cleanup(func() {
 		_ = client.DeleteCodeLocation(ctx, codeLocationName)
-		_ = client.DeleteCodeLocation(ctx, codeLocationName)
+		_ = client.DeleteCodeLocation(ctx, updatedCodeLocationName)
 	})
 
 	// Check that code location doesn't exist
