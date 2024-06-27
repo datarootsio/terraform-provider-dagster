@@ -2,8 +2,10 @@ package service_test
 
 import (
 	"context"
+	"encoding/json"
 	"testing"
 
+	"github.com/datarootsio/terraform-provider-dagster/internal/client/service"
 	"github.com/datarootsio/terraform-provider-dagster/internal/client/types"
 	"github.com/datarootsio/terraform-provider-dagster/internal/testutils"
 	"github.com/stretchr/testify/assert"
@@ -69,4 +71,101 @@ func TestCodeLocationService_BasicCRUD(t *testing.T) {
 	_, err = client.GetCodeLocationByName(ctx, updatedCodeLocation.Name)
 	assert.Error(t, err)
 	assert.ErrorAs(t, err, &errNotFound)
+}
+
+func TestCodeLocationService_FromDocument_BasicCRUD(t *testing.T) {
+	dagsterClient := testutils.GetDagsterClientFromEnvVars()
+	var errNotFound *types.ErrNotFound
+
+	ctx := context.Background()
+	client := dagsterClient.CodeLocationsClient
+
+	codeLocation := json.RawMessage(`{
+		"location_name": "testing-codelocation-as-doc",
+		"code_source": {
+			"python_file": "my_file.py"
+		},
+		"image": "my_image:first"
+	}`)
+
+	updatedCodeLocation := json.RawMessage(`{
+		"location_name": "testing-codelocation-as-doc",
+		"code_source": {
+			"python_file": "my_file_update.py"
+		},
+		"image": "my_image:updated"
+	}`)
+
+	codeLocationName, err := service.GetCodeLocationNameFromDocument(codeLocation)
+	assert.NoError(t, err)
+
+	updatedCodeLocationName, err := service.GetCodeLocationNameFromDocument(updatedCodeLocation)
+	assert.NoError(t, err)
+
+	t.Cleanup(func() {
+		_ = client.DeleteCodeLocation(ctx, codeLocationName)
+		_ = client.DeleteCodeLocation(ctx, updatedCodeLocationName)
+	})
+
+	// Check that code location doesn't exist
+	_, err = client.GetCodeLocationByName(ctx, codeLocationName)
+	assert.Error(t, err)
+	assert.ErrorAs(t, err, &errNotFound)
+
+	// Create code location
+	err = client.AddCodeLocationFromDocument(ctx, codeLocation)
+	assert.Nil(t, err)
+
+	// Read code location
+	_, err = client.GetCodeLocationByName(ctx, codeLocationName)
+	assert.NoError(t, err)
+
+	// Get code location as document
+	codeLocationAsDocument, err := client.GetCodeLocationAsDocumentByName(ctx, codeLocationName)
+	assert.NoError(t, err)
+	assert.EqualValues(
+		t,
+		testutils.UnmarshalJSONOrPanic(codeLocation),
+		testutils.UnmarshalJSONOrPanic(codeLocationAsDocument),
+	)
+
+	// Update code location and check result
+	err = client.UpdateCodeLocationFromDocument(ctx, updatedCodeLocation)
+	assert.NoError(t, err)
+	_, err = client.GetCodeLocationByName(ctx, codeLocationName)
+	assert.NoError(t, err)
+
+	// Delete code location
+	err = client.DeleteCodeLocation(ctx, codeLocationName)
+	assert.NoError(t, err)
+
+	// Check everything cleaned up
+	_, err = client.GetCodeLocationByName(ctx, codeLocationName)
+	assert.Error(t, err)
+	assert.ErrorAs(t, err, &errNotFound)
+}
+
+func TestCodeLocationService_FromDocument_Errors(t *testing.T) {
+	dagsterClient := testutils.GetDagsterClientFromEnvVars()
+
+	ctx := context.Background()
+	client := dagsterClient.CodeLocationsClient
+
+	errorInputMissingRequiredField := json.RawMessage(`{
+		"location_name": "testing-codelocation-as-doc"
+	}`)
+
+	err := client.AddCodeLocationFromDocument(ctx, errorInputMissingRequiredField)
+	assert.ErrorContains(t, err, "missing entry")
+
+	errorInputMalformedJSON := json.RawMessage(`{
+		"location_name": "testing-codelocation-as-doc",
+		"code_source": {
+			"python_file": "malformed
+		},
+		"image": "my_image:updated"
+	}`)
+
+	err = client.AddCodeLocationFromDocument(ctx, errorInputMalformedJSON)
+	assert.ErrorContains(t, err, "invalid")
 }

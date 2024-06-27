@@ -30,16 +30,37 @@ func TestAccResourceBasicCodeLocation(t *testing.T) {
 	image := "python:3.13"
 	file := "my_python.py"
 
+	updatedImage := "python:3.12"
+	updatedName := "code-location-as-document-update-" + acctest.RandStringFromCharSet(5, acctest.CharSetAlphaNum)
+
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testutils.AccTestPreCheck(t) },
 		ProtoV6ProviderFactories: testutils.TestAccProtoV6ProviderFactories,
-		CheckDestroy:             testCodeLocationDeleted(name),
+		CheckDestroy:             testCodeLocationDeleted(updatedName),
 		Steps: []resource.TestStep{
 			{
 				Config: testAccResourceCodeLocationConfig(name, image, file),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					testCodeLocationProperties(name, image, file),
 					resource.TestCheckResourceAttr("dagster_code_location.test", "name", name),
+					resource.TestCheckResourceAttr("dagster_code_location.test", "image", image),
+					resource.TestCheckResourceAttr("dagster_code_location.test", "code_source.python_file", file),
+				),
+			},
+			{
+				Config: testAccResourceCodeLocationConfig(name, updatedImage, file),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					testCodeLocationProperties(name, updatedImage, file),
+					resource.TestCheckResourceAttr("dagster_code_location.test", "name", name),
+					resource.TestCheckResourceAttr("dagster_code_location.test", "image", updatedImage),
+					resource.TestCheckResourceAttr("dagster_code_location.test", "code_source.python_file", file),
+				),
+			},
+			{
+				Config: testAccResourceCodeLocationConfig(updatedName, image, file),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					testCodeLocationProperties(updatedName, image, file),
+					resource.TestCheckResourceAttr("dagster_code_location.test", "name", updatedName),
 					resource.TestCheckResourceAttr("dagster_code_location.test", "image", image),
 					resource.TestCheckResourceAttr("dagster_code_location.test", "code_source.python_file", file),
 				),

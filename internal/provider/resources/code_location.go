@@ -13,6 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
@@ -50,6 +52,10 @@ func (r *CodeLocationResource) Schema(ctx context.Context, req resource.SchemaRe
 			"name": schema.StringAttribute{
 				MarkdownDescription: "Code Location name. ",
 				Required:            true,
+				// Name is the unique id, meaning if this changes, we need to recreate the resource
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 			},
 			"image": schema.StringAttribute{
 				MarkdownDescription: "Docker image URL to use. Must be specified if `git` is not defined.",
