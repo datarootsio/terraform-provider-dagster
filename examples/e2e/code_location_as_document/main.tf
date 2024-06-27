@@ -30,18 +30,18 @@ provider "dagster" {
   api_token    = var.api_token
 }
 
-resource "dagster_code_location_as_document" "example" {
+resource "dagster_code_location_from_document" "example" {
   document = data.dagster_configuration_document.example.json
 }
 
 data "dagster_configuration_document" "example" {
   yaml_body = <<YAML
-location_name: "example_code_location_as_document"
+location_name: "example_code_location_from_document"
 code_source:
   python_file: "a_python_file.py"
 YAML
 }
 
 output "code_location" {
-  value = dagster_code_location_as_document.example
+  value = dagster_code_location_from_document.example
 }

@@ -13,32 +13,31 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-var _ resource.Resource = &CodeLocationAsDocumentResource{}
+var _ resource.Resource = &CodeLocationFromDocumentResource{}
 
-func NewCodeLocationAsDocumentResource() resource.Resource {
-	return &CodeLocationAsDocumentResource{}
+func NewCodeLocationFromDocumentResource() resource.Resource {
+	return &CodeLocationFromDocumentResource{}
 }
 
-type CodeLocationAsDocumentResource struct {
+type CodeLocationFromDocumentResource struct {
 	client client.DagsterClient
 }
 
-type CodeLocationAsDocumentResourceModel struct {
+type CodeLocationFromDocumentResourceModel struct {
 	Document types.String `tfsdk:"document"`
 	Name     types.String `tfsdk:"name"`
 }
 
-func (r *CodeLocationAsDocumentResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_code_location_as_document"
+func (r *CodeLocationFromDocumentResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_code_location_from_document"
 }
 
-func (r *CodeLocationAsDocumentResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
+func (r *CodeLocationFromDocumentResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		MarkdownDescription: "Creates a code location from a dagster configuration document.",
 
@@ -51,10 +50,7 @@ func (r *CodeLocationAsDocumentResource) Schema(ctx context.Context, req resourc
 				},
 			},
 			"document": schema.StringAttribute{
-				Required:            false,
-				Computed:            true,
-				Optional:            true,
-				Default:             stringdefault.StaticString("{}"),
+				Required:            true,
 				MarkdownDescription: "Code location as a JSON document. We recommend using a `dagster_configuration_document` to generate this instead of composing a JSON document yourself.",
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplaceIf(
@@ -84,7 +80,7 @@ func replaceIfCodeLocationNameChanges(ctx context.Context, req planmodifier.Stri
 	resp.RequiresReplace = stateName != planName
 }
 
-func (r *CodeLocationAsDocumentResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
+func (r *CodeLocationFromDocumentResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
 	}
@@ -102,8 +98,8 @@ func (r *CodeLocationAsDocumentResource) Configure(ctx context.Context, req reso
 	r.client = client
 }
 
-func (r *CodeLocationAsDocumentResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
-	var data CodeLocationAsDocumentResourceModel
+func (r *CodeLocationFromDocumentResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+	var data CodeLocationFromDocumentResourceModel
 
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
 
@@ -118,7 +114,7 @@ func (r *CodeLocationAsDocumentResource) Create(ctx context.Context, req resourc
 		return
 	}
 
-	err = r.client.CodeLocationsClient.AddCodeLocationAsDocument(ctx, document)
+	err = r.client.CodeLocationsClient.AddCodeLocationFromDocument(ctx, document)
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create code location, got error: %s", err))
 		return
@@ -139,8 +135,8 @@ func (r *CodeLocationAsDocumentResource) Create(ctx context.Context, req resourc
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
-func (r *CodeLocationAsDocumentResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
-	var data CodeLocationAsDocumentResourceModel
+func (r *CodeLocationFromDocumentResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+	var data CodeLocationFromDocumentResourceModel
 
 	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
 
@@ -155,7 +151,7 @@ func (r *CodeLocationAsDocumentResource) Read(ctx context.Context, req resource.
 		return
 	}
 
-	codeLocationAsDocument, err := r.client.CodeLocationsClient.GetCodeLocationAsDocumentByName(ctx, codeLocationName)
+	codeLocationFromDocument, err := r.client.CodeLocationsClient.GetCodeLocationFromDocumentByName(ctx, codeLocationName)
 	if err != nil {
 		var errComp *clientTypes.ErrNotFound
 		if errors.As(err, &errComp) {
@@ -167,7 +163,7 @@ func (r *CodeLocationAsDocumentResource) Read(ctx context.Context, req resource.
 		return
 	}
 
-	documentString, err := utils.MakeJSONStringUniform(codeLocationAsDocument)
+	documentString, err := utils.MakeJSONStringUniform(codeLocationFromDocument)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"JSON Format error",
@@ -181,8 +177,8 @@ func (r *CodeLocationAsDocumentResource) Read(ctx context.Context, req resource.
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
-func (r *CodeLocationAsDocumentResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	var data CodeLocationAsDocumentResourceModel
+func (r *CodeLocationFromDocumentResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+	var data CodeLocationFromDocumentResourceModel
 
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
 
@@ -197,7 +193,7 @@ func (r *CodeLocationAsDocumentResource) Update(ctx context.Context, req resourc
 		return
 	}
 
-	err = r.client.CodeLocationsClient.UpdateCodeLocationAsDocument(
+	err = r.client.CodeLocationsClient.UpdateCodeLocationFromDocument(
 		ctx,
 		document,
 	)
@@ -222,8 +218,8 @@ func (r *CodeLocationAsDocumentResource) Update(ctx context.Context, req resourc
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
-func (r *CodeLocationAsDocumentResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
-	var data CodeLocationAsDocumentResourceModel
+func (r *CodeLocationFromDocumentResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+	var data CodeLocationFromDocumentResourceModel
 
 	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
 

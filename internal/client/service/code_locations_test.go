@@ -73,7 +73,7 @@ func TestCodeLocationService_BasicCRUD(t *testing.T) {
 	assert.ErrorAs(t, err, &errNotFound)
 }
 
-func TestCodeLocationService_AsDocument_BasicCRUD(t *testing.T) {
+func TestCodeLocationService_FromDocument_BasicCRUD(t *testing.T) {
 	dagsterClient := testutils.GetDagsterClientFromEnvVars()
 	var errNotFound *types.ErrNotFound
 
@@ -113,7 +113,7 @@ func TestCodeLocationService_AsDocument_BasicCRUD(t *testing.T) {
 	assert.ErrorAs(t, err, &errNotFound)
 
 	// Create code location
-	err = client.AddCodeLocationAsDocument(ctx, codeLocation)
+	err = client.AddCodeLocationFromDocument(ctx, codeLocation)
 	assert.Nil(t, err)
 
 	// Read code location
@@ -121,16 +121,16 @@ func TestCodeLocationService_AsDocument_BasicCRUD(t *testing.T) {
 	assert.NoError(t, err)
 
 	// Get code location as document
-	codeLocationAsDocument, err := client.GetCodeLocationAsDocumentByName(ctx, codeLocationName)
+	codeLocationFromDocument, err := client.GetCodeLocationFromDocumentByName(ctx, codeLocationName)
 	assert.NoError(t, err)
 	assert.EqualValues(
 		t,
 		testutils.UnmarshalJSONOrPanic(codeLocation),
-		testutils.UnmarshalJSONOrPanic(codeLocationAsDocument),
+		testutils.UnmarshalJSONOrPanic(codeLocationFromDocument),
 	)
 
 	// Update code location and check result
-	err = client.UpdateCodeLocationAsDocument(ctx, updatedCodeLocation)
+	err = client.UpdateCodeLocationFromDocument(ctx, updatedCodeLocation)
 	assert.NoError(t, err)
 	_, err = client.GetCodeLocationByName(ctx, codeLocationName)
 	assert.NoError(t, err)
@@ -145,7 +145,7 @@ func TestCodeLocationService_AsDocument_BasicCRUD(t *testing.T) {
 	assert.ErrorAs(t, err, &errNotFound)
 }
 
-func TestCodeLocationService_AsDocument_Errors(t *testing.T) {
+func TestCodeLocationService_FromDocument_Errors(t *testing.T) {
 	dagsterClient := testutils.GetDagsterClientFromEnvVars()
 
 	ctx := context.Background()
@@ -155,7 +155,7 @@ func TestCodeLocationService_AsDocument_Errors(t *testing.T) {
 		"location_name": "testing-codelocation-as-doc"
 	}`)
 
-	err := client.AddCodeLocationAsDocument(ctx, errorInputMissingRequiredField)
+	err := client.AddCodeLocationFromDocument(ctx, errorInputMissingRequiredField)
 	assert.ErrorContains(t, err, "missing entry")
 
 	errorInputMalformedJSON := json.RawMessage(`{
@@ -166,6 +166,6 @@ func TestCodeLocationService_AsDocument_Errors(t *testing.T) {
 		"image": "my_image:updated"
 	}`)
 
-	err = client.AddCodeLocationAsDocument(ctx, errorInputMalformedJSON)
+	err = client.AddCodeLocationFromDocument(ctx, errorInputMalformedJSON)
 	assert.ErrorContains(t, err, "invalid")
 }
