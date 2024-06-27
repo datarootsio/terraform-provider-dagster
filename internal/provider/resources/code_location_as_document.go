@@ -217,7 +217,7 @@ func (r *CodeLocationAsDocumentResource) Update(ctx context.Context, req resourc
 	data.Name = types.StringValue(codeLocationName)
 	data.Document = types.StringValue(documentString)
 
-	tflog.Trace(ctx, "created code location resource")
+	tflog.Trace(ctx, "updated code location resource")
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
