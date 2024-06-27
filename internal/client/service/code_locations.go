@@ -248,7 +248,8 @@ func GetCodeLocationNameFromDocument(codeLocationsAsDocument json.RawMessage) (s
 
 	codeLocationName, ok := codeLocationNameRaw.(string)
 	if !ok {
-		return "", fmt.Errorf("could not parse locationName in to string")
+		return "", fmt.Errorf("could not parse location_name to string, received %v of type %T", codeLocationNameRaw, codelocationNameRaw)
+```,
 	}
 
 	return codeLocationName, nil
