@@ -121,12 +121,12 @@ func TestCodeLocationService_FromDocument_BasicCRUD(t *testing.T) {
 	assert.NoError(t, err)
 
 	// Get code location as document
-	codeLocationFromDocument, err := client.GetCodeLocationFromDocumentByName(ctx, codeLocationName)
+	codeLocationAsDocument, err := client.GetCodeLocationAsDocumentByName(ctx, codeLocationName)
 	assert.NoError(t, err)
 	assert.EqualValues(
 		t,
 		testutils.UnmarshalJSONOrPanic(codeLocation),
-		testutils.UnmarshalJSONOrPanic(codeLocationFromDocument),
+		testutils.UnmarshalJSONOrPanic(codeLocationAsDocument),
 	)
 
 	// Update code location and check result

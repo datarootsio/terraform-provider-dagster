@@ -151,7 +151,7 @@ func (r *CodeLocationFromDocumentResource) Read(ctx context.Context, req resourc
 		return
 	}
 
-	codeLocationFromDocument, err := r.client.CodeLocationsClient.GetCodeLocationFromDocumentByName(ctx, codeLocationName)
+	codeLocationAsDocument, err := r.client.CodeLocationsClient.GetCodeLocationAsDocumentByName(ctx, codeLocationName)
 	if err != nil {
 		var errComp *clientTypes.ErrNotFound
 		if errors.As(err, &errComp) {
@@ -163,7 +163,7 @@ func (r *CodeLocationFromDocumentResource) Read(ctx context.Context, req resourc
 		return
 	}
 
-	documentString, err := utils.MakeJSONStringUniform(codeLocationFromDocument)
+	documentString, err := utils.MakeJSONStringUniform(codeLocationAsDocument)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"JSON Format error",

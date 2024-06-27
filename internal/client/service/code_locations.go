@@ -244,7 +244,7 @@ func GetCodeLocationNameFromDocument(codeLocationsFromDocument json.RawMessage) 
 	return codeLocation.Name, nil
 }
 
-func (c *CodeLocationsClient) GetCodeLocationFromDocumentByName(ctx context.Context, name string) (json.RawMessage, error) {
+func (c *CodeLocationsClient) GetCodeLocationAsDocumentByName(ctx context.Context, name string) (json.RawMessage, error) {
 	response, err := schema.ListCodeLocations(ctx, c.client)
 	if err != nil {
 		return json.RawMessage{}, err
@@ -255,28 +255,22 @@ func (c *CodeLocationsClient) GetCodeLocationFromDocumentByName(ctx context.Cont
 		return json.RawMessage{}, err
 	}
 
-	var responseAsJSON map[string]json.RawMessage
+	var responseAsJSON map[string][]json.RawMessage
 	err = json.Unmarshal(responseAsBytes, &responseAsJSON)
 	if err != nil {
 		return json.RawMessage{}, err
 	}
 
-	var locations []json.RawMessage
-	err = json.Unmarshal(responseAsJSON["locations"], &locations)
-	if err != nil {
-		return json.RawMessage{}, err
-	}
-
-	for _, locationRaw := range locations {
-		var location map[string]interface{}
+	for _, locationRaw := range responseAsJSON["locations"] {
+		var location types.CodeLocation
 		err := json.Unmarshal(locationRaw, &location)
 		if err != nil {
 			return json.RawMessage{}, err
 		}
-		if location["location_name"] == name {
+		if location.Name == name {
 			return locationRaw, nil
 		}
 	}
 
-	return json.RawMessage{}, &types.ErrNotFound{What: "CodeLocationFromDocument", Key: "name", Value: name}
+	return json.RawMessage{}, &types.ErrNotFound{What: "CodeLocationAsDocument", Key: "name", Value: name}
 }
