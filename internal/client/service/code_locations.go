@@ -234,24 +234,14 @@ func (c *CodeLocationsClient) UpdateCodeLocationFromDocument(ctx context.Context
 }
 
 func GetCodeLocationNameFromDocument(codeLocationsFromDocument json.RawMessage) (string, error) {
-	var codeLocation map[string]interface{}
+	var codeLocation types.CodeLocation
 	err := json.Unmarshal(codeLocationsFromDocument, &codeLocation)
 
 	if err != nil {
 		return "", err
 	}
 
-	codeLocationNameRaw, ok := codeLocation["location_name"]
-	if !ok {
-		return "", fmt.Errorf("location_name not found in codeLocationsFromDocument json")
-	}
-
-	codeLocationName, ok := codeLocationNameRaw.(string)
-	if !ok {
-		return "", fmt.Errorf("could not parse location_name to string, received %v of type %T", codeLocationNameRaw, codeLocationNameRaw)
-	}
-
-	return codeLocationName, nil
+	return codeLocation.Name, nil
 }
 
 func (c *CodeLocationsClient) GetCodeLocationFromDocumentByName(ctx context.Context, name string) (json.RawMessage, error) {
