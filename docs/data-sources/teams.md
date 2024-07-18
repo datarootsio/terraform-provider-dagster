@@ -8,7 +8,7 @@ description: |-
 
 # dagster_teams (Data Source)
 
-Retrieve information about a Dagster Cloud teams.
+Retrieve information about one or more Dagster Cloud teams.
 
 ## Example Usage
 
