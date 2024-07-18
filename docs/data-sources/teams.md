@@ -3,7 +3,7 @@
 page_title: "dagster_teams Data Source - dagster"
 subcategory: ""
 description: |-
-  Retrieve information about a Dagster Cloud teams.
+  Retrieve information about one or more Dagster Cloud teams.
 ---
 
 # dagster_teams (Data Source)
