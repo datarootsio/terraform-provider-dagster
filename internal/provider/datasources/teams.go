@@ -44,7 +44,7 @@ func (d *TeamsDataSource) Schema(_ context.Context, _ datasource.SchemaRequest, 
 			"regex_filter": schema.StringAttribute{
 				Required:    true,
 				Computed:    false,
-				Description: "Regex filter to select the Dagster Cloud teams",
+				Description: "Regex filter to select the Dagster Cloud teams based on the name of the team",
 			},
 			"teams": schema.ListNestedAttribute{
 				Computed:    true,

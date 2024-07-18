@@ -23,7 +23,7 @@ data "dagster_teams" "teams" {
 
 ### Required
 
-- `regex_filter` (String) Regex filter to select the Dagster Cloud teams
+- `regex_filter` (String) Regex filter to select the Dagster Cloud teams based on the name of the team
 
 ### Read-Only
 
