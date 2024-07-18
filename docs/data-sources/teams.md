@@ -3,12 +3,12 @@
 page_title: "dagster_teams Data Source - dagster"
 subcategory: ""
 description: |-
-  Retrieve information about one or more Dagster Cloud teams.
+  Retrieve information about a Dagster Cloud teams.
 ---
 
 # dagster_teams (Data Source)
 
-Retrieve information about one or more Dagster Cloud teams.
+Retrieve information about a Dagster Cloud teams.
 
 ## Example Usage
 
@@ -34,7 +34,7 @@ data "dagster_teams" "teams" {
 
 Required:
 
-- `name` (String) Name the Dagster Cloud team
+- `name` (String) Name of the Dagster Cloud team
 
 Read-Only:
 

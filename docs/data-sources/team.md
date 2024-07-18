@@ -23,7 +23,7 @@ data "dagster_team" "team" {
 
 ### Required
 
-- `name` (String) Name the Dagster Cloud team
+- `name` (String) Name of the Dagster Cloud team
 
 ### Read-Only
 
