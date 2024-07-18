@@ -39,7 +39,7 @@ var teamAttributes = map[string]schema.Attribute{
 	"name": schema.StringAttribute{
 		Required:    true,
 		Computed:    false,
-		Description: "Name the Dagster Cloud team",
+		Description: "Name of the Dagster Cloud team",
 	},
 	"id": schema.StringAttribute{
 		Computed:    true,
