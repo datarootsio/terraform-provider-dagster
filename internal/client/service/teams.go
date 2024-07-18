@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"regexp"
 
 	"github.com/Khan/genqlient/graphql"
 	"github.com/datarootsio/terraform-provider-dagster/internal/client/schema"
@@ -49,6 +50,29 @@ func (c *TeamsClient) GetTeamByName(ctx context.Context, name string) (schema.Te
 	}
 
 	return schema.Team{}, &types.ErrNotFound{What: "Team", Key: "name", Value: name}
+}
+
+func (c *TeamsClient) GetTeamsByRegex(ctx context.Context, regex string) ([]schema.Team, error) {
+	teams, err := c.ListTeams(ctx)
+	if err != nil {
+		return []schema.Team{}, err
+	}
+
+	regexExpression, err := regexp.Compile(regex)
+	if err != nil {
+		return []schema.Team{}, err
+	}
+
+	matchedTeams := make([]schema.Team, 0)
+
+	for _, team := range teams {
+		match := regexExpression.MatchString(team.Name)
+		if match {
+			matchedTeams = append(matchedTeams, team)
+		}
+	}
+
+	return matchedTeams, nil
 }
 
 func (c *TeamsClient) GetTeamById(ctx context.Context, id string) (schema.Team, error) {

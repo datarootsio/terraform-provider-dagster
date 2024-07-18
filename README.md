@@ -15,5 +15,5 @@ Terraform provider to manage Dagster Cloud resources.
 | Deployment | :heavy_check_mark: | :x: |
 | Deployment settings | :heavy_check_mark: | :x: |
 | Code location | :heavy_check_mark: | :x: |
-| Team | :heavy_check_mark: | :x: |
+| Team(s) | :heavy_check_mark: | :heavy_check_mark: |
 | Team membership | :heavy_check_mark: | :x: |

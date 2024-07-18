@@ -22,7 +22,7 @@ func TestTeamsService_BasicCRUD(t *testing.T) {
 	teamName := "testing/my_team"
 	teamNameRenamed := "testing/my_team_renamed"
 
-	// Ensure no teams with the test names exist
+	// Ensure no teams with the test names exists
 	_, err := teamsClient.GetTeamByName(ctx, teamName)
 	assert.ErrorAs(t, err, &errNotFound)
 
@@ -33,6 +33,10 @@ func TestTeamsService_BasicCRUD(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Equal(t, teamName, teamCreated.Name, "Expected team names to be the same.")
 
+	t.Cleanup(func() {
+		_ = teamsClient.DeleteTeam(ctx, teamCreated.Id)
+	})
+
 	teamById, err := teamsClient.GetTeamById(ctx, teamCreated.Id)
 	assert.NoError(t, err)
 	assert.Equal(t, teamName, teamById.Name, "Expected team names to be the same.")
@@ -40,6 +44,10 @@ func TestTeamsService_BasicCRUD(t *testing.T) {
 	teamByName, err := teamsClient.GetTeamByName(ctx, teamName)
 	assert.NoError(t, err)
 	assert.Equal(t, teamName, teamByName.Name, "Expected team names to be the same.")
+
+	teams, err := teamsClient.GetTeamsByRegex(ctx, "^testing/")
+	assert.NoError(t, err)
+	assert.Len(t, teams, 1)
 
 	_, err = teamsClient.RenameTeam(ctx, teamNameRenamed, teamCreated.Id)
 	assert.NoError(t, err)
