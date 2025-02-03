@@ -102,7 +102,7 @@ func (p *DagsterProvider) Configure(ctx context.Context, req provider.ConfigureR
 		resp.Diagnostics.AddAttributeError(
 			path.Root("organization"),
 			"Unknown Dagster Organization",
-			"The Dagster Organizationis not known at configuration time. "+
+			"The Dagster Organization is not known at configuration time. "+
 				"Potential resolutions: target apply the source of the value first, set the value statically in the configuration, or set the DAGSTER_CLOUD_ORGANIZATION environment variable.",
 		)
 	}
