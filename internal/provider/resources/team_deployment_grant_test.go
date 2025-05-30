@@ -7,7 +7,6 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/datarootsio/terraform-provider-dagster/internal/client/types"
 	clientTypes "github.com/datarootsio/terraform-provider-dagster/internal/client/types"
 	"github.com/datarootsio/terraform-provider-dagster/internal/testutils"
 	"github.com/hashicorp/terraform-plugin-testing/helper/acctest"
@@ -98,7 +97,7 @@ func testGrantProperties(teamId *string, deploymentId *string, expectedGrant str
 			return err
 		}
 
-		expectedGrantTyped, err := types.ConvertToGrantEnum(expectedGrant)
+		expectedGrantTyped, err := clientTypes.ConvertToGrantEnum(expectedGrant)
 		if err != nil {
 			return err
 		}

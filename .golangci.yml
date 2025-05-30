@@ -8,17 +8,16 @@ linters:
   enable:
     - durationcheck
     - errcheck
-    - exportloopref
-    - gofmt
-    - gosimple
     - ineffassign
     - makezero
     - misspell
     - nilerr
     - predeclared
     - staticcheck
-    - tenv
     - unconvert
     - unparam
     - unused
-    - vet
+    - govet
+formatters:
+  enable:
+    - gofmt

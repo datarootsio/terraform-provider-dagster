@@ -29,8 +29,6 @@ jobs:
         with:
           version: ${{ env.GOLANGCI_VERSION }}
           skip-cache: true
-          skip-pkg-cache: true
-          skip-build-cache: true
 
       - name: Run pre-commit
         uses: pre-commit/action@v3.0.1
