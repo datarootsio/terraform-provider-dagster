@@ -207,7 +207,7 @@ func (r *UserResource) ImportState(ctx context.Context, req resource.ImportState
 func removeAllUserPermissions(ctx context.Context, client client.DagsterClient, email string) error {
 	deployments, err := client.DeploymentClient.GetAllDeployments(ctx)
 	if err != nil {
-		return errors.New("Erorr getting a list of deployments")
+		return errors.New("error getting a list of deployments")
 	}
 
 	var deploymentId int

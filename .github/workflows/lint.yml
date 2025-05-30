@@ -8,7 +8,7 @@ on:
 
 env:
   GO_VERSION: "1.22"
-  GOLANGCI_VERSION: "v1.57.2"
+  GOLANGCI_VERSION: "v2.1"
 
 jobs:
   pre-commit:
@@ -25,12 +25,10 @@ jobs:
           cache: false
 
       - name: Install golangci-lint
-        uses: golangci/golangci-lint-action@v6
+        uses: golangci/golangci-lint-action@v8
         with:
           version: ${{ env.GOLANGCI_VERSION }}
           skip-cache: true
-          skip-pkg-cache: true
-          skip-build-cache: true
 
       - name: Run pre-commit
         uses: pre-commit/action@v3.0.1

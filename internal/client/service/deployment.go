@@ -78,7 +78,7 @@ func (c DeploymentClient) GetDeploymentById(ctx context.Context, id int) (schema
 func (c DeploymentClient) CreateHybridDeployment(ctx context.Context, name string) (schema.Deployment, error) {
 	resp, err := schema.CreateHybridDeployment(ctx, c.client, name)
 	if err != nil {
-		return schema.Deployment{}, fmt.Errorf("Unable to create deployment %s: %w", name, err)
+		return schema.Deployment{}, fmt.Errorf("unable to create deployment %s: %w", name, err)
 	}
 
 	switch respCast := resp.CreateDeployment.(type) {
@@ -102,7 +102,7 @@ func (c DeploymentClient) CreateHybridDeployment(ctx context.Context, name strin
 func (c DeploymentClient) DeleteDeployment(ctx context.Context, id int) error {
 	resp, err := schema.DeleteDeployment(ctx, c.client, id)
 	if err != nil {
-		return fmt.Errorf("Unable to delete deployment %v: %w", id, err)
+		return fmt.Errorf("unable to delete deployment %v: %w", id, err)
 	}
 
 	switch respCast := resp.DeleteDeployment.(type) {
@@ -128,7 +128,7 @@ func (c DeploymentClient) SetDeploymentSettings(ctx context.Context, deploymentI
 	resp, err := schema.SetDeploymentSettings(ctx, c.client, deploymentId, settingsInput)
 	if err != nil {
 		tflog.Trace(ctx, fmt.Sprintf("Unable to set deployment settings: %v", err.Error()))
-		return nil, fmt.Errorf("Unable to set deployment settings: %w", err)
+		return nil, fmt.Errorf("unable to set deployment settings: %w", err)
 	}
 
 	switch respCast := resp.SetDeploymentSettings.(type) {
