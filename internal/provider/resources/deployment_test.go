@@ -19,6 +19,7 @@ resource "dagster_deployment" "this" {
 
 data "dagster_configuration_document" "this" {
   yaml_body = <<YAML
+concurrency: {}
 run_queue:
   max_concurrent_runs: 30
   tag_concurrency_limits: []
