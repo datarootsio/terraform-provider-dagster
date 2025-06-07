@@ -15,6 +15,7 @@ type DagsterClient struct {
 	UsersClient         service.UsersClient
 	TeamsClient         service.TeamsClient
 	CodeLocationsClient service.CodeLocationsClient
+	InstanceClient      service.InstanceClient
 }
 
 func NewDagsterClient(organization, deployment, apiToken string) (DagsterClient, error) {
@@ -36,5 +37,6 @@ func NewDagsterClient(organization, deployment, apiToken string) (DagsterClient,
 		UsersClient:         service.NewUsersClient(gqlClient),
 		TeamsClient:         service.NewTeamsClient(gqlClient),
 		CodeLocationsClient: service.NewCodeLocationsClient(gqlClient),
+		InstanceClient:      service.NewInstanceClient(gqlClient),
 	}, nil
 }

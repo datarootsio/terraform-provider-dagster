@@ -158,6 +158,7 @@ func (p *DagsterProvider) DataSources(_ context.Context) []func() datasource.Dat
 		datasources.NewConfigurationDocumentDataSource,
 		datasources.NewTeamDataSource,
 		datasources.NewTeamsDataSource,
+		datasources.NewVersionDataSource,
 	}
 }
 
