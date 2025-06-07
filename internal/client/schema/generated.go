@@ -4505,6 +4505,14 @@ func (v *GetCurrentDeploymentResponse) GetCurrentDeployment() GetCurrentDeployme
 	return v.CurrentDeployment
 }
 
+// GetDagsterCloudVersionResponse is returned by GetDagsterCloudVersion on success.
+type GetDagsterCloudVersionResponse struct {
+	Version string `json:"version"`
+}
+
+// GetVersion returns GetDagsterCloudVersionResponse.Version, and is useful for accessing the field via an interface.
+func (v *GetDagsterCloudVersionResponse) GetVersion() string { return v.Version }
+
 // GetUsersResponse is returned by GetUsers on success.
 type GetUsersResponse struct {
 	UsersOrError GetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrantsOrError `json:"-"`
@@ -9739,6 +9747,35 @@ func GetCurrentDeployment(
 	var err_ error
 
 	var data_ GetCurrentDeploymentResponse
+	resp_ := &graphql.Response{Data: &data_}
+
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
+	)
+
+	return &data_, err_
+}
+
+// The query or mutation executed by GetDagsterCloudVersion.
+const GetDagsterCloudVersion_Operation = `
+query GetDagsterCloudVersion {
+	version
+}
+`
+
+func GetDagsterCloudVersion(
+	ctx_ context.Context,
+	client_ graphql.Client,
+) (*GetDagsterCloudVersionResponse, error) {
+	req_ := &graphql.Request{
+		OpName: "GetDagsterCloudVersion",
+		Query:  GetDagsterCloudVersion_Operation,
+	}
+	var err_ error
+
+	var data_ GetDagsterCloudVersionResponse
 	resp_ := &graphql.Response{Data: &data_}
 
 	err_ = client_.MakeRequest(
