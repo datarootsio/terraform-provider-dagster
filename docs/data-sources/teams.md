@@ -23,7 +23,7 @@ data "dagster_teams" "teams" {
 
 ### Required
 
-- `regex_filter` (String) Regex filter to select the Dagster Cloud teams based on the name of the team. (regex matching is done using `https://pkg.go.dev/regexp`)
+- `regex_filter` (String) Regex filter to select the Dagster Cloud teams based on the name of the team. Regex matching is done using `https://pkg.go.dev/regexp`.
 
 ### Read-Only
 
