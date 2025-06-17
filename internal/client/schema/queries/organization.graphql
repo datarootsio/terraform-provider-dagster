@@ -1,0 +1,27 @@
+fragment Organization on DagsterCloudOrganization {
+    id,
+    publicId,
+    name,
+    status,
+    accountReview {
+      status
+    }
+}
+
+query GetDagsterOrganization {
+  organization {
+    ... Organization
+    usersOrError {
+      ... on DagsterCloudUserList {
+        users {
+            ... User
+        }
+      }
+      ... UserNotFoundError
+      ... UnauthorizedError
+      ... PythonError
+      ... UserLimitError
+      ... CantRemoveAllAdminsError
+    }
+  }
+}
