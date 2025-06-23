@@ -35,3 +35,9 @@ data "dagster_version" "this" {}
 output "version" {
   value = data.dagster_version.this.version
 }
+
+data "dagster_organization" "this" {}
+
+output "organization" {
+  value = data.dagster_organization.this
+}

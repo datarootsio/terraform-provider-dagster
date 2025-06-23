@@ -1,0 +1,15 @@
+fragment Organization on DagsterCloudOrganization {
+    id
+    publicId
+    name
+    status
+    accountReview {
+      status
+    }
+}
+
+query GetDagsterOrganization {
+  organization {
+    ... Organization
+  }
+}
