@@ -1,8 +1,8 @@
 fragment Organization on DagsterCloudOrganization {
-    id,
-    publicId,
-    name,
-    status,
+    id
+    publicId
+    name
+    status
     accountReview {
       status
     }
@@ -11,17 +11,5 @@ fragment Organization on DagsterCloudOrganization {
 query GetDagsterOrganization {
   organization {
     ... Organization
-    usersOrError {
-      ... on DagsterCloudUserList {
-        users {
-            ... User
-        }
-      }
-      ... UserNotFoundError
-      ... UnauthorizedError
-      ... PythonError
-      ... UserLimitError
-      ... CantRemoveAllAdminsError
-    }
   }
 }

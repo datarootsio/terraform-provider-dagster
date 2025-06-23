@@ -39,5 +39,5 @@ output "version" {
 data "dagster_organization" "this" {}
 
 output "organization" {
-  value = data.dagster_organization.this.name
+  value = data.dagster_organization.this
 }
