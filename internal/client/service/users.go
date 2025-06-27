@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"fmt"
+	"regexp"
 	"strconv"
 
 	"github.com/Khan/genqlient/graphql"
@@ -18,6 +19,22 @@ func NewUsersClient(client graphql.Client) UsersClient {
 	return UsersClient{
 		client: client,
 	}
+}
+
+// GetUsers retrieves a list of users
+func (c *UsersClient) GetUsers(ctx context.Context) ([]schema.User, error) {
+	result, err := schema.GetUsers(ctx, c.client)
+	if err != nil {
+		return []schema.User{}, err
+	}
+
+	users := result.UsersOrError.(*schema.GetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrants).Users
+	var userList []schema.User
+	for _, user := range users {
+		userList = append(userList, user.User.User)
+	}
+
+	return userList, nil
 }
 
 // GetUserByEmail looks up a user by email address and returns it
@@ -52,6 +69,30 @@ func (c UsersClient) GetUserById(ctx context.Context, id int64) (schema.User, er
 	}
 
 	return schema.User{}, &types.ErrNotFound{What: "User", Key: "id", Value: strconv.FormatInt(id, 10)}
+}
+
+// GetUsersByRegex retrieves a list of users that match email address regex
+func (c *UsersClient) GetUsersByRegex(ctx context.Context, regex string) ([]schema.User, error) {
+	users, err := c.GetUsers(ctx)
+	if err != nil {
+		return []schema.User{}, err
+	}
+
+	regexExpression, err := regexp.Compile(regex)
+	if err != nil {
+		return []schema.User{}, err
+	}
+
+	matchedUsers := make([]schema.User, 0)
+
+	for _, user := range users {
+		match := regexExpression.MatchString(user.Email)
+		if match {
+			matchedUsers = append(matchedUsers, user)
+		}
+	}
+
+	return matchedUsers, nil
 }
 
 // AddUser adds a user (identified by an email address) and returns the new user

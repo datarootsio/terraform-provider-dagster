@@ -38,33 +38,35 @@ func (d *UserDataSource) Metadata(_ context.Context, req datasource.MetadataRequ
 	resp.TypeName = req.ProviderTypeName + "_user"
 }
 
+var userAttributes = map[string]schema.Attribute{
+	"id": schema.Int64Attribute{
+		Computed:    true,
+		Description: "User id",
+	},
+	"name": schema.StringAttribute{
+		Computed:    true,
+		Description: "Name the Dagster Cloud user",
+	},
+	"email": schema.StringAttribute{
+		Required:    true,
+		Computed:    false,
+		Description: "Email address used to register the Dagster Cloud user",
+	},
+	"picture": schema.StringAttribute{
+		Computed:    true,
+		Description: "URL to user's profile picture",
+	},
+	"is_scim_provisioned": schema.BoolAttribute{
+		Computed:    true,
+		Description: "Whether this user was provisioned through SCIM",
+	},
+}
+
 // Schema defines the schema for the data source.
 func (d *UserDataSource) Schema(_ context.Context, _ datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		Description: `Retrieve information about a Dagster Cloud user.`,
-		Attributes: map[string]schema.Attribute{
-			"id": schema.Int64Attribute{
-				Computed:    true,
-				Description: "User id",
-			},
-			"name": schema.StringAttribute{
-				Computed:    true,
-				Description: "Name the Dagster Cloud user",
-			},
-			"email": schema.StringAttribute{
-				Required:    true,
-				Computed:    false,
-				Description: "Email address used to register the Dagster Cloud user",
-			},
-			"picture": schema.StringAttribute{
-				Computed:    true,
-				Description: "URL to user's profile picture",
-			},
-			"is_scim_provisioned": schema.BoolAttribute{
-				Computed:    true,
-				Description: "Whether this user was provisioned through SCIM",
-			},
-		},
+		Attributes:  userAttributes,
 	}
 }
 
