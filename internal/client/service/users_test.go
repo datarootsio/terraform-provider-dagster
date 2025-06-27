@@ -39,6 +39,11 @@ func TestUserService_BasicCRUD(t *testing.T) {
 
 	assert.Equal(t, userByEmail, userById)
 
+	// Filter users by email regex
+	users, err := client.GetUsersByRegex(ctx, ".*@test.com")
+	assert.NoError(t, err)
+	assert.Len(t, users, 1)
+
 	// Remove user
 	err = client.RemoveUser(ctx, createdUser.Email)
 	assert.NoError(t, err)
