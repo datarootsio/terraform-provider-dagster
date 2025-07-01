@@ -3151,6 +3151,20 @@ func (v *CreateTeamResponse) __premarshalJSON() (*__premarshalCreateTeamResponse
 	return &retval, nil
 }
 
+type DagsterCloudAccountReviewStatus string
+
+const (
+	DagsterCloudAccountReviewStatusLead            DagsterCloudAccountReviewStatus = "LEAD"
+	DagsterCloudAccountReviewStatusCustomer        DagsterCloudAccountReviewStatus = "CUSTOMER"
+	DagsterCloudAccountReviewStatusPendingReview   DagsterCloudAccountReviewStatus = "PENDING_REVIEW"
+	DagsterCloudAccountReviewStatusApproved        DagsterCloudAccountReviewStatus = "APPROVED"
+	DagsterCloudAccountReviewStatusRejected        DagsterCloudAccountReviewStatus = "REJECTED"
+	DagsterCloudAccountReviewStatusDeactivated     DagsterCloudAccountReviewStatus = "DEACTIVATED"
+	DagsterCloudAccountReviewStatusCancelRequested DagsterCloudAccountReviewStatus = "CANCEL_REQUESTED"
+	DagsterCloudAccountReviewStatusCanceled        DagsterCloudAccountReviewStatus = "CANCELED"
+	DagsterCloudAccountReviewStatusExpired         DagsterCloudAccountReviewStatus = "EXPIRED"
+)
+
 type DagsterCloudDeploymentType string
 
 const (
@@ -4513,6 +4527,102 @@ type GetDagsterCloudVersionResponse struct {
 // GetVersion returns GetDagsterCloudVersionResponse.Version, and is useful for accessing the field via an interface.
 func (v *GetDagsterCloudVersionResponse) GetVersion() string { return v.Version }
 
+// GetDagsterOrganizationOrganizationDagsterCloudOrganization includes the requested fields of the GraphQL type DagsterCloudOrganization.
+type GetDagsterOrganizationOrganizationDagsterCloudOrganization struct {
+	Organization `json:"-"`
+}
+
+// GetId returns GetDagsterOrganizationOrganizationDagsterCloudOrganization.Id, and is useful for accessing the field via an interface.
+func (v *GetDagsterOrganizationOrganizationDagsterCloudOrganization) GetId() int {
+	return v.Organization.Id
+}
+
+// GetPublicId returns GetDagsterOrganizationOrganizationDagsterCloudOrganization.PublicId, and is useful for accessing the field via an interface.
+func (v *GetDagsterOrganizationOrganizationDagsterCloudOrganization) GetPublicId() string {
+	return v.Organization.PublicId
+}
+
+// GetName returns GetDagsterOrganizationOrganizationDagsterCloudOrganization.Name, and is useful for accessing the field via an interface.
+func (v *GetDagsterOrganizationOrganizationDagsterCloudOrganization) GetName() string {
+	return v.Organization.Name
+}
+
+// GetStatus returns GetDagsterOrganizationOrganizationDagsterCloudOrganization.Status, and is useful for accessing the field via an interface.
+func (v *GetDagsterOrganizationOrganizationDagsterCloudOrganization) GetStatus() OrganizationStatus {
+	return v.Organization.Status
+}
+
+// GetAccountReview returns GetDagsterOrganizationOrganizationDagsterCloudOrganization.AccountReview, and is useful for accessing the field via an interface.
+func (v *GetDagsterOrganizationOrganizationDagsterCloudOrganization) GetAccountReview() OrganizationAccountReview {
+	return v.Organization.AccountReview
+}
+
+func (v *GetDagsterOrganizationOrganizationDagsterCloudOrganization) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*GetDagsterOrganizationOrganizationDagsterCloudOrganization
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.GetDagsterOrganizationOrganizationDagsterCloudOrganization = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(
+		b, &v.Organization)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+type __premarshalGetDagsterOrganizationOrganizationDagsterCloudOrganization struct {
+	Id int `json:"id"`
+
+	PublicId string `json:"publicId"`
+
+	Name string `json:"name"`
+
+	Status OrganizationStatus `json:"status"`
+
+	AccountReview OrganizationAccountReview `json:"accountReview"`
+}
+
+func (v *GetDagsterOrganizationOrganizationDagsterCloudOrganization) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *GetDagsterOrganizationOrganizationDagsterCloudOrganization) __premarshalJSON() (*__premarshalGetDagsterOrganizationOrganizationDagsterCloudOrganization, error) {
+	var retval __premarshalGetDagsterOrganizationOrganizationDagsterCloudOrganization
+
+	retval.Id = v.Organization.Id
+	retval.PublicId = v.Organization.PublicId
+	retval.Name = v.Organization.Name
+	retval.Status = v.Organization.Status
+	retval.AccountReview = v.Organization.AccountReview
+	return &retval, nil
+}
+
+// GetDagsterOrganizationResponse is returned by GetDagsterOrganization on success.
+type GetDagsterOrganizationResponse struct {
+	Organization GetDagsterOrganizationOrganizationDagsterCloudOrganization `json:"organization"`
+}
+
+// GetOrganization returns GetDagsterOrganizationResponse.Organization, and is useful for accessing the field via an interface.
+func (v *GetDagsterOrganizationResponse) GetOrganization() GetDagsterOrganizationOrganizationDagsterCloudOrganization {
+	return v.Organization
+}
+
 // GetUsersResponse is returned by GetUsers on success.
 type GetUsersResponse struct {
 	UsersOrError GetUsersUsersOrErrorDagsterCloudUsersWithScopedPermissionGrantsOrError `json:"-"`
@@ -5137,6 +5247,47 @@ func (v *LocationScopedGrantInput) GetLocationName() string { return v.LocationN
 
 // GetGrant returns LocationScopedGrantInput.Grant, and is useful for accessing the field via an interface.
 func (v *LocationScopedGrantInput) GetGrant() PermissionGrant { return v.Grant }
+
+// Organization includes the GraphQL fields of DagsterCloudOrganization requested by the fragment Organization.
+type Organization struct {
+	Id            int                       `json:"id"`
+	PublicId      string                    `json:"publicId"`
+	Name          string                    `json:"name"`
+	Status        OrganizationStatus        `json:"status"`
+	AccountReview OrganizationAccountReview `json:"accountReview"`
+}
+
+// GetId returns Organization.Id, and is useful for accessing the field via an interface.
+func (v *Organization) GetId() int { return v.Id }
+
+// GetPublicId returns Organization.PublicId, and is useful for accessing the field via an interface.
+func (v *Organization) GetPublicId() string { return v.PublicId }
+
+// GetName returns Organization.Name, and is useful for accessing the field via an interface.
+func (v *Organization) GetName() string { return v.Name }
+
+// GetStatus returns Organization.Status, and is useful for accessing the field via an interface.
+func (v *Organization) GetStatus() OrganizationStatus { return v.Status }
+
+// GetAccountReview returns Organization.AccountReview, and is useful for accessing the field via an interface.
+func (v *Organization) GetAccountReview() OrganizationAccountReview { return v.AccountReview }
+
+// OrganizationAccountReview includes the requested fields of the GraphQL type OrganizationAccountReview.
+type OrganizationAccountReview struct {
+	Status DagsterCloudAccountReviewStatus `json:"status"`
+}
+
+// GetStatus returns OrganizationAccountReview.Status, and is useful for accessing the field via an interface.
+func (v *OrganizationAccountReview) GetStatus() DagsterCloudAccountReviewStatus { return v.Status }
+
+type OrganizationStatus string
+
+const (
+	OrganizationStatusActive          OrganizationStatus = "ACTIVE"
+	OrganizationStatusReadOnly        OrganizationStatus = "READ_ONLY"
+	OrganizationStatusSuspended       OrganizationStatus = "SUSPENDED"
+	OrganizationStatusPendingDeletion OrganizationStatus = "PENDING_DELETION"
+)
 
 type PermissionDeploymentScope string
 
@@ -9776,6 +9927,46 @@ func GetDagsterCloudVersion(
 	var err_ error
 
 	var data_ GetDagsterCloudVersionResponse
+	resp_ := &graphql.Response{Data: &data_}
+
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
+	)
+
+	return &data_, err_
+}
+
+// The query or mutation executed by GetDagsterOrganization.
+const GetDagsterOrganization_Operation = `
+query GetDagsterOrganization {
+	organization {
+		... Organization
+	}
+}
+fragment Organization on DagsterCloudOrganization {
+	id
+	publicId
+	name
+	status
+	accountReview {
+		status
+	}
+}
+`
+
+func GetDagsterOrganization(
+	ctx_ context.Context,
+	client_ graphql.Client,
+) (*GetDagsterOrganizationResponse, error) {
+	req_ := &graphql.Request{
+		OpName: "GetDagsterOrganization",
+		Query:  GetDagsterOrganization_Operation,
+	}
+	var err_ error
+
+	var data_ GetDagsterOrganizationResponse
 	resp_ := &graphql.Response{Data: &data_}
 
 	err_ = client_.MakeRequest(

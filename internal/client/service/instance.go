@@ -25,3 +25,12 @@ func (c *InstanceClient) GetDagsterCloudVersion(ctx context.Context) (string, er
 
 	return resp.Version, nil
 }
+
+func (c *InstanceClient) GetDagsterOrganization(ctx context.Context) (schema.Organization, error) {
+	resp, err := schema.GetDagsterOrganization(ctx, c.client)
+	if err != nil {
+		return schema.Organization{}, err
+	}
+
+	return resp.Organization.Organization, nil
+}
